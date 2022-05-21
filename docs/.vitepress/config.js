@@ -9,9 +9,11 @@ module.exports = {
     [`swizzle`]: resolve('./src'),
   },
   base,
-  // importMap: {
-  //   导入
-  // },
+  importMap: {
+    'ant-design-vue': 'https://unpkg.com/ant-design-vue@latest/es/index.js',
+    '@ant-design/icons-vue': 'https://unpkg.com/@ant-design/icons-vue@6.1.0/lib/index.js',
+    'form-render-vue3': 'https://unpkg.com/form-render-vue3@latest/dist/form-render-vue.es.js',
+  },
   head: [
     // 设置 描述 和 关键词
     ["meta", { name: "keywords", content: "vue swizzle design components" }],
@@ -21,7 +23,6 @@ module.exports = {
     }]
   ],
   themeConfig: {
-    logo: '../logo.svg',
     lang: 'zh-CN',
     locales: {
       '/': {
@@ -33,7 +34,7 @@ module.exports = {
         nav: [
           { text: 'FormRenderVue', link: '/form-render-vue/start/', activeMatch: '^/form-render-vue/' },
           { text: 'ParseChart', link: '/parse-chart/start/', activeMatch: '^/parse-chart/' },
-          { text: "GitHub", link: "https://github.com/PathFun/ali-react-table" }
+          { text: "GitHub", link: "https://github.com/PathFun/swizzle.git" }
         ],
         sidebar: {
           '/form-render-vue/': [
@@ -50,6 +51,31 @@ module.exports = {
                 }
               ]
             },
+            {
+              text: '高级用法',
+              children: [
+                {
+                  text: '表单联动',
+                  link: '/form-render-vue/advanced/linkage/'
+                },
+                {
+                  text: '自定义组件（widget）',
+                  link: '/form-render-vue/advanced/widget/'
+                },
+                {
+                  text: '表单方法（form）',
+                  link: '/form-render-vue/advanced/methods/'
+                },
+                {
+                  text: '表单监听（watch）',
+                  link: '/form-render-vue/advanced/watch/'
+                }
+              ]
+            },
+            {
+              text: '常见问题',
+              link: '/form-render-vue/faq/'
+            }
           ],
           '/parse-chart/': [
             {
@@ -66,9 +92,9 @@ module.exports = {
         label: 'English',
         selectText: 'Languages',
         nav: [
-          { text: 'FormRenderVue', link: '/form-render-vue/start/', activeMatch: '^/form-render-vue/' },
-          { text: 'ParseChart', link: '/parse-chart/start/', activeMatch: '^/parse-chart/' },
-          { text: "GitHub", link: "https://github.com/PathFun/ali-react-table" }
+          { text: 'FormRenderVue', link: '/en/form-render-vue/start/', activeMatch: '^/en/form-render-vue/' },
+          { text: 'ParseChart', link: '/en/parse-chart/start/', activeMatch: '^/en/parse-chart/' },
+          { text: "GitHub", link: "https://github.com/PathFun/swizzle.git" }
         ],
         sidebar: {
           '/en/form-render-vue/': [

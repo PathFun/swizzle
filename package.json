@@ -12,7 +12,7 @@
     }
   },
   "types": "dist/src/index.d.ts",
-  "author": "_user",
+  "author": "TQL",
   "license": "MIT",
   "workspaces": [
     "packages/*"
@@ -72,7 +72,8 @@
     "vite": "^2.9.7",
     "vitepress-for-component": "^0.17.0",
     "vue-jest": "^5.0.0-alpha.6",
-    "vue-tsc": "^0.29.2"
+    "vue-tsc": "^0.29.2",
+    "vitepress": "^0.22.3"
   },
   "keywords": [
     "vue",
@@ -82,6 +83,17 @@
   "publishConfig": {
     "access": "public",
     "registry": "https://registry.npmjs.org"
+  },
+  "gitHooks": {
+    "pre-commit": "lint-staged"
+  },
+  "lint-staged": {
+    "*.{js,jsx,less,json}": [
+      "prettier --write"
+    ],
+    "*.ts?(x)": [
+      "prettier --parser=typescript --write"
+    ]
   },
   "husky": {
     "hooks": {

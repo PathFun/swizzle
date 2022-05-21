@@ -2,7 +2,7 @@
   "name": "form-render-vue3",
   "description": "form-render-vue",
   "author": "TQL<360603837@qq.com>",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "files": [
     "dist"
   ],
@@ -15,10 +15,25 @@
     },
     "./dist/style.css": "./dist/style.css"
   },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:PathFun/swizzle.git"
+  },
   "scripts": {
     "dev": "vite",
     "build": "vue-tsc --noEmit && vite build",
     "preview": "vite preview"
+  },
+  "gitHooks": {
+    "pre-commit": "lint-staged"
+  },
+  "lint-staged": {
+    "*.{js,jsx,less,md,json}": [
+      "prettier --write"
+    ],
+    "*.ts?(x)": [
+      "prettier --parser=typescript --write"
+    ]
   },
   "dependencies": {
     "@ant-design/icons-vue": "^6.1.0",

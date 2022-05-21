@@ -1,5 +1,5 @@
 table.ant-picker-content td, table.ant-picker-content th {
-    padding: 0px;
+    padding: 0;
     border: none;
 }
 table.ant-picker-content tr{
@@ -7,10 +7,13 @@ table.ant-picker-content tr{
 }
 table.ant-picker-content .ant-picker-cell{
     padding: 3px 0;
-    color: #00000040;
     cursor: pointer;
 }
 
 table.ant-picker-content th{
+    background-color: transparent;
+}
+
+table.ant-picker-content tr:nth-child(2n) {
     background-color: transparent;
 }
