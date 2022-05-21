@@ -1,0 +1,16 @@
+table.ant-picker-content td, table.ant-picker-content th {
+    padding: 0px;
+    border: none;
+}
+table.ant-picker-content tr{
+    border: none;
+}
+table.ant-picker-content .ant-picker-cell{
+    padding: 3px 0;
+    color: #00000040;
+    cursor: pointer;
+}
+
+table.ant-picker-content th{
+    background-color: transparent;
+}
