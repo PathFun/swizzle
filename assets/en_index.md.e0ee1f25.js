@@ -1,1 +1,0 @@
-import{_ as e,c as t,o,b as a}from"./plugin-vue_export-helper.3b715125.js";const n={components:{}},h='{"title":"","description":"","frontmatter":{},"relativePath":"en/index.md","lastUpdated":1649692724000}',s=a("p",null,"Write home page here.",-1),r=[s];function c(_,d,i,p,l,m){return o(),t("div",null,r)}var u=e(n,[["render",c]]);export{h as __pageData,u as default};
