@@ -2,7 +2,7 @@
   "name": "form-render-vue3",
   "description": "form-render-vue",
   "author": "TQL<360603837@qq.com>",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "files": [
     "dist"
   ],
@@ -22,18 +22,8 @@
   "scripts": {
     "dev": "vite",
     "build": "vue-tsc --noEmit && vite build",
-    "preview": "vite preview"
-  },
-  "gitHooks": {
-    "pre-commit": "lint-staged"
-  },
-  "lint-staged": {
-    "*.{js,jsx,less,md,json}": [
-      "prettier --write"
-    ],
-    "*.ts?(x)": [
-      "prettier --parser=typescript --write"
-    ]
+    "preview": "vite preview",
+    "beta": "npm publish --tag beta"
   },
   "dependencies": {
     "@ant-design/icons-vue": "^6.1.0",
@@ -54,7 +44,7 @@
     "vue-tsc": "^0.29.8"
   },
   "peerDependencies": {
-    "vue": ">=3.2.0",
-    "ant-design-vue": ">=3.2.3"
+    "ant-design-vue": ">=3.2.3",
+    "vue": ">=3.2.0"
   }
 }
