@@ -12,7 +12,7 @@ const fnDefine = {
   type: Function as PropType<(...args: any[]) => any>,
   default: () => (() => {})
 }
-const fnDefault = (idx: number, extraProps?: object) => {
+const fnDefault = (idx: number, extraProps?: { [key: string]: any }) => {
   return {
     formItem: {},
     dataIndex: [],
@@ -44,7 +44,7 @@ export default defineComponent({
       default: 'column'
     },
     getFieldsProps: {
-      type: Function as PropType<(idx: number, extraProps?: object) => {
+      type: Function as PropType<(idx: number, extraProps?: { [key: string]: any }) => {
         formItem: { [key: string ]: any },
         dataIndex: any[],
         [key: string ]: any,
@@ -54,7 +54,6 @@ export default defineComponent({
     }
   },
   setup(aProps) {
-
     return () => {
       const {
         displayList = [],

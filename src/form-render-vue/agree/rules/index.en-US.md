@@ -1,6 +1,6 @@
 ---
 map:
-  path: /form-render-vue/start
+  path: /form-render-vue/agree/rules
 ---
 
 # Button

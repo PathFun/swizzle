@@ -10,7 +10,7 @@ const fnDefine = {
   default: () => () => {}
 }
 
-const fnDefault = (idx: number, extraProps?: object) => {
+const fnDefault = (idx: number, extraProps?: { [key: string]: any }) => {
   return {
     formItem: {},
     dataIndex: [],
@@ -42,7 +42,7 @@ export default defineComponent({
       default: 'column'
     },
     getFieldsProps: {
-      type: Function as PropType<(idx: number, extraProps?: object) => {
+      type: Function as PropType<(idx: number, extraProps?: { [key: string]: any }) => {
         formItem: { [key: string ]: any },
         dataIndex: any[],
         [key: string ]: any,
@@ -80,11 +80,15 @@ export default defineComponent({
         const currentTabPaneName:any = tabName && tabName instanceof Array ? tabName[idx] || idx + 1 :
             `${tabName || '项目'} ${idx + 1}`;
         return h(TabPane, { tab: currentTabPaneName, key:`${idx}` },
-            h(Core, { ...fieldsProps })
+          {
+            default: () => h(Core, { ...fieldsProps })
+          }
         )
       })
 
-      return h(Tabs, { type: type || 'line', onChange: setActiveKey, onEdit, ...restProps }, [ ...childrenList])
+      return h(Tabs, { type: type || 'line', onChange: setActiveKey, onEdit, ...restProps }, {
+        default: () => [ ...childrenList]
+      })
     }
   }
 })

@@ -1,51 +1,52 @@
 <script lang="ts">
-import { defineComponent, computed, h } from "vue";
+import { defineComponent, h } from 'vue';
 import { isUrl } from '../../utils';
 import { Input } from 'ant-design-vue';
 const UrlNode = defineComponent({
   inheritAttrs: false,
   props: {
     value: {
-      type: String
+      type: String,
     },
     addonText: {
-      type: String
-    }
+      type: String,
+    },
   },
   setup(props) {
-    const useUrl = computed(() => isUrl(props.value));
     return () => {
-      const { value = '', addonText = '测试链接' } = props
-      return useUrl ? h('a', { target: '_blank', href: value }, addonText ) : null
-    }
-  }
-})
+      const { value = '', addonText = '测试链接' } = props;
+      return isUrl(value)
+        ? h('a', { target: '_blank', href: value }, addonText)
+        : h('div', {}, addonText);
+    };
+  },
+});
 
 export default defineComponent({
   props: {
     value: {
-      type: String
+      type: String,
     },
     prefix: {
-      type: String
+      type: String,
     },
-    suffix:{
-      type: String
+    suffix: {
+      type: String,
     },
     disabled: Boolean,
     readOnly: Boolean,
-    addonText:{
-      type: String
+    addonText: {
+      type: String,
     },
     onChange: {
       type: Function,
-      required: true
-    }
+      required: true,
+    },
   },
   setup(props) {
     const handleChange = (event: Event) => {
-      const { onChange, prefix, suffix } = props
-      let _value = (event.target as HTMLInputElement).value
+      const { onChange, prefix, suffix } = props;
+      let _value = (event.target as HTMLInputElement).value;
       if (!_value) {
         onChange(_value);
         return;
@@ -60,23 +61,26 @@ export default defineComponent({
     };
 
     return () => {
-      const { prefix, suffix, value, ...rest } = props;
+      const { prefix, suffix, addonText, value, ...rest } = props;
       let _value = value || '';
       if (prefix) _value = _value.replace(prefix, '');
       if (suffix) _value = _value.replace(suffix, '');
-
-      return h(Input, {
-        ...rest,
-        value: _value,
-        prefix: prefix,
-        suffix: suffix,
-        onChange: handleChange
-      } , {
-        addonAfter: h(UrlNode)
-      })
-    }
-  }
-})
+      return h(
+        Input,
+        {
+          ...rest,
+          value: _value,
+          prefix: prefix,
+          suffix: suffix,
+          onChange: handleChange,
+        },
+        {
+          addonAfter: () => h(UrlNode, { value, addonText }),
+        },
+      );
+    };
+  },
+});
 </script>
 <template>
   <div class="w-100">

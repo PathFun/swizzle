@@ -1,59 +1,62 @@
 <script lang="ts">
-import { defineComponent, h, PropType } from 'vue'
-import VirtualList from "./VirtualList.vue";
+import { defineComponent, h, PropType } from 'vue';
+import VirtualList from './VirtualList.vue';
 import SimpleList from './SimpleList.vue';
 import TabList from './TabList.vue';
 import CardList from './CardList.vue';
 import TableList from './TableList.vue';
 import DrawerList from './DrawerList.vue';
 import './list.less';
-import { getDataPath } from "../../../utils";
-import { useFormStore } from "../../../hooks";
+import { getDataPath } from '../../../utils';
+import { useFormStore } from '../../../hooks';
 import { get } from 'lodash-es';
-import { Error, PropSchema } from "../../../../Interface";
-
+import { Error, PropSchema } from '../../../../Interface';
 
 export default defineComponent({
-  name: "RenderList",
+  name: 'RenderList',
   inheritAttrs: false,
   props: {
     parentId: {
       type: String,
-      default: '#'
+      default: '#',
     },
     schema: {
       type: Object as PropType<PropSchema>,
-      default: () => ({})
+      default: () => ({}),
     },
     dataIndex: {
       type: Array as PropType<number[]>,
-      default: (): number[] => []
+      default: (): number[] => [],
     },
     childData: {
       type: Array as PropType<any[]>,
-      default: (): any[] => []
+      default: (): any[] => [],
     },
     errorFields: {
       type: Array as PropType<Error[]>,
-      default: (): Error[] => []
+      default: (): Error[] => [],
     },
     displayType: {
       type: String as PropType<'column' | 'row' | 'inline'>,
-      default: 'column'
+      default: 'column',
     },
   },
   setup(props) {
     const form = useFormStore();
     return () => {
-      const { schema, parentId, childData, dataIndex, errorFields, displayType } = props;
-      const { formData, flatten, removeTouched, onItemChange } = form
-      let renderWidget = 'list';
-      try {
-        // @ts-ignore
-        renderWidget = schema.widget;
-      } catch (error) {
+      const {
+        schema,
+        parentId,
+        childData,
+        dataIndex,
+        errorFields,
+        displayType,
+      } = props;
+      const { formData, flatten, removeTouched, onItemChange } = form;
 
-      }
+      let renderWidget = 'list';
+
+      renderWidget = schema.widget || '';
 
       // 计算 list对应的formData
       const dataPath = getDataPath(parentId, dataIndex);
@@ -134,7 +137,7 @@ export default defineComponent({
         return {
           formItem: itemFlatten,
           dataIndex: [...dataIndex, idx],
-          ...extraProps || {},
+          ...(extraProps || {}),
         };
       };
 
@@ -178,7 +181,7 @@ export default defineComponent({
         default:
           return h(CardList, { ...displayProps });
       }
-    }
-  }
-})
+    };
+  },
+});
 </script>

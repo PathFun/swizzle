@@ -39,9 +39,9 @@ export default defineComponent({
       type: Boolean,
       default: false
     },
-  },
-  components: {
-    CoreRender
+    displayType: {
+      type: String as PropType<'column' | 'row' | 'inline'>
+    },
   },
   setup(props) {
     const form = useFormStore();
@@ -122,7 +122,7 @@ export default defineComponent({
         hideValidation: props.hideValidation,
         debugCss: props.debugCss,
         schema: schema.value,
-        displayType,
+        displayType: props.displayType || displayType,
         column,
         labelWidth,
         readOnly,

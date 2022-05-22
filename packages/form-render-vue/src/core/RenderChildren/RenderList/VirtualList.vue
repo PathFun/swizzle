@@ -40,12 +40,6 @@ export default defineComponent({
     moveItemDown: fnDefine,
     changeList: fnDefine,
   },
-  components: {
-    Popconfirm,
-    ArrowUpOutlined,
-    Button,
-    Table
-  },
   setup(AllProps) {
     return () => {
       const {
@@ -77,8 +71,8 @@ export default defineComponent({
           dataIndex: child,
           width: FIELD_LENGTH,
           title: schema.required ? [
-                  h('span', { class: 'fr-label-required' }, '*'),
-                  h('span', schema.title)
+            h('span', { class: 'fr-label-required' }, '*'),
+            h('span', schema.title)
               ]: schema.title,
           customRender: (value: any, record: any, index: any) => {
             // Check: record.index 似乎是antd自己会给的，不错哦
@@ -94,7 +88,7 @@ export default defineComponent({
           key: '$action',
           fixed: 'right',
           width: 120,
-          customRender: (value: any, record: Object, idx: number) => {
+          customRender: (value: any, record: { [key: string]: any }, idx: number) => {
             const opList = [
               !props.hideDelete && h(Popconfirm, { onConfirm: () => deleteItem && deleteItem(idx), okText: '确定', cancelText: '取消' },
                   h('a', '删除')
@@ -107,9 +101,8 @@ export default defineComponent({
               otherList = itemProps.buttons.map((item: any, index: number) => {
                 const { callback, text, html } = item;
                 let onClick = () => {};
-                if (typeof window[callback] === 'function') {
+                if (callback && typeof callback === 'string' && typeof window[callback] === 'function') {
                   onClick = () => {
-                    // @ts-ignore
                     window[callback]({
                       value: listData,
                       onChange: changeList,
@@ -131,9 +124,8 @@ export default defineComponent({
         childrenOpList = props.buttons.map((item: { [key: string]: any }, idx:number) => {
           const { callback, text, html } = item;
           let onClick = () => {};
-          if (typeof window[callback] === 'function') {
+          if (callback && typeof callback === 'string' && typeof window[callback] === 'function') {
             onClick = () => {
-              // @ts-ignore
               window[callback]({
                 value: listData,
                 onChange: changeList,

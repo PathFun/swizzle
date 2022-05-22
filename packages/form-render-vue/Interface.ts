@@ -141,7 +141,7 @@ export interface FRCoreProps {
   /** 表单的全局共享属性 */
   globalProps: any;
   /** 标签元素和输入元素的排列方式，column-分两行展示，row-同行展示，inline-自然顺排，默认`'column'` */
-  displayType: "column" | "row" | "inline";
+  displayType: "column" | "row" | "inline" | undefined;
   theme: string | number;
   column: string | number | undefined;
   debounceInput: boolean;

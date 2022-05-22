@@ -1,18 +1,30 @@
 <template>
+  <template v-if="watchList.length">
+    <Watcher
+      v-for="key in watchList"
+      :key="key"
+      :watch-key="key"
+      :watch-map="watchMap"
+      :first-mount="firstMount"
+      :form-data="formData"
+    />
+  </template>
   <Core/>
 </template>
 
 <script lang="ts">
-import { defineComponent, CSSProperties, PropType, onUnmounted } from 'vue'
+import { defineComponent, CSSProperties, PropType, onUnmounted, computed } from 'vue'
 import Core from './Core.vue'
 import { useFormStore, PropsCtx } from "../hooks";
 import { Schema, WatchProperties } from "../../Interface";
+import Watcher from "./Watcher";
 
 export default defineComponent({
   name: 'FRCore',
   inheritAttrs: false,
   components: {
-    Core
+    Core,
+    Watcher
   },
   emits: ['finish', 'beforeFinish', 'valuesChange'],
   props: {
@@ -57,8 +69,7 @@ export default defineComponent({
     },
     size: String as PropType<'large' | 'small' | 'default'>,
     displayType: {
-      type: String as PropType<'column' | 'row' | 'inline'>,
-      default: 'column'
+      type: String as PropType<'column' | 'row' | 'inline'>
     },
     id: [Number, String],
     disabled: {
@@ -121,10 +132,18 @@ export default defineComponent({
 
     setTimeout(form.onMountLogger, 0);
 
+    const watchList = computed<string[]>(() => Object.keys(props.watchMap) || [])
+
     onUnmounted(function () {
       form.resetFields();
     });
     expose({ handleSubmit });
+
+    return {
+      watchList,
+      firstMount: computed<boolean>(() => form.firstMount),
+      formData: computed<any>(() => form.formData)
+    }
   }
 })
 </script>

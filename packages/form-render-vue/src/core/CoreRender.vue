@@ -53,8 +53,7 @@ const coreRenderProps = {
     default: false
   },
   displayType: {
-    type: String as PropType<'column' | 'row' | 'inline'>,
-    default: 'column'
+    type: String as PropType<'column' | 'row' | 'inline'>
   },
   column: {
     type: [Number, String],
@@ -96,8 +95,6 @@ export default defineComponent({
 
     const coreDisplayType:'column' | 'row' | 'inline' = props.schema.displayType || displayType || 'column';
 
-    const otherLabelStyle:CSSProperties = coreDisplayType === 'inline' ? { marginTop: '5px', paddingLeft: '12px' } : {}
-
     const isList = computed<boolean>(() => isListType(props.schema));
     const isObj = computed<boolean>(() => isObjType(props.schema));
     const isCheckBox = computed<boolean|undefined>(() => isCheckBoxType(props.schema, props.readOnly));
@@ -125,6 +122,18 @@ export default defineComponent({
         isInline && (schema.type !== 'object' || !isObj.value) && 'fr-field-inline',
         props.debugCss && 'debug'
       ].filter(d => d).join(' ')
+    })
+
+    const labelStyle = computed<CSSProperties>(() => {
+      if (isComplex.value || isColumn) {
+        return { flexGrow: 1 }
+      }
+      if (isInline) {
+        return { marginTop: '5px', paddingLeft: '12px' }
+      }
+      return {
+        width: `${coreLabelWidth}px`
+      }
     })
 
     // return {
@@ -166,11 +175,7 @@ export default defineComponent({
             (!isComplex.value && !isCheckBox.value) && isRow  ? 'fr-label-row': '',
             (!isComplex.value && !isCheckBox.value) && isRow && !isObj.value  ? 'flex-shrink-0 fr-label-row': '',
           ].filter(d => !!d).join(' '),
-          labelStyle: {
-            width: `${coreLabelWidth}px`,
-            flexGrow: isComplex.value || isColumn ? 1 : 0,
-            ...otherLabelStyle
-          },
+          labelStyle: labelStyle.value,
           contentClass: [
             'fr-content',
             schema.type === 'boolean' && isCheckBox.value ? 'fr-content-column' : '',

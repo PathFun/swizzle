@@ -9,6 +9,7 @@ module.exports = {
     [`swizzle`]: resolve('./src'),
   },
   base,
+  logo: `/assets/logo.svg`,
   importMap: {
     'ant-design-vue': 'https://unpkg.com/ant-design-vue@latest/es/index.js',
     '@ant-design/icons-vue': 'https://unpkg.com/@ant-design/icons-vue@6.1.0/lib/index.js',
@@ -43,11 +44,23 @@ module.exports = {
               link: '/form-render-vue/start/'
             },
             {
-              text: '协议（schema）',
+              text: '协议(schema)',
               children: [
                 {
                   text: 'schema 规范',
                   link: '/form-render-vue/agree/schema/'
+                },
+                {
+                  text: 'rules(校验)',
+                  link: '/form-render-vue/agree/rules/'
+                },
+                {
+                  text: 'props',
+                  link: '/form-render-vue/agree/props/'
+                },
+                {
+                  text: '内置组件',
+                  link: '/form-render-vue/agree/inner-widget/'
                 }
               ]
             },
@@ -69,7 +82,11 @@ module.exports = {
                 {
                   text: '表单监听（watch）',
                   link: '/form-render-vue/advanced/watch/'
-                }
+                },
+                {
+                  text: '展示的最佳实践',
+                  link: '/form-render-vue/advanced/display/'
+                },
               ]
             },
             {
@@ -84,6 +101,7 @@ module.exports = {
             },
           ]
         },
+        lastUpdated: '上次更新'
       },
       '/en/': {
         lang: 'en-US',
@@ -103,7 +121,7 @@ module.exports = {
               link: '/en/form-render-vue/start/'
             },
             {
-              text: 'agree（schema）',
+              text: 'agree(schema)',
               children: [
                 {
                   text: 'schema standard',
@@ -119,12 +137,14 @@ module.exports = {
             },
           ]
         },
+        lastUpdated: true
       },
     },
-    search: {
-      searchMaxSuggestions: 10,
+    algolia: {
+      appId: '1VOVJQ426D',
+      apiKey: '3dafa27d099fac841ca513b31d3fdb32',
+      indexName: 'form-render-vue3'
     },
-    lastUpdated: true,
     prevLink: true,
     nextLink: true,
   },

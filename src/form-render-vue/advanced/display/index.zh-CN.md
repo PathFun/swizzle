@@ -1,6 +1,6 @@
 ---
 map:
-  path: /form-render-vue/advanced/linkage
+  path: /form-render-vue/advanced/display
 ---
 
 # 开发中...

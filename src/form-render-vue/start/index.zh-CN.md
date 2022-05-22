@@ -1,7 +1,6 @@
 ---
 map:
   path: /form-render-vue/start
-realPath: src/form-render-vue/start/index.zh-CN.md
 ---
 
 <div style="display:flex;align-items:center;margin:24px 0">
@@ -147,7 +146,7 @@ AABJRU5ErkJggg==" />
 
 > 一站式中后台**表单解决方案**
 
-FormRenderVue 是借鉴React版FormRender实现的Vue版表单解决方案。完成度高达95%，具体功能介绍可详见react版的[FormRender](https://x-render.gitee.io/form-render)
+FormRenderVue 是借鉴React版FormRender实现的Vue版表单解决方案，具体功能介绍可详见react版的[FormRender](https://x-render.gitee.io/form-render)
 
 ### 安装
 
@@ -242,3 +241,51 @@ import { FR } from 'form-render-vue';
 | logOnMount       | 数据分析接口，表单展示完成渲染时触发              | `logOnMount?: (stats: any) => void`             | 否       | () => {}   |
 | logOnSubmit      | 数据分析接口，表单提交成功时触发，获得本次表单填写的总时长   | `logOnSubmit?: (stats: any) => void`            | 否       | () => {}   |
 | removeHiddenData | 提交数据的时候是否去掉已经被隐藏的元素的数据，默认不隐藏    | `boolean`                                       | 否       | false      |
+
+#### validateMessages
+
+`Form` 为验证提供了[默认的错误提示信息](https://github.com/PathFun/swizzle/blob/main/packages/form-render-vue/src/validateMessageCN.js)，你可以通过配置 `validateMessages` 属性，修改对应的提示模板。一种常见的使用方式，是配置国际化提示信息：
+
+```js
+const validateMessages = {
+  required: '${title}是必选字段',
+  // ...
+};
+
+<FormRenderVue validateMessages={validateMessages} />;
+```
+目前可以用的转义字段为 `${title}`/`${min}`/`${max}`/`${len}`/`${pattern}`, 如果有更多需求请提 [issue](https://github.com/PathFun/swizzle/issues/new/choose)
+
+**form 方法**
+
+
+| 参数             | 描述                                                | 类型                                                                                                             |
+| ---------------- | --------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------- |
+| submit           | 触发提交流程，一般在提交按钮上使用                  | `() => void`                                                                                                     |
+| resetFields      | 清空表单（也会清空一些内置状态，例如校验）          | `({formData?: any, submitData?: any, errorFields?: Error[], touchedKeys?: any[], allTouched?: boolean}) => void` |
+| errorFields      | 表单校验错误的数组                                  | `array,[{name, error: []}]`                                                                                      |
+| setErrorFields   | 外部手动修改 errorFields 校验信息，用于外部校验回填 | `(error: Error | Error[]) => void`                                                                               |
+| setValues        | 外部手动修改 formData，用于已填写的表单的数据回填   | `(formData: any) => void`                                                                                        |
+| setValueByPath   | 外部修改指定单个 field 的数据(原名 onItemChange)    | `(path: string, value: any) => void`                                                                             |
+| setSchemaByPath  | 指定路径修改 schema                                 | `(path: string, value: any) => void`                                                                             |
+| setSchema        | 指定**多个**路径修改 schema。注 1                   | `({ path1: value1, path2: value2 }) => void`                                                                     |
+| getValues        | 获取表单内部维护的数据 formData                     | `() => void`                                                                                                     |
+| schema           | 表单的 schema                                       | `object`                                                                                                           |
+| touchedKeys      | 已经触碰过的 field 的数据路径                       | `string[]`                                                                                                       |
+| removeErrorField | 外部手动删除某一个 path 下所有的校验信息            | `(path: string) => void`                                                                                         |
+| formData         | 表单内部维护的数据，建议使用 getValues/setValues    | `object`                                                                                                         |
+
+
+### 如何速写 Schema
+
+**对于初学者来说记住 schema 所有的字段和使用方式并非易事。为了让大家能够快速上手，建议以以下的顺序尝试：**
+
+1. 去 react版本 [Playground](https://xrender.fun/playground) 逛逛，那里有从基础玩法、高级功能到完整样例的所有 schema 样例，FormRenderVue基本参照了FormRender的schema设计， 如有不一致请提 [issue](https://github.com/PathFun/swizzle/issues/new/choose)
+2. 玩转一下 [表单设计器](https://x-render.gitee.io/tools/generator)，拖拖拽拽导出 schema，丢到代码里生成可用表单。本质上这是一个可视化的 schema 生成器，支持 schema 的导入 & 导出
+
+   <div>
+      <img src="https://gw.alipayobjects.com/mdn/rms_e18934/afts/img/A*4QYNTbKU6xAAAAAAAAAAAABkARQnAQ?raw=true" width="500px"/>
+     <img src="https://gw.alipayobjects.com/mdn/rms_e18934/afts/img/A*FfTuRYjRd1AAAAAAAAAAAABkARQnAQ?raw=true" alt="schema编辑器" width='500px' />
+   </div>
+
+3. 详细的 schema 规范见 [schema 的文档](/form-render-vue/agree/schema/)。同时在 vscode 上搜索 `formrender` 可以找到 snippets 插件，手熟起来一整页表单的 schema 弹指间完成
