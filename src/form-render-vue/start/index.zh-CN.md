@@ -131,13 +131,13 @@ AABJRU5ErkJggg==" />
 </div>
 <p style="display:flex;justify-content:space-between;width:440px">
   <a href="https://www.npmjs.com/package/form-render-vue3?_blank">
-    <img alt="npm" src="https://img.shields.io/npm/v/form-render.svg?maxAge=3600&style=flat-square">
+    <img alt="npm" src="https://img.shields.io/npm/v/form-render-vue3.svg?maxAge=3600&style=flat-square">
   </a>
   <a href="https://www.npmjs.com/package/form-render-vue3">
-    <img alt="NPM downloads" src="https://img.shields.io/npm/dm/form-render.svg?style=flat-square">
+    <img alt="NPM downloads" src="https://img.shields.io/npm/dm/form-render-vue3.svg?style=flat-square">
   </a>
   <a href="https://www.npmjs.com/package/form-render-vue3">
-    <img alt="NPM all downloads" src="https://img.shields.io/npm/dt/form-render.svg?style=flat-square">
+    <img alt="NPM all downloads" src="https://img.shields.io/npm/dt/form-render-vue3.svg?style=flat-square">
   </a>
   <a href="https://www.npmjs.com/package/form-render-vue3">
     <img alt="PRs Welcome" src="https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square">
