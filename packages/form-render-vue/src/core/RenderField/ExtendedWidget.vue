@@ -1,15 +1,15 @@
 <script lang="ts">
-import { defineComponent, h, PropType, Suspense } from 'vue'
-import { usePropsStore, useFormStore } from "../../hooks";
-import { extraSchemaList, getWidgetName } from "../../mapping";
-import { isListType, isObjType } from "../../utils";
-import { transformProps } from "../../createWidget";
-import { PropSchema } from "../../../interface";
+import { defineComponent, h, PropType } from 'vue';
+import { usePropsStore, useFormStore } from '../../hooks';
+import { extraSchemaList, getWidgetName } from '../../mapping';
+import { isListType, isObjType } from '../../utils';
+import { transformProps } from '../../createWidget';
+import { PropSchema } from '../../../interface';
 
 const ErrorSchema = defineComponent({
   inheritAttrs: false,
   props: {
-    schema: Object as PropType<PropSchema>
+    schema: Object as PropType<PropSchema>,
   },
   setup(props) {
     return () => {
@@ -18,8 +18,8 @@ const ErrorSchema = defineComponent({
         h('div', { style: { color: 'red' } }, 'schema未匹配到展示组件:'),
         h('div', text),
       ]);
-    }
-  }
+    };
+  },
 });
 
 export default defineComponent({
@@ -28,34 +28,49 @@ export default defineComponent({
   props: {
     schema: {
       type: Object as PropType<PropSchema>,
-      default: ():PropSchema => ({}),
+      default: (): PropSchema => ({}),
       required: true,
     },
-    onChange: { type: Function, default: ()=>{console.error('error')} },
+    onChange: {
+      type: Function,
+      default: () => {
+        console.error('error');
+      },
+    },
     value: {},
     dependValues: {
       type: Array as PropType<any[]>,
-      default: ():any[] => []
+      default: (): any[] => [],
     },
-    onItemChange: { type: Function, default: ()=>{console.error('error')} },
+    onItemChange: {
+      type: Function,
+      default: () => {
+        console.error('error');
+      },
+    },
     formData: {},
-    getValue: { type: Function, default: ()=>{console.error('error')} },
+    getValue: {
+      type: Function,
+      default: () => {
+        console.error('error');
+      },
+    },
     readOnly: {
       type: [Boolean, String],
-      default: false
+      default: false,
     },
     dataPath: { type: String, default: '' },
     disabled: {
       type: [Boolean, String],
-      default: false
+      default: false,
     },
     dataIndex: {
       type: Array as PropType<number[]>,
-      default: ():number[] => []
+      default: (): number[] => [],
     },
   },
   components: {
-    ErrorSchema
+    ErrorSchema,
   },
   setup(props, { slots }) {
     const propStore = usePropsStore();
@@ -73,15 +88,10 @@ export default defineComponent({
         readOnly,
         dataPath,
         disabled,
-        dataIndex
+        dataIndex,
       } = props;
 
-      const {
-        widgets,
-        mapping,
-        globalProps,
-        theme,
-      } = propStore;
+      const { widgets, mapping, globalProps, theme } = propStore;
       const {
         setValueByPath,
         getSchemaByPath,
@@ -91,7 +101,7 @@ export default defineComponent({
         getValues,
         resetFields,
         setErrorFields,
-        removeErrorField
+        removeErrorField,
       } = formStore;
 
       let widgetName = getWidgetName(schema, mapping);
@@ -127,8 +137,8 @@ export default defineComponent({
         widgetProps.maxLength = schema.max;
       }
 
-      ['title', 'placeholder', 'disabled', 'format'].forEach(key => {
-        if (schema.hasOwnProperty(key)) {
+      ['title', 'placeholder', 'disabled', 'format'].forEach((key) => {
+        if (Object.prototype.hasOwnProperty.call(schema, key)) {
           widgetProps[key] = schema[key];
         }
       });
@@ -137,11 +147,11 @@ export default defineComponent({
         widgetProps = { ...widgetProps, ...schema.props };
       }
 
-      Object.keys(schema).forEach(key => {
+      Object.keys(schema).forEach((key) => {
         if (
-            typeof key === 'string' &&
-            key.toLowerCase().indexOf('props') > -1 &&
-            key.length > 5
+          typeof key === 'string' &&
+          key.toLowerCase().indexOf('props') > -1 &&
+          key.length > 5
         ) {
           widgetProps[key] = schema[key];
         }
@@ -178,8 +188,12 @@ export default defineComponent({
       //   fallback: h('div'),
       //   default: h('div', { class: 'fr-item-wrapper' }, h(Widget, { ...finalProps }, _children || false))
       // })
-      return h('div', { class: 'fr-item-wrapper' }, h(Widget, { ...finalProps }, () => slots.default && slots.default()))
-    }
-  }
-})
+      return h(
+        'div',
+        { class: 'fr-item-wrapper' },
+        h(Widget, { ...finalProps }, () => slots.default && slots.default()),
+      );
+    };
+  },
+});
 </script>

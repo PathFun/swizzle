@@ -1,11 +1,13 @@
 <script lang="ts">
-import { defineComponent, h, CSSProperties, PropType } from 'vue'
+import { defineComponent, h, CSSProperties, PropType } from 'vue';
 import { TimePicker } from 'ant-design-vue';
 const { TimeRangePicker } = TimePicker;
 import dayjs from 'dayjs';
 import type { Dayjs } from 'dayjs';
 declare type EventValue<DateType> = DateType | null;
-declare type RangeValue<DateType> = [EventValue<DateType>, EventValue<DateType>] | null;
+declare type RangeValue<DateType> =
+  | [EventValue<DateType>, EventValue<DateType>]
+  | null;
 import { getFormat } from '../../utils';
 export default defineComponent({
   name: 'TimeRange',
@@ -13,42 +15,52 @@ export default defineComponent({
   props: {
     onChange: {
       type: Function as PropType<(...args: any[]) => any>,
-      required: true
+      required: true,
     },
     value: {
       type: String,
-      default: ''
+      default: '',
     },
     disabled: Boolean,
     readOnly: Boolean,
     style: {
       type: Object as PropType<CSSProperties>,
-      default: () => ({})
+      default: () => ({}),
     },
     format: {
       type: String,
-      default: 'date'
+      default: 'date',
     },
     otherProps: {
-      type: Object
-    }
+      type: Object,
+    },
   },
   setup(props) {
     const handleChange = (value: any, stringList: any) => {
       const emptyList1 = stringList[0] === '' || stringList[1] === '';
       const emptyList2 =
-          stringList[0] === undefined || stringList[1] === undefined;
+        stringList[0] === undefined || stringList[1] === undefined;
       if (emptyList1 || emptyList2) {
-        props.onChange(undefined);
+        props.onChange && props.onChange(undefined);
       } else {
-        props.onChange(stringList);
+        props.onChange && props.onChange(stringList);
       }
     };
     return () => {
-      const { onChange, format, value, style, otherProps = {}, ...rest } = props;
+      const {
+        onChange,
+        format,
+        value,
+        style,
+        otherProps = {},
+        ...rest
+      } = props;
       const timeFormat = getFormat(format);
       let [start, end] = Array.isArray(value) ? value : [];
-      const _value:RangeValue<Dayjs>|RangeValue<string> = start && end ? [dayjs(start, timeFormat), dayjs(end, timeFormat)] : null;
+      const _value: RangeValue<Dayjs> | RangeValue<string> =
+        start && end
+          ? [dayjs(start, timeFormat), dayjs(end, timeFormat)]
+          : null;
 
       const timeParams = {
         ...otherProps,
@@ -59,7 +71,7 @@ export default defineComponent({
       };
 
       return h(TimeRangePicker, { ...timeParams });
-    }
-  }
-})
+    };
+  },
+});
 </script>

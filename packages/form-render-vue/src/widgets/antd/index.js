@@ -1,7 +1,15 @@
 import { h } from 'vue';
 import list from './List.vue';
 import map from './Map.vue';
-import { InputNumber, Checkbox, Input, Switch, Rate, TreeSelect, Cascader } from 'ant-design-vue';
+import {
+  InputNumber,
+  Checkbox,
+  Input,
+  Switch,
+  Rate,
+  TreeSelect,
+  Cascader,
+} from 'ant-design-vue';
 import ImageInput from './ImageInput.vue';
 import urlInput from './UrlInput.vue';
 import Html from './Html.vue';
@@ -19,13 +27,21 @@ import upload from './Upload.vue';
 
 const { TextArea } = Input;
 
-const FrNumber = ({ style, value, ...rest }) => h(InputNumber, { style: { width: '100%', ...style }, value: typeof value === 'number' ? value : undefined, ...rest });
+const FrNumber = ({ style, value, ...rest }) =>
+  h(InputNumber, {
+    style: { width: '100%', ...style },
+    value: typeof value === 'number' ? value : undefined,
+    ...rest,
+  });
 
-const FrTextArea = ({ autoSize, ...rest }) => h(TextArea, { autoSize: autoSize ? autoSize : { minRows: 3 }, ...rest });
+const FrTextArea = ({ autoSize, ...rest }) =>
+  h(TextArea, { autoSize: autoSize ? autoSize : { minRows: 3 }, ...rest });
 
-const FrTreeSelect = ({ style, ...rest }) => h(TreeSelect, { style: { width: '100%', ...style }, ...rest });
+const FrTreeSelect = ({ style, ...rest }) =>
+  h(TreeSelect, { style: { width: '100%', ...style }, ...rest });
 
-const FrCascader = ({ style, ...rest }) => h(Cascader, { style: { width: '100%', ...style }, ...rest });
+const FrCascader = ({ style, ...rest }) =>
+  h(Cascader, { style: { width: '100%', ...style }, ...rest });
 
 export const widgets = {
   input: Input,

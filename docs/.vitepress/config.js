@@ -12,16 +12,21 @@ module.exports = {
   logo: `/assets/logo.svg`,
   importMap: {
     'ant-design-vue': 'https://unpkg.com/ant-design-vue@latest/es/index.js',
-    '@ant-design/icons-vue': 'https://unpkg.com/@ant-design/icons-vue@6.1.0/lib/index.js',
-    'form-render-vue3': 'https://unpkg.com/form-render-vue3@latest/dist/form-render-vue.es.js',
+    '@ant-design/icons-vue':
+      'https://unpkg.com/@ant-design/icons-vue@6.1.0/lib/index.js',
+    'form-render-vue3':
+      'https://unpkg.com/form-render-vue3@latest/dist/form-render-vue.es.js',
   },
   head: [
     // 设置 描述 和 关键词
-    ["meta", { name: "keywords", content: "vue swizzle design components" }],
-    ["meta", {
-      name: "description",
-      content: "基于vue3.0开发的swizzle组件库",
-    }]
+    ['meta', { name: 'keywords', content: 'vue swizzle design components' }],
+    [
+      'meta',
+      {
+        name: 'description',
+        content: '基于vue3.0开发的swizzle组件库',
+      },
+    ],
   ],
   themeConfig: {
     lang: 'zh-CN',
@@ -33,75 +38,83 @@ module.exports = {
         label: '中文',
         selectText: '语言',
         nav: [
-          { text: 'FormRenderVue', link: '/form-render-vue/start/', activeMatch: '^/form-render-vue/' },
-          { text: 'ParseChart', link: '/parse-chart/start/', activeMatch: '^/parse-chart/' },
-          { text: "GitHub", link: "https://github.com/PathFun/swizzle.git" }
+          {
+            text: 'FormRenderVue',
+            link: '/form-render-vue/start/',
+            activeMatch: '^/form-render-vue/',
+          },
+          {
+            text: 'ParseChart',
+            link: '/parse-chart/start/',
+            activeMatch: '^/parse-chart/',
+          },
+          { text: 'GitHub', link: 'https://github.com/PathFun/swizzle.git' },
         ],
         sidebar: {
           '/form-render-vue/': [
             {
               text: '开始使用',
-              link: '/form-render-vue/start/'
+              link: '/form-render-vue/start/',
             },
             {
               text: '协议(schema)',
               children: [
                 {
                   text: 'schema 规范',
-                  link: '/form-render-vue/agree/schema/'
+                  link: '/form-render-vue/agree/schema/',
                 },
                 {
                   text: 'rules(校验)',
-                  link: '/form-render-vue/agree/rules/'
+                  link: '/form-render-vue/agree/rules/',
                 },
                 {
                   text: 'props',
-                  link: '/form-render-vue/agree/props/'
+                  link: '/form-render-vue/agree/props/',
                 },
                 {
                   text: '内置组件',
-                  link: '/form-render-vue/agree/inner-widget/'
-                }
-              ]
+                  link: '/form-render-vue/agree/inner-widget/',
+                },
+              ],
             },
             {
               text: '高级用法',
               children: [
                 {
                   text: '表单联动',
-                  link: '/form-render-vue/advanced/linkage/'
+                  link: '/form-render-vue/advanced/linkage/',
                 },
                 {
                   text: '自定义组件（widget）',
-                  link: '/form-render-vue/advanced/widget/'
+                  link: '/form-render-vue/advanced/widget/',
                 },
                 {
                   text: '表单方法（form）',
-                  link: '/form-render-vue/advanced/methods/'
+                  link: '/form-render-vue/advanced/methods/',
                 },
                 {
                   text: '表单监听（watch）',
-                  link: '/form-render-vue/advanced/watch/'
+                  link: '/form-render-vue/advanced/watch/',
                 },
                 {
                   text: '展示的最佳实践',
-                  link: '/form-render-vue/advanced/display/'
+                  link: '/form-render-vue/advanced/display/',
                 },
-              ]
+              ],
             },
             {
               text: '常见问题',
-              link: '/form-render-vue/faq/'
-            }
+              link: '/form-render-vue/faq/',
+            },
           ],
           '/parse-chart/': [
             {
               text: '开始使用',
-              link: '/parse-chart/start/'
+              link: '/parse-chart/start/',
             },
-          ]
+          ],
         },
-        lastUpdated: '上次更新'
+        lastUpdated: '上次更新',
       },
       '/en/': {
         lang: 'en-US',
@@ -110,40 +123,48 @@ module.exports = {
         label: 'English',
         selectText: 'Languages',
         nav: [
-          { text: 'FormRenderVue', link: '/en/form-render-vue/start/', activeMatch: '^/en/form-render-vue/' },
-          { text: 'ParseChart', link: '/en/parse-chart/start/', activeMatch: '^/en/parse-chart/' },
-          { text: "GitHub", link: "https://github.com/PathFun/swizzle.git" }
+          {
+            text: 'FormRenderVue',
+            link: '/en/form-render-vue/start/',
+            activeMatch: '^/en/form-render-vue/',
+          },
+          {
+            text: 'ParseChart',
+            link: '/en/parse-chart/start/',
+            activeMatch: '^/en/parse-chart/',
+          },
+          { text: 'GitHub', link: 'https://github.com/PathFun/swizzle.git' },
         ],
         sidebar: {
           '/en/form-render-vue/': [
             {
               text: 'get started',
-              link: '/en/form-render-vue/start/'
+              link: '/en/form-render-vue/start/',
             },
             {
               text: 'agree(schema)',
               children: [
                 {
                   text: 'schema standard',
-                  link: '/en/form-render-vue/agree/schema/'
-                }
-              ]
+                  link: '/en/form-render-vue/agree/schema/',
+                },
+              ],
             },
           ],
           '/en/parse-chart/': [
             {
               text: 'get started',
-              link: '/en/parse-chart/start/'
+              link: '/en/parse-chart/start/',
             },
-          ]
+          ],
         },
-        lastUpdated: true
+        lastUpdated: true,
       },
     },
     algolia: {
-      appId: '1VOVJQ426D',
-      apiKey: '3dafa27d099fac841ca513b31d3fdb32',
-      indexName: 'form-render-vue3'
+      appId: 'JQT0TMFRPZ',
+      apiKey: '39339aab045bb6f2ed85d423eaa29966',
+      indexName: 'docs',
     },
     prevLink: true,
     nextLink: true,

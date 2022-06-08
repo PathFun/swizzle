@@ -1,6 +1,6 @@
 <script lang="ts">
-import { defineComponent, CSSProperties, h, PropType, computed } from 'vue'
-import dayjs from 'dayjs';
+import { defineComponent, CSSProperties, h, PropType, computed } from 'vue';
+import dayjs, { Dayjs } from 'dayjs';
 import { DatePicker } from 'ant-design-vue';
 import { getFormat } from '../../utils';
 
@@ -10,35 +10,34 @@ export default defineComponent({
   props: {
     onChange: {
       type: Function as PropType<(...args: any[]) => any>,
-      required: true
+      required: true,
     },
     value: {
       type: String,
-      default: ''
+      default: '',
     },
     disabled: Boolean,
     readOnly: Boolean,
     style: {
       type: Object as PropType<CSSProperties>,
-      default: () => ({})
+      default: () => ({}),
     },
     format: {
       type: String,
-      default: 'date'
+      default: 'date',
     },
     otherProps: {
-      type: Object
-    }
+      type: Object,
+    },
   },
   setup(props) {
-
     const handleChange = (value: any, string: any) => {
-      props.onChange(string);
+      props.onChange && props.onChange(string);
     };
 
-    const valueObj = computed(() => {
-      const { value, format } = props
-      let _value: any = value || undefined;
+    const valueObj = computed<Dayjs>(() => {
+      const { value, format } = props;
+      let _value: any = value;
       if (typeof _value === 'string') {
         if (format === 'week') {
           _value = _value ? _value.substring(0, _value.length - 1) : _value;
@@ -50,17 +49,17 @@ export default defineComponent({
       if (_value) {
         _value = dayjs(_value, getFormat(format));
       }
-      return _value
-    })
+      return _value;
+    });
 
     return () => {
-      const { onChange, format, value, style, otherProps = {} } = props
+      const { format, style, otherProps = {} } = props;
 
       const dateFormat = getFormat(props.format);
 
-      const dateParams: {[key: string]: any} = {
+      const dateParams: { [key: string]: any } = {
         ...otherProps,
-        value: valueObj,
+        value: valueObj.value,
         style: { width: '100%', ...style },
         onChange: handleChange,
       };
@@ -79,7 +78,7 @@ export default defineComponent({
       }
 
       return h(DatePicker, { ...dateParams });
-    }
-  }
-})
+    };
+  },
+});
 </script>

@@ -9,19 +9,25 @@ export default defineComponent({
   props: {
     schema: Object,
     onChange: {
-      type: Function as PropType<(...args: any[]) => any>
+      type: Function as PropType<(...args: any[]) => any>,
     },
     value: Array as PropType<any[]>,
     options: Array,
     disabled: Boolean,
     readOnly: Boolean,
     otherProps: {
-      type: Object
-    }
+      type: Object,
+    },
   },
   setup(props) {
     return () => {
-      const { schema, options: _options, otherProps = {}, value, ...rest } = props;
+      const {
+        schema,
+        options: _options,
+        otherProps = {},
+        value,
+        ...rest
+      } = props;
       let options;
       // 如果已经有外部注入的options了，内部的schema就会被忽略
       if (_options && Array.isArray(_options)) {
@@ -29,7 +35,8 @@ export default defineComponent({
       } else {
         const { enum: enums, enumNames } = schema || {};
         options = getArray(enums).map((item, idx) => {
-          let label = enumNames && Array.isArray(enumNames) ? enumNames[idx] : item;
+          let label =
+            enumNames && Array.isArray(enumNames) ? enumNames[idx] : item;
           return { label, value: item };
         });
       }
@@ -39,19 +46,21 @@ export default defineComponent({
         options,
         value: typeof value === 'number' ? value : undefined,
         mode: 'multiple',
-        ...rest
+        ...rest,
       };
-      return h(Checkbox.Group, { ...checkboxesProps }, {
-        label: ({ label = '' }) =>
-            typeof label === 'string' && label[0] === '<' ?
-                h('span', { innerHTML: label }) :
-                label
-      });
-    }
-  }
-})
+      return h(
+        Checkbox.Group,
+        { ...checkboxesProps },
+        {
+          label: ({ label }) =>
+            typeof label === 'string' && label[0] === '<'
+              ? h('span', { innerHTML: label })
+              : label,
+        },
+      );
+    };
+  },
+});
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

@@ -1,5 +1,5 @@
 <script lang="ts">
-import { defineComponent, CSSProperties, h, PropType } from 'vue'
+import { defineComponent, CSSProperties, h, PropType } from 'vue';
 import dayjs from 'dayjs';
 import { TimePicker } from 'ant-design-vue';
 import { getFormat } from '../../utils';
@@ -9,34 +9,40 @@ export default defineComponent({
   props: {
     onChange: {
       type: Function,
-      required: true
+      required: true,
     },
     value: {
       type: String,
-      default: ''
+      default: '',
     },
     disabled: Boolean,
     readOnly: Boolean,
     style: {
       type: Object as PropType<CSSProperties>,
-      default: () => ({})
+      default: () => ({}),
     },
     format: {
       type: String,
-      default: 'date'
+      default: 'date',
     },
     otherProps: {
-      type: Object
-    }
+      type: Object,
+    },
   },
   setup(props) {
-
     const handleChange = (value: any, string: any) => {
-      props.onChange(string);
+      props.onChange && props.onChange(string);
     };
 
     return () => {
-      const { onChange, format, value, style, otherProps = {}, ...rest } = props
+      const {
+        onChange,
+        format,
+        value,
+        style,
+        otherProps = {},
+        ...rest
+      } = props;
       const timeFormat = getFormat(format);
       const _value = value ? dayjs(value, timeFormat) : undefined;
 
@@ -50,7 +56,7 @@ export default defineComponent({
       };
 
       return h(TimePicker, { ...timeParams });
-    }
-  }
-})
+    };
+  },
+});
 </script>

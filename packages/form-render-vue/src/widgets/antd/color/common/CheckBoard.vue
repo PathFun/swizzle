@@ -3,32 +3,33 @@
 </template>
 
 <script>
-let _checkboardCache = {}
+let _checkboardCache = {};
 
 export default {
   name: 'CheckBoard',
   props: {
     size: {
       type: [Number, String],
-      default: 8
+      default: 8,
     },
     white: {
       type: String,
-      default: '#fff'
+      default: '#fff',
     },
     grey: {
       type: String,
-      default: '#e6e6e6'
-    }
+      default: '#e6e6e6',
+    },
   },
   computed: {
-    bgStyle () {
+    bgStyle() {
       return {
-        'background-image': 'url(' + getCheckboard(this.white, this.grey, this.size) + ')'
-      }
-    }
-  }
-}
+        'background-image':
+          'url(' + getCheckboard(this.white, this.grey, this.size) + ')',
+      };
+    },
+  },
+};
 
 /**
  * get base 64 data by canvas
@@ -38,25 +39,25 @@ export default {
  * @param {Number} size
  */
 
-function renderCheckboard (c1, c2, size) {
+function renderCheckboard(c1, c2, size) {
   // Dont Render On Server
   if (typeof document === 'undefined') {
-    return null
+    return null;
   }
-  var canvas = document.createElement('canvas')
-  canvas.width = canvas.height = size * 2
-  var ctx = canvas.getContext('2d')
+  var canvas = document.createElement('canvas');
+  canvas.width = canvas.height = size * 2;
+  var ctx = canvas.getContext('2d');
   // If no context can be found, return early.
   if (!ctx) {
-    return null
+    return null;
   }
-  ctx.fillStyle = c1
-  ctx.fillRect(0, 0, canvas.width, canvas.height)
-  ctx.fillStyle = c2
-  ctx.fillRect(0, 0, size, size)
-  ctx.translate(size, size)
-  ctx.fillRect(0, 0, size, size)
-  return canvas.toDataURL()
+  ctx.fillStyle = c1;
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+  ctx.fillStyle = c2;
+  ctx.fillRect(0, 0, size, size);
+  ctx.translate(size, size);
+  ctx.fillRect(0, 0, size, size);
+  return canvas.toDataURL();
 }
 
 /**
@@ -67,18 +68,17 @@ function renderCheckboard (c1, c2, size) {
  * @param {Number} size
  */
 
-function getCheckboard (c1, c2, size) {
-  var key = c1 + ',' + c2 + ',' + size
+function getCheckboard(c1, c2, size) {
+  var key = c1 + ',' + c2 + ',' + size;
 
   if (_checkboardCache[key]) {
-    return _checkboardCache[key]
+    return _checkboardCache[key];
   } else {
-    var checkboard = renderCheckboard(c1, c2, size)
-    _checkboardCache[key] = checkboard
-    return checkboard
+    var checkboard = renderCheckboard(c1, c2, size);
+    _checkboardCache[key] = checkboard;
+    return checkboard;
   }
 }
-
 </script>
 
 <style>

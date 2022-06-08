@@ -1,5 +1,5 @@
 <script lang="ts">
-import { computed, CSSProperties, defineComponent, PropType, h } from 'vue'
+import { computed, CSSProperties, defineComponent, PropType, h } from 'vue';
 import RenderList from './RenderChildren/RenderList/index.vue';
 import RenderObject from './RenderChildren/RenderObject.vue';
 import { RenderField } from './RenderField';
@@ -10,75 +10,75 @@ import {
   isCheckBoxType,
   isObjType,
 } from '../utils';
-import type { Error, PropSchema } from "../../Interface";
+import type { Error, PropSchema } from '../../Interface';
 
 const coreRenderProps = {
   id: {
     type: String,
-    default: '#'
+    default: '#',
   },
   schema: {
     type: Object as PropType<PropSchema>,
     default: () => ({}),
-    required: true
+    required: true,
   },
   item: {
     type: Object as PropType<{ [key: string]: any }>,
     default: () => ({}),
-    required: true
+    required: true,
   },
   dataIndex: {
     type: Array as PropType<number[]>,
-    default: (): number[] => []
+    default: (): number[] => [],
   },
   dataPath: {
     type: String,
-    default: ''
+    default: '',
   },
   coreValue: {},
   dependValues: {
     type: Array as PropType<any[]>,
-    default: (): any[] => []
+    default: (): any[] => [],
   },
   hideTitle: {
     type: Boolean,
-    default: false
+    default: false,
   },
   hideValidation: {
     type: Boolean,
-    default: false
+    default: false,
   },
   debugCss: {
     type: Boolean,
-    default: false
+    default: false,
   },
   displayType: {
-    type: String as PropType<'column' | 'row' | 'inline'>
+    type: String as PropType<'column' | 'row' | 'inline'>,
   },
   column: {
     type: [Number, String],
-    default: 1
+    default: 1,
   },
   labelWidth: {
     type: [Number, String],
-    default: ''
+    default: '',
   },
   readOnly: {
     type: Boolean,
-    default: false
+    default: false,
   },
   errorFields: {
     type: Array as PropType<Error[]>,
-    default: (): Error[] => []
+    default: (): Error[] => [],
   },
   effectiveLabelWidth: {
     type: [Number, String],
-    default: ''
+    default: '',
   },
   allTouched: {
     type: Boolean,
-    default: false
-  }
+    default: false,
+  },
 };
 
 export default defineComponent({
@@ -88,53 +88,62 @@ export default defineComponent({
   components: {
     RenderList,
     RenderObject,
-    RenderField
+    RenderField,
   },
   setup(props) {
     const { displayType, effectiveLabelWidth } = props;
 
-    const coreDisplayType:'column' | 'row' | 'inline' = props.schema.displayType || displayType || 'column';
+    const coreDisplayType: 'column' | 'row' | 'inline' =
+      props.schema.displayType || displayType || 'column';
 
     const isList = computed<boolean>(() => isListType(props.schema));
     const isObj = computed<boolean>(() => isObjType(props.schema));
-    const isCheckBox = computed<boolean|undefined>(() => isCheckBoxType(props.schema, props.readOnly));
+    const isCheckBox = computed<boolean | undefined>(() =>
+      isCheckBoxType(props.schema, props.readOnly),
+    );
     const isComplex = computed<boolean>(() => isObj.value || isList.value);
 
-    const isColumn = coreDisplayType === 'column'
-    const isInline = coreDisplayType === 'inline'
-    const isRow = coreDisplayType === 'row'
+    const isColumn = coreDisplayType === 'column';
+    const isInline = coreDisplayType === 'inline';
+    const isRow = coreDisplayType === 'row';
 
     const coreLabelWidth = isLooselyNumber(effectiveLabelWidth)
-        ? Number(effectiveLabelWidth)
-        : isCssLength(effectiveLabelWidth)
-            ? effectiveLabelWidth
-            : 110; // 默认是 110px 的长度
+      ? Number(effectiveLabelWidth)
+      : isCssLength(effectiveLabelWidth)
+      ? effectiveLabelWidth
+      : 110; // 默认是 110px 的长度
 
     const fieldClass = computed(() => {
-      const { schema } = props
+      const { schema } = props;
       return [
         !isInline && 'w-100',
         typeof schema.className === 'string' && schema.className,
         schema.type === 'object' && isObj.value && 'fr-field-object',
         schema.type === 'array' && isList.value && 'fr-field-column',
-        schema.type === 'boolean' && isCheckBox.value && `flex ${isColumn ? 'flex-column' : ''}`,
+        schema.type === 'boolean' &&
+          isCheckBox.value &&
+          `flex ${isColumn ? 'flex-column' : ''}`,
         !isComplex.value && !isCheckBox.value && isColumn && 'flex-column',
-        isInline && (schema.type !== 'object' || !isObj.value) && 'fr-field-inline',
-        props.debugCss && 'debug'
-      ].filter(d => d).join(' ')
-    })
+        isInline &&
+          (schema.type !== 'object' || !isObj.value) &&
+          'fr-field-inline',
+        props.debugCss && 'debug',
+      ]
+        .filter((d) => d)
+        .join(' ');
+    });
 
     const labelStyle = computed<CSSProperties>(() => {
       if (isComplex.value || isColumn) {
-        return { flexGrow: 1 }
+        return { flexGrow: 1 };
       }
       if (isInline) {
-        return { marginTop: '5px', paddingLeft: '12px' }
+        return { marginTop: '5px', paddingLeft: '12px' };
       }
       return {
-        width: `${coreLabelWidth}px`
-      }
-    })
+        width: `${coreLabelWidth}px`,
+      };
+    });
 
     // return {
     //   coreDisplayType,
@@ -149,60 +158,116 @@ export default defineComponent({
     //   isRow: coreDisplayType === 'row'
     // }
     return () => {
-      const { schema, item } = props
+      const { schema, item } = props;
       if (schema.hidden) {
-        return null
+        return null;
       }
-      return h('div', { class: `fr-field flex ${fieldClass.value}`, style: !isObj.value ? {
-          paddingRight: '8px',
-          width: schema.width ? `${typeof schema.width === 'string' ? schema.width : schema.width + 'px' }` : `calc(100% /${props.column})`,
-        } : {} }, h(RenderField, {
-          fieldId: props.id,
-          dataIndex: props.dataIndex,
-          dataPath: props.dataPath,
-          coreValue: props.coreValue,
-          dependValues: props.dependValues,
-          errorFields: props.errorFields,
-          _schema: props.schema,
-          displayType: coreDisplayType,
-          hideTitle: props.hideTitle,
-          hideValidation: props.hideValidation,
-          labelClass: isInline ? '' : [
-            'fr-label',
-            schema.type === 'object' && isObj.value && schema.title ? 'fr-label-object': '',
-            schema.type === 'array' && isList.value && schema.title ? 'fr-label-list': '',
-            (!isComplex.value && !isCheckBox.value) && isColumn ? 'fr-label-column': '',
-            (!isComplex.value && !isCheckBox.value) && isRow  ? 'fr-label-row': '',
-            (!isComplex.value && !isCheckBox.value) && isRow && !isObj.value  ? 'flex-shrink-0 fr-label-row': '',
-          ].filter(d => !!d).join(' '),
-          labelStyle: labelStyle.value,
-          contentClass: [
-            'fr-content',
-            schema.type === 'boolean' && isCheckBox.value ? 'fr-content-column' : '',
-            (!isComplex.value && !isCheckBox.value) && isColumn ? 'fr-content-column' : '',
-            (!isComplex.value && !isCheckBox.value) && isRow ? 'fr-content-row' : '',
-            (!isComplex.value && !isCheckBox.value) && isRow && !isObj.value ? 'flex-grow-1 relative' : '',
-            isInline ? 'fr-content-inline' : '',
-          ].filter(d => !!d).join(' ')
-      }, {
-          default: () => [
-            item.children && item.children.length > 0 && isObj.value && h('div', { class: 'flex flex-wrap' }, h(
-                RenderObject, { dataIndex: props.dataIndex, displayType: coreDisplayType, hideTitle: props.hideTitle, childData: item.children }
-            )),
-            item.children && item.children.length > 0 && isList.value && h(RenderList, {
-              parentId: props.id,
-              schema,
-              errorFields: props.errorFields,
-              dataIndex: props.dataIndex,
-              displayType: coreDisplayType,
-              childData: item.children
-            }),
-            !item.children || !item.children.length && schema.title
-          ]
-      }))
-    }
-  }
-})
+      return h(
+        'div',
+        {
+          class: `fr-field flex ${fieldClass.value}`,
+          style: !isObj.value
+            ? {
+                paddingRight: '8px',
+                width: schema.width
+                  ? `${
+                      typeof schema.width === 'string'
+                        ? schema.width
+                        : schema.width + 'px'
+                    }`
+                  : `calc(100% /${props.column})`,
+              }
+            : {},
+        },
+        h(
+          RenderField,
+          {
+            fieldId: props.id,
+            dataIndex: props.dataIndex,
+            dataPath: props.dataPath,
+            coreValue: props.coreValue,
+            dependValues: props.dependValues,
+            errorFields: props.errorFields,
+            _schema: props.schema,
+            displayType: coreDisplayType,
+            hideTitle: props.hideTitle,
+            hideValidation: props.hideValidation,
+            labelClass: isInline
+              ? ''
+              : [
+                  'fr-label',
+                  schema.type === 'object' && isObj.value && schema.title
+                    ? 'fr-label-object'
+                    : '',
+                  schema.type === 'array' && isList.value && schema.title
+                    ? 'fr-label-list'
+                    : '',
+                  !isComplex.value && !isCheckBox.value && isColumn
+                    ? 'fr-label-column'
+                    : '',
+                  !isComplex.value && !isCheckBox.value && isRow
+                    ? 'fr-label-row'
+                    : '',
+                  !isComplex.value && !isCheckBox.value && isRow && !isObj.value
+                    ? 'flex-shrink-0 fr-label-row'
+                    : '',
+                ]
+                  .filter((d) => !!d)
+                  .join(' '),
+            labelStyle: labelStyle.value,
+            contentClass: [
+              'fr-content',
+              schema.type === 'boolean' && isCheckBox.value
+                ? 'fr-content-column'
+                : '',
+              !isComplex.value && !isCheckBox.value && isColumn
+                ? 'fr-content-column'
+                : '',
+              !isComplex.value && !isCheckBox.value && isRow
+                ? 'fr-content-row'
+                : '',
+              !isComplex.value && !isCheckBox.value && isRow && !isObj.value
+                ? 'flex-grow-1 relative'
+                : '',
+              isInline ? 'fr-content-inline' : '',
+            ]
+              .filter((d) => !!d)
+              .join(' '),
+          },
+          {
+            default: () => [
+              item.children &&
+                item.children.length > 0 &&
+                isObj.value &&
+                h(
+                  'div',
+                  { class: 'flex flex-wrap' },
+                  h(RenderObject, {
+                    dataIndex: props.dataIndex,
+                    displayType: coreDisplayType,
+                    hideTitle: props.hideTitle,
+                    childData: item.children,
+                  }),
+                ),
+              item.children &&
+                item.children.length > 0 &&
+                isList.value &&
+                h(RenderList, {
+                  parentId: props.id,
+                  schema,
+                  errorFields: props.errorFields,
+                  dataIndex: props.dataIndex,
+                  displayType: coreDisplayType,
+                  childData: item.children,
+                }),
+              !item.children || (!item.children.length && schema.title),
+            ],
+          },
+        ),
+      );
+    };
+  },
+});
 </script>
 <!--<template>-->
 <!--  <div-->

@@ -20,6 +20,7 @@ module.exports = {
     'no-multiple-template-root': 'off',
     '@typescript-eslint/no-empty-function': 'off',
     'vue/no-multiple-template-root': 'off',
+    '@typescript-eslint/no-explicit-any': 'off',
   },
   overrides: [
     {

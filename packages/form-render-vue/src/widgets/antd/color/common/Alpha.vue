@@ -1,14 +1,17 @@
 <template>
   <div class="vc-alpha">
     <div class="vc-alpha-checkboard-wrap">
-      <check-board/>
+      <check-board />
     </div>
-    <div class="vc-alpha-gradient" :style="{background: gradientColor}"></div>
-    <div class="vc-alpha-container" ref="container"
-        @mousedown="handleMouseDown"
-        @touchmove="handleChange"
-        @touchstart="handleChange">
-      <div class="vc-alpha-pointer" :style="{left: colors.a * 100 + '%'}">
+    <div class="vc-alpha-gradient" :style="{ background: gradientColor }"></div>
+    <div
+      class="vc-alpha-container"
+      ref="container"
+      @mousedown="handleMouseDown"
+      @touchmove="handleChange"
+      @touchstart="handleChange"
+    >
+      <div class="vc-alpha-pointer" :style="{ left: colors.a * 100 + '%' }">
         <div class="vc-alpha-picker"></div>
       </div>
     </div>
@@ -16,48 +19,54 @@
 </template>
 
 <script>
-import CheckBoard from './CheckBoard.vue'
+import CheckBoard from './CheckBoard.vue';
 
 export default {
   name: 'Alpha',
   props: {
     value: Object,
-    onChange: Function
+    onChange: Function,
   },
   components: {
-    CheckBoard
+    CheckBoard,
   },
   computed: {
-    colors () {
-      return this.value
+    colors() {
+      return this.value;
     },
-    gradientColor () {
-      const rgba = this.colors.rgba
-      const rgbStr = [rgba.r, rgba.g, rgba.b].join(',')
-      return 'linear-gradient(to right, rgba(' + rgbStr + ', 0) 0%, rgba(' + rgbStr + ', 1) 100%)'
-    }
+    gradientColor() {
+      const rgba = this.colors.rgba;
+      const rgbStr = [rgba.r, rgba.g, rgba.b].join(',');
+      return (
+        'linear-gradient(to right, rgba(' +
+        rgbStr +
+        ', 0) 0%, rgba(' +
+        rgbStr +
+        ', 1) 100%)'
+      );
+    },
   },
   methods: {
-    handleChange (e, skip) {
-      !skip && e.preventDefault()
-      var container = this.$refs.container
+    handleChange(e, skip) {
+      !skip && e.preventDefault();
+      var container = this.$refs.container;
       if (!container) {
         // for some edge cases, container may not exist. see #220
-        return
+        return;
       }
-      var containerWidth = container.clientWidth
+      var containerWidth = container.clientWidth;
 
-      var xOffset = container.getBoundingClientRect().left + window.pageXOffset
-      var pageX = e.pageX || (e.touches ? e.touches[0].pageX : 0)
-      var left = pageX - xOffset
+      var xOffset = container.getBoundingClientRect().left + window.pageXOffset;
+      var pageX = e.pageX || (e.touches ? e.touches[0].pageX : 0);
+      var left = pageX - xOffset;
 
-      var a
+      var a;
       if (left < 0) {
-        a = 0
+        a = 0;
       } else if (left > containerWidth) {
-        a = 1
+        a = 1;
       } else {
-        a = Math.round(left * 100 / containerWidth) / 100
+        a = Math.round((left * 100) / containerWidth) / 100;
       }
 
       if (this.colors.a !== a) {
@@ -66,25 +75,24 @@ export default {
           s: this.colors.hsl.s,
           l: this.colors.hsl.l,
           a: a,
-          source: 'rgba'
-        })
+          source: 'rgba',
+        });
       }
     },
-    handleMouseDown (e) {
-      this.handleChange(e, true)
-      window.addEventListener('mousemove', this.handleChange)
-      window.addEventListener('mouseup', this.handleMouseUp)
+    handleMouseDown(e) {
+      this.handleChange(e, true);
+      window.addEventListener('mousemove', this.handleChange);
+      window.addEventListener('mouseup', this.handleMouseUp);
     },
-    handleMouseUp () {
-      this.unbindEventListeners()
+    handleMouseUp() {
+      this.unbindEventListeners();
     },
-    unbindEventListeners () {
-      window.removeEventListener('mousemove', this.handleChange)
-      window.removeEventListener('mouseup', this.handleMouseUp)
-    }
-  }
-}
-
+    unbindEventListeners() {
+      window.removeEventListener('mousemove', this.handleChange);
+      window.removeEventListener('mouseup', this.handleMouseUp);
+    },
+  },
+};
 </script>
 
 <style>
@@ -126,7 +134,7 @@ export default {
   width: 4px;
   border-radius: 1px;
   height: 8px;
-  box-shadow: 0 0 2px rgba(0, 0, 0, .6);
+  box-shadow: 0 0 2px rgba(0, 0, 0, 0.6);
   background: #fff;
   margin-top: 1px;
   transform: translateX(-2px);

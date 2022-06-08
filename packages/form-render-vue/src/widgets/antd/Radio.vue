@@ -1,5 +1,5 @@
 <script lang="ts">
-import { computed, CSSProperties, defineComponent, PropType, h } from 'vue'
+import { computed, CSSProperties, defineComponent, PropType, h } from 'vue';
 import { Radio } from 'ant-design-vue';
 import { getArray } from '../../utils';
 export default defineComponent({
@@ -9,50 +9,55 @@ export default defineComponent({
     schema: Object,
     onChange: {
       type: Function as PropType<(...args: any[]) => any>,
-      required: true
+      required: true,
     },
     value: {
-      type: [String, Number]
+      type: [String, Number],
     },
     disabled: Boolean,
     readOnly: Boolean,
     style: {
       type: Object as PropType<CSSProperties>,
-      default: () => ({})
+      default: () => ({}),
     },
     options: {},
     otherProps: {
-      type: Object
-    }
+      type: Object,
+    },
   },
   setup(props) {
     const options = computed(() => {
-      const { options: _options, schema } = props
+      const { options: _options, schema } = props;
       if (_options && Array.isArray(_options)) {
         return _options;
       } else {
         const { enum: enums, enumNames } = schema || {};
-        return  getArray(enums).map((item, idx) => {
-          let label = enumNames && Array.isArray(enumNames) ? enumNames[idx] : item;
+        return getArray(enums).map((item, idx) => {
+          let label =
+            enumNames && Array.isArray(enumNames) ? enumNames[idx] : item;
           return { label, value: item };
         });
       }
     });
 
     return () => {
-      const { schema, otherProps = {}, ...rest } = props
+      const { schema, otherProps = {}, ...rest } = props;
       const finalProps = {
         ...otherProps,
         ...rest,
-        options: options.value
+        options: options.value,
       };
-      return h(Radio.Group, { ...finalProps, mode: 'multiple' }, {
-        label: ({ label = '' }) =>
-            typeof label === 'string' && label[0] === '<' ?
-                h('span', { innerHTML: label }) :
-                label
-      })
-    }
-  }
-})
+      return h(
+        Radio.Group,
+        { ...finalProps, mode: 'multiple' },
+        {
+          label: ({ label }) =>
+            typeof label === 'string' && label[0] === '<'
+              ? h('span', { innerHTML: label })
+              : label,
+        },
+      );
+    };
+  },
+});
 </script>

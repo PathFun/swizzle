@@ -48,7 +48,7 @@ export default defineComponent({
       const { onChange, prefix, suffix } = props;
       let _value = (event.target as HTMLInputElement).value;
       if (!_value) {
-        onChange(_value);
+        onChange && onChange(_value);
         return;
       }
       if (prefix) {
@@ -57,7 +57,7 @@ export default defineComponent({
       if (suffix) {
         _value = _value + suffix;
       }
-      onChange(_value);
+      onChange && onChange(_value);
     };
 
     return () => {

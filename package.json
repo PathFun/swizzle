@@ -73,7 +73,7 @@
     "vitepress-for-component": "^0.17.0",
     "vue-jest": "^5.0.0-alpha.6",
     "vue-tsc": "^0.29.2",
-    "vitepress": "^0.22.3"
+    "vitepress": "^1.0.0-alpha.1"
   },
   "keywords": [
     "vue",
@@ -83,6 +83,10 @@
   "publishConfig": {
     "access": "public",
     "registry": "https://registry.npmjs.org"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/PathFun/swizzle.git"
   },
   "gitHooks": {
     "pre-commit": "lint-staged"

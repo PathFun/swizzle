@@ -1,8 +1,8 @@
 <script lang="ts">
 import { defineComponent, PropType, ref, watch } from 'vue';
 import { Collapse } from 'ant-design-vue';
-import { Schema } from "../../../Interface";
-const { Panel } = Collapse
+import { Schema } from '../../../Interface';
+const { Panel } = Collapse;
 
 declare type Key = string | number;
 
@@ -12,77 +12,84 @@ export default defineComponent({
     value: {},
     title: {
       type: String,
-      default: ''
+      default: '',
     },
     theme: {
       type: [Number, String],
-      default: ''
+      default: '',
     },
     displayType: String as PropType<'column' | 'row' | 'inline'>,
     schema: {
-      type: Object as PropType<Schema>
+      type: Object as PropType<Schema>,
     },
     allCollapsed: {
       type: Boolean,
-      default: false
+      default: false,
     },
     otherProps: {
-      type: Object
+      type: Object,
     },
     onChange: {
       type: Function as PropType<(...args: any[]) => any>,
-      required: true
+      required: true,
     },
   },
   components: {
     Collapse,
-    Panel
+    Panel,
   },
   setup(props) {
-
     const collapsed = ref<boolean>(false);
 
     const activeKey = ref<number[]>([]);
 
-    const handleToggle = function (keyList: Key|Key[]) {
+    const handleToggle = function (keyList: Key | Key[]) {
       if (Array.isArray(keyList) && keyList.length > 0) {
         collapsed.value = false;
-        activeKey.value = [1]
+        activeKey.value = [1];
       } else {
         collapsed.value = true;
-        activeKey.value = []
+        activeKey.value = [];
       }
     };
 
-    watch(() => props.allCollapsed, function (newVal: boolean) {
-      collapsed.value = newVal;
-    });
+    watch(
+      () => props.allCollapsed,
+      function (newVal: boolean) {
+        collapsed.value = newVal;
+      },
+    );
 
     return {
       activeKey,
-      handleToggle
-    }
-  }
-})
+      handleToggle,
+    };
+  },
+});
 </script>
 <template>
   <div v-if="!title" class="w-100">
     <slot />
   </div>
   <div v-else-if="theme === '1'" class="w-100">
-    <div style="{
-              fontSize: 17px;
-              fontWeight: 500;
-              padding-bottom: 4px;
-              border-bottom: 1px solid rgba( 0, 0, 0, .2 );
-              margin-bottom: 16px
-            }">
+    <div
+      style="
+         {
+          font-size: 17px;
+          font-weight: 500;
+          padding-bottom: 4px;
+          border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+          margin-bottom: 16px;
+        }
+      "
+    >
       {{ title }}
     </div>
     <div
-        :style="{
-      marginLeft: displayType == 'row' ? 0 : '12px'
-    }">
+      :style="{
+        marginLeft: displayType === 'row' ? 0 : '12px',
+      }"
+    >
       <slot />
     </div>
   </div>
@@ -91,18 +98,19 @@ export default defineComponent({
     <div>
       <div :id="title" class="fr-theme-card-title">{{ title }}</div>
       <div
-          :style="{
-        marginLeft: displayType == 'row' ? 0 : '12px'
-      }">
+        :style="{
+          marginLeft: displayType === 'row' ? 0 : '12px',
+        }"
+      >
         <slot />
       </div>
     </div>
   </div>
   <div v-else class="w-100">
-    <collapse :active-key="activeKey" @change="handleToggle" >
+    <collapse :active-key="activeKey" @change="handleToggle">
       <Panel :key="1" class="fr-collapse-object">
         <template #header>
-          <span style="font-size: 16px; font-weight: 500;">{{ title }}</span>
+          <span style="font-size: 16px; font-weight: 500">{{ title }}</span>
         </template>
         <slot />
       </Panel>

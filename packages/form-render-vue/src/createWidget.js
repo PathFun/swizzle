@@ -1,70 +1,71 @@
 import { defaultGetValueFromEvent } from './utils';
-import { h } from 'vue'
-export const createWidget = (mapProps, extraSchema) => Component => props => {
+import { h } from 'vue';
+export const createWidget =
+  (mapProps, extraSchema) => (Component) => (props) => {
     const { schema, ...rest } = props;
     const _schema = { ...schema, ...extraSchema };
     const propsMap =
-        typeof mapProps === 'function'
-            ? mapProps({
-                schema: _schema,
-                ...rest,
-            })
-            : {};
+      typeof mapProps === 'function'
+        ? mapProps({
+            schema: _schema,
+            ...rest,
+          })
+        : {};
 
     const _props = {
-        schema: _schema,
-        ...rest,
-        ...propsMap,
+      schema: _schema,
+      ...rest,
+      ...propsMap,
     };
 
     const finalProps = transformProps(_props);
 
     return h(Component, { ...finalProps });
-};
+  };
 
-export const transformProps = props => {
-    const {
-        onChange,
-        value,
-        defaultValue,
-        schema: ownSchema,
-        readOnly,
-        ...rest
-    } = props;
-    const schema = { ...ownSchema };
-    const { trigger, valuePropName } = schema || {};
-    const controlProps = {};
-    let _valuePropName = 'value';
-    const _value = value === undefined ? defaultValue : value;
-    if (valuePropName && typeof valuePropName === 'string') {
-        _valuePropName = valuePropName;
-        controlProps[valuePropName] = _value;
-    } else {
-        controlProps.value = _value;
-    }
-    const _onChange = (...args) => {
-        const newValue = defaultGetValueFromEvent(_valuePropName, ...args);
-        onChange(newValue);
-    };
-    if (trigger && typeof trigger === 'string') {
-        controlProps.onChange = _onChange;
-        controlProps[trigger] = _onChange;
-    } else {
-        controlProps.onChange = _onChange;
-    }
+export const transformProps = (props) => {
+  const {
+    onChange,
+    value,
+    defaultValue,
+    schema: ownSchema,
+    readOnly,
+    ...rest
+  } = props;
+  const schema = { ...ownSchema };
+  const { trigger, valuePropName } = schema || {};
+  const controlProps = {};
+  let _valuePropName = 'value';
+  const _value = value === undefined ? defaultValue : value;
+  if (valuePropName && typeof valuePropName === 'string') {
+    _valuePropName = valuePropName;
+    controlProps[valuePropName] = _value;
+  } else {
+    controlProps.value = _value;
+  }
+  const _onChange = (...args) => {
+    const newValue = defaultGetValueFromEvent(_valuePropName, ...args);
+    onChange(newValue);
+  };
+  if (trigger && typeof trigger === 'string') {
+    controlProps.onChange = _onChange;
+    controlProps[trigger] = _onChange;
+  } else {
+    controlProps.onChange = _onChange;
+  }
 
-    const usefulPropsFromSchema = {
-        disabled: schema.disabled,
-        readOnly: schema.readOnly || readOnly,
-        hidden: schema.hidden,
-    };
+  const usefulPropsFromSchema = {
+    disabled: schema.disabled,
+    readOnly: schema.readOnly || readOnly,
+    hidden: schema.hidden,
+  };
 
-    const _props = {
-        ...controlProps,
-        schema,
-        ...usefulPropsFromSchema,
-        ...rest,
-    };
+  const _props = {
+    ...controlProps,
+    schema,
+    ...usefulPropsFromSchema,
+    ...rest,
+  };
 
-    return _props;
+  return _props;
 };

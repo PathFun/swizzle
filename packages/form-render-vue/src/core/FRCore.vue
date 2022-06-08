@@ -9,76 +9,82 @@
       :form-data="formData"
     />
   </template>
-  <Core/>
+  <Core />
 </template>
 
 <script lang="ts">
-import { defineComponent, CSSProperties, PropType, onUnmounted, computed } from 'vue'
-import Core from './Core.vue'
-import { useFormStore, PropsCtx } from "../hooks";
-import { Schema, WatchProperties } from "../../Interface";
-import Watcher from "./Watcher";
+import {
+  defineComponent,
+  CSSProperties,
+  PropType,
+  onUnmounted,
+  computed,
+} from 'vue';
+import Core from './Core.vue';
+import { useFormStore, PropsCtx } from '../hooks';
+import { Schema, WatchProperties } from '../../Interface';
+import Watcher from './Watcher';
 
 export default defineComponent({
   name: 'FRCore',
   inheritAttrs: false,
   components: {
     Core,
-    Watcher
+    Watcher,
   },
   emits: ['finish', 'beforeFinish', 'valuesChange'],
   props: {
     schema: {
       type: Object as PropType<Schema>,
-      required: true
+      required: true,
     },
     widgets: {
-      type: Object
+      type: Object,
     },
     allCollapsed: {
       type: Boolean,
-      default: false
+      default: false,
     },
     style: {
       type: Object as PropType<CSSProperties>,
-      default: () => ({})
+      default: () => ({}),
     },
     globalProps: {
       type: Object,
-      default: () => ({})
+      default: () => ({}),
     },
     mapping: {
       type: Object,
-      default: () => ({})
+      default: () => ({}),
     },
     labelWidth: {
       type: [Number, String],
-      default: '110'
+      default: '110',
     },
     column: {
       type: [Number, String],
-      default: 1
+      default: 1,
     },
     debounceInput: {
       type: Boolean,
-      default: false
+      default: false,
     },
-    debug:  {
+    debug: {
       type: Boolean,
-      default: false
+      default: false,
     },
     size: String as PropType<'large' | 'small' | 'default'>,
     displayType: {
-      type: String as PropType<'column' | 'row' | 'inline'>
+      type: String as PropType<'column' | 'row' | 'inline'>,
     },
     id: [Number, String],
     disabled: {
       type: Boolean,
-      default: false
+      default: false,
     },
     readOnly: {
       type: Boolean,
-      default: false
+      default: false,
     },
     locale: {
       type: String as PropType<'cn' | 'en'>,
@@ -86,21 +92,20 @@ export default defineComponent({
     },
     theme: {
       type: [Number, String],
-      default: ''
+      default: '',
     },
     validateMessages: {
       type: Object,
-      default: () =>({})
+      default: () => ({}),
     },
     watchMap: {
       type: Object as PropType<WatchProperties>,
-      default: () => ({})
+      default: () => ({}),
     },
   },
   setup(props, { emit, expose }) {
     const form = useFormStore();
-
-    const handleSubmit = async () => await form.submit()
+    const handleSubmit = async () => await form.submit();
 
     form.setDefault({
       beforeFinish: (...args: any[]) => emit('beforeFinish', ...args),
@@ -108,8 +113,8 @@ export default defineComponent({
       validateMessages: props.validateMessages,
       locale: props.locale,
       id: props.id,
-      schema: props.schema
-    })
+      schema: props.schema,
+    });
 
     PropsCtx({
       globalProps: props.globalProps,
@@ -127,12 +132,15 @@ export default defineComponent({
       widgets: props.widgets,
       mapping: props.mapping,
       watchMap: props.watchMap,
-      onValuesChange: (changedValues: any, formData: any) => emit('valuesChange', changedValues, formData)
+      onValuesChange: (changedValues: any, formData: any) =>
+        emit('valuesChange', changedValues, formData),
     });
 
     setTimeout(form.onMountLogger, 0);
 
-    const watchList = computed<string[]>(() => Object.keys(props.watchMap) || [])
+    const watchList = computed<string[]>(
+      () => Object.keys(props.watchMap) || [],
+    );
 
     onUnmounted(function () {
       form.resetFields();
@@ -142,8 +150,8 @@ export default defineComponent({
     return {
       watchList,
       firstMount: computed<boolean>(() => form.firstMount),
-      formData: computed<any>(() => form.formData)
-    }
-  }
-})
+      formData: computed<any>(() => form.formData),
+    };
+  },
+});
 </script>

@@ -4,9 +4,10 @@ import type { Schema } from 'form-render-vue3';
 const form = useForm({
   formData: {},
   showValidate: true,
-  onChange: (formData: { [key:string]: any }) => {
+  onChange: (formData: { [key: string]: any }) => {
     // console.log(formData)
-  } });
+  },
+});
 
 const title: Schema = {
   type: 'object',
@@ -24,12 +25,7 @@ const title: Schema = {
     },
   },
 };
-
 </script>
 <template>
-  <FormRenderVue
-    :schema="title"
-    :form="form"
-    display-type="row"
-  />
+  <FormRenderVue :schema="title" :form="form" display-type="row" />
 </template>

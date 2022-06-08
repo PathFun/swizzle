@@ -11,44 +11,44 @@ import { Error, PropSchema } from '../../../Interface';
 import { debounce } from 'lodash-es';
 
 export default defineComponent({
-  name: "RenderField",
+  name: 'RenderField',
   inheritAttrs: false,
   props: {
     fieldId: {
       type: String,
-      default: '#'
+      default: '#',
     },
     dataIndex: {
       type: Array as PropType<number[]>,
-      default: ():number[] => []
+      default: (): number[] => [],
     },
     dataPath: {
       type: String,
-      default: ''
+      default: '',
     },
     coreValue: {},
     dependValues: {
       type: Array as PropType<any[]>,
-      default: ():any[] => []
+      default: (): any[] => [],
     },
     errorFields: {
       type: Array as PropType<Error[]>,
-      default: ():Error[] => []
+      default: (): Error[] => [],
     },
     _schema: {
       type: Object as PropType<PropSchema>,
-      default: ():PropSchema => ({}),
-      required: true
+      default: (): PropSchema => ({}),
+      required: true,
     },
     labelClass: { type: String, default: '' },
     labelStyle: {
       type: Object as PropType<CSSProperties>,
-      default: ():CSSProperties => ({})
+      default: (): CSSProperties => ({}),
     },
     contentClass: { type: String, default: '' },
     displayType: {
-      type: String as PropType<'column' | 'row' | 'inline' >,
-      default: 'column'
+      type: String as PropType<'column' | 'row' | 'inline'>,
+      default: 'column',
     },
     hideTitle: Boolean,
     hideValidation: Boolean,
@@ -79,7 +79,7 @@ export default defineComponent({
       onItemChange,
       setEditing,
       touchKey,
-      _setErrors
+      _setErrors,
     } = form;
 
     const removeDupErrors = (arr: Error[]) => {
@@ -89,24 +89,23 @@ export default defineComponent({
       }
       let array: any[] = [];
       for (let i = 0; i < arr.length; i++) {
-        const sameNameIndex = array.findIndex(item => item.name === arr[i].name);
+        const sameNameIndex = array.findIndex(
+          (item) => item.name === arr[i].name,
+        );
         if (sameNameIndex > -1) {
           const sameNameItem = array[sameNameIndex];
           const error1 = sameNameItem.error;
           const error2 = arr[i].error;
           array[sameNameIndex] = {
             name: sameNameItem.name,
-            error:
-                error1.length > 0 && error2.length > 0
-                    ? error2
-                    : [],
+            error: error1.length > 0 && error2.length > 0 ? error2 : [],
           };
         } else {
           array.push(arr[i]);
         }
       }
       return array.filter(
-          item => Array.isArray(item.error) && item.error.length > 0
+        (item) => Array.isArray(item.error) && item.error.length > 0,
       );
     };
 
@@ -127,7 +126,6 @@ export default defineComponent({
       }
       // 先不暴露给外部，这个api
       if (typeof onValuesChange === 'function') {
-        // @ts-ignore
         onValuesChange({ [dataPath]: value }, formData);
       }
 
@@ -139,10 +137,11 @@ export default defineComponent({
           locale,
           validateMessages,
         },
-      }).then(res => {
-        _setErrors && _setErrors((errors: Error[]) => {
-          return removeDupErrors([...errors, ...res]);
-        });
+      }).then((res) => {
+        _setErrors &&
+          _setErrors((errors: Error[]) => {
+            return removeDupErrors([...errors, ...res]);
+          });
       });
     };
 
@@ -150,8 +149,10 @@ export default defineComponent({
       return getValueByPath(formData, path);
     };
 
-    const _readOnly = readOnly !== undefined ? readOnly : props._schema.readOnly;
-    const _disabled = disabled !== undefined ? disabled : props._schema.disabled;
+    const _readOnly =
+      readOnly !== undefined ? readOnly : props._schema.readOnly;
+    const _disabled =
+      disabled !== undefined ? disabled : props._schema.disabled;
 
     return () => {
       const _children = slots.default ? slots.default() : false;
@@ -174,7 +175,10 @@ export default defineComponent({
       const errorMessage = errObj && errObj.error; // 是一个list
       const hasError = Array.isArray(errorMessage) && errorMessage.length > 0;
       // 补上这个class，会自动让下面所有的展示ui变红！
-      const contentClass = hasError && showValidate ? _contentClass + ' ant-form-item-has-error' : _contentClass;
+      const contentClass =
+        hasError && showValidate
+          ? _contentClass + ' ant-form-item-has-error'
+          : _contentClass;
 
       let contentStyle = {};
 
@@ -190,7 +194,7 @@ export default defineComponent({
         schema: _schema,
         displayType,
         softHidden: displayType === 'inline', // 这个是如果没有校验信息时，展示与否
-        hardHidden: showValidate === false || _readOnly === true, // 这个是强制的展示与否
+        hardHidden: !showValidate || _readOnly === true, // 这个是强制的展示与否
       };
 
       const placeholderTitleProps = {
@@ -227,31 +231,46 @@ export default defineComponent({
             h(ExtendedWidget, { ...widgetProps }, { default: () => _children }),
             h(Extra, { ...widgetProps }),
             h(ErrorMessage, { ...messageProps }),
-          ])
-        ]
+          ]),
+        ];
       }
-      let TitleElement = h(FieldTitle, { ...titleProps })
+      let TitleElement = h(FieldTitle, { ...titleProps });
 
       if (isObjType(_schema)) {
         TitleElement = h('div', { style: { display: 'flex' } }, [
           TitleElement,
-          h(ErrorMessage, { ...messageProps })
-        ])
+          h(ErrorMessage, { ...messageProps }),
+        ]);
         return h('div', { style: contentStyle }, [
-          h(ExtendedWidget, { ...widgetProps, message: errorMessage, title: _showTitle ? TitleElement : undefined }, { default: () => _children }),
-          h(Extra, { ...widgetProps })
-        ])
+          h(
+            ExtendedWidget,
+            {
+              ...widgetProps,
+              message: errorMessage,
+              title: _showTitle ? TitleElement : undefined,
+            },
+            { default: () => _children },
+          ),
+          h(Extra, { ...widgetProps }),
+        ]);
       }
 
       return [
         _showTitle && TitleElement,
-        h('div', { class: `${contentClass} ${hideTitle ? 'fr-content-no-title' : ''}`, style: contentStyle }, [
-          h(ExtendedWidget, { ...widgetProps }, { default: () => _children }),
-          h(Extra, { ...widgetProps }),
-          h(ErrorMessage, { ...messageProps }),
-        ])
-      ]
-    }
-  }
-})
+        h(
+          'div',
+          {
+            class: `${contentClass} ${hideTitle ? 'fr-content-no-title' : ''}`,
+            style: contentStyle,
+          },
+          [
+            h(ExtendedWidget, { ...widgetProps }, { default: () => _children }),
+            h(Extra, { ...widgetProps }),
+            h(ErrorMessage, { ...messageProps }),
+          ],
+        ),
+      ];
+    };
+  },
+});
 </script>

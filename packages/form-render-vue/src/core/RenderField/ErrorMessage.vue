@@ -1,8 +1,8 @@
 <script lang="ts">
-import { defineComponent, h, PropType } from "vue";
+import { defineComponent, h, PropType } from 'vue';
 import { translateMessage } from '../../utils';
 import './ErrorMessage.less';
-import { PropSchema } from "../../../Interface";
+import { PropSchema } from '../../../Interface';
 
 export default defineComponent({
   inheritAttrs: false,
@@ -10,14 +10,14 @@ export default defineComponent({
     message: {},
     schema: {
       type: Object as PropType<PropSchema>,
-      default: ():PropSchema => ({})
+      default: (): PropSchema => ({}),
     },
     softHidden: { type: Boolean, default: false },
-    hardHidden: { type: Boolean, default: false }
+    hardHidden: { type: Boolean, default: false },
   },
   setup(props) {
     return () => {
-      const { message, schema, softHidden, hardHidden } = props
+      const { message, schema, softHidden, hardHidden } = props;
       let msg = '';
       if (typeof message === 'string') msg = message;
       if (Array.isArray(message)) {
@@ -28,8 +28,10 @@ export default defineComponent({
 
       if (hardHidden) return h('div', { class: `error-message` });
 
-      return !msg && softHidden ? null :h('div', { class: `error-message` }, msg)
-    }
-  }
+      return !msg && softHidden
+        ? null
+        : h('div', { class: `error-message` }, msg);
+    };
+  },
 });
 </script>

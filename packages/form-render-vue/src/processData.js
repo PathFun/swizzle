@@ -31,10 +31,10 @@ export const transformDataWithBind = (data, flatten) => {
   const bindKeys = [];
   const bindArrKeys = [];
 
-  const isMultiBind = bind =>
-    Array.isArray(bind) && bind.every(item => typeof item === 'string');
+  const isMultiBind = (bind) =>
+    Array.isArray(bind) && bind.every((item) => typeof item === 'string');
 
-  Object.keys(flatten).forEach(key => {
+  Object.keys(flatten).forEach((key) => {
     const bind =
       flatten[key] && flatten[key].schema && flatten[key].schema.bind;
     const _key = key.replace('[]', '');
@@ -47,11 +47,11 @@ export const transformDataWithBind = (data, flatten) => {
     }
   });
 
-  const handleBindData = formData => {
-    unbindKeys.forEach(key => {
+  const handleBindData = (formData) => {
+    unbindKeys.forEach((key) => {
       unset(formData, key); // TODO: maybe removing upper structure
     });
-    bindKeys.forEach(item => {
+    bindKeys.forEach((item) => {
       const { key, bind } = item;
       let temp = get(formData, key);
       const oldVal = get(formData, bind);
@@ -61,7 +61,7 @@ export const transformDataWithBind = (data, flatten) => {
       set(formData, bind, temp);
       unset(formData, key);
     });
-    bindArrKeys.forEach(item => {
+    bindArrKeys.forEach((item) => {
       const { key, bind } = item;
       const temp = get(formData, key);
       unset(formData, key);
@@ -84,10 +84,10 @@ export const transformDataWithBind2 = (data, flatten) => {
   const bindKeys = [];
   const bindArrKeys = [];
 
-  const isMultiBind = bind =>
-    Array.isArray(bind) && bind.every(item => typeof item === 'string');
+  const isMultiBind = (bind) =>
+    Array.isArray(bind) && bind.every((item) => typeof item === 'string');
 
-  Object.keys(flatten).forEach(key => {
+  Object.keys(flatten).forEach((key) => {
     const bind =
       flatten[key] && flatten[key].schema && flatten[key].schema.bind;
     const _key = key.replace('[]', '');
@@ -98,8 +98,8 @@ export const transformDataWithBind2 = (data, flatten) => {
     }
   });
 
-  const handleBindData2 = newData => {
-    bindKeys.forEach(item => {
+  const handleBindData2 = (newData) => {
+    bindKeys.forEach((item) => {
       const { key, bind } = item;
       let temp = get(newData, bind);
       // 如果已经有值了，要和原来的值合并，而不是覆盖
@@ -110,10 +110,10 @@ export const transformDataWithBind2 = (data, flatten) => {
       set(newData, key, temp);
       unset(newData, bind);
     });
-    bindArrKeys.forEach(item => {
+    bindArrKeys.forEach((item) => {
       const { key, bind } = item;
       const temp = [];
-      bind.forEach(b => {
+      bind.forEach((b) => {
         const bindValue = get(newData, b);
         if (bindValue !== undefined) {
           temp.push(bindValue);

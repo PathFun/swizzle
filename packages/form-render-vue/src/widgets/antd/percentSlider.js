@@ -1,7 +1,7 @@
 import React from 'react';
 import { InputNumber, Slider } from 'antd';
 
-const PercentSlider = p => {
+const PercentSlider = (p) => {
   const { max, min, step } = p.schema;
   let setting = {};
   if (max || max === 0) {
@@ -21,7 +21,7 @@ const PercentSlider = p => {
     hideNumber = true;
   }
 
-  const isPercent = string =>
+  const isPercent = (string) =>
     typeof string === 'string' && string.endsWith('%');
 
   let numberValue = 100;
@@ -29,17 +29,19 @@ const PercentSlider = p => {
     try {
       numberValue = Number(p.value.split('%')[0]);
       if (Number.isNaN(numberValue)) numberValue = 100;
-    } catch (error) {}
+    } catch (error) {
+      console.error(error);
+    }
   }
 
-  const handleChange = newNumber => {
+  const handleChange = (newNumber) => {
     const a = newNumber + '%';
     p.onChange(a);
   };
 
   const renderNumber = p.readonly ? (
     <span style={{ width: '80px' }}>
-      {p.value === (undefined || '') ? '-' : p.value + '%'}
+      {p.value === '' ? '-' : p.value + '%'}
     </span>
   ) : (
     <InputNumber
@@ -49,8 +51,8 @@ const PercentSlider = p => {
       value={numberValue}
       disabled={p.disabled}
       onChange={handleChange}
-      formatter={value => `${value}%`}
-      parser={value => value.replace('%', '')}
+      formatter={(value) => `${value}%`}
+      parser={(value) => value.replace('%', '')}
     />
   );
 
@@ -61,7 +63,7 @@ const PercentSlider = p => {
         {...setting}
         onChange={handleChange}
         max={100}
-        tipFormatter={v => v + '%'}
+        tipFormatter={(v) => v + '%'}
         value={numberValue || 100}
         disabled={p.disabled || p.readonly}
       />

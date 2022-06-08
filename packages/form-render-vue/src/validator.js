@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import {
   getDescriptorSimple,
   dataToKeys,
@@ -18,7 +17,7 @@ import { get, merge } from 'lodash-es';
 export const parseSchemaExpression = (schema, formData, path) => {
   if (!isObject(schema)) return schema;
   const result = {};
-  Object.keys(schema).forEach(key => {
+  Object.keys(schema).forEach((key) => {
     const item = schema[key];
     if (isObject(item)) {
       result[key] = parseSchemaExpression(item, formData, path);
@@ -41,7 +40,7 @@ const getRelatedPaths = (path, flatten) => {
 
   let result = [...parentPaths];
 
-  parentPaths.forEach(path => {
+  parentPaths.forEach((path) => {
     const { id, dataIndex } = destructDataPath(path);
     if (
       flatten[id] &&
@@ -49,11 +48,11 @@ const getRelatedPaths = (path, flatten) => {
       Array.isArray(flatten[id].schema.dependecies)
     ) {
       const deps = flatten[id].schema.dependecies;
-      const fullPathDeps = deps.map(dep => getDataPath(dep, dataIndex));
+      const fullPathDeps = deps.map((dep) => getDataPath(dep, dataIndex));
       result = [...result, ...fullPathDeps];
     }
   });
-  return removeDups(result).map(path => {
+  return removeDups(result).map((path) => {
     if (path.slice(-1) === ']') {
       const pattern = /\[[0-9]+\]$/;
       return path.replace(pattern, '');
@@ -66,8 +65,8 @@ const getRelatedPaths = (path, flatten) => {
 export const validateField = ({ path, formData, flatten, options }) => {
   const paths = getRelatedPaths(path, flatten);
   // console.log('all relevant paths:', paths);
-  const promiseArray = paths.map(path => {
-    const { id, dataIndex } = destructDataPath(path);
+  const promiseArray = paths.map((path) => {
+    const { id } = destructDataPath(path);
     if (flatten[id] || flatten[`${id}[]`]) {
       const item = flatten[id] || flatten[`${id}[]`];
       const singleData = get(formData, path);
@@ -80,17 +79,17 @@ export const validateField = ({ path, formData, flatten, options }) => {
   });
 
   return allPromiseFinish(promiseArray)
-    .then(res => {
+    .then((res) => {
       const errorFields = res
-        .filter(item => Array.isArray(item) && item.length > 0)
-        .map(item => {
+        .filter((item) => Array.isArray(item) && item.length > 0)
+        .map((item) => {
           const name = item[0].field;
-          const error = item.map(m => m.message).filter(m => !!m);
+          const error = item.map((m) => m.message).filter((m) => !!m);
           return { name, error };
         });
       return errorFields;
     })
-    .catch(e => {
+    .catch((e) => {
       console.log(e);
     });
 };
@@ -99,8 +98,8 @@ export const validateField = ({ path, formData, flatten, options }) => {
 const getAllPaths = (paths, flatten) => {
   if (!Array.isArray(paths)) return [];
   const result = [...paths]
-    .filter(p => p.indexOf(']') > -1)
-    .map(p1 => {
+    .filter((p) => p.indexOf(']') > -1)
+    .map((p1) => {
       const last = p1.lastIndexOf(']');
       return p1.substring(0, last + 1);
     });
@@ -108,18 +107,18 @@ const getAllPaths = (paths, flatten) => {
 
   const allFlattenPath = Object.keys(flatten);
   let res = [...paths];
-  uniqueResult.forEach(result => {
+  uniqueResult.forEach((result) => {
     const { id, dataIndex } = destructDataPath(result);
     if (flatten[id]) {
       const children = allFlattenPath.filter(
-        f => f.indexOf(id) === 0 && f !== id
+        (f) => f.indexOf(id) === 0 && f !== id,
       );
       const childrenWithIndex = children
-        .map(child => {
+        .map((child) => {
           const p = getDataPath(child, dataIndex);
           return p.split('[]')[0];
         })
-        .filter(i => !!i);
+        .filter((i) => !!i);
       res = [...res, ...removeDups(childrenWithIndex)];
     }
   });
@@ -135,8 +134,8 @@ export const validateAll = ({
   const allPaths = getAllPaths(paths, flatten);
   // console.log(formData, dataToKeys(formData), 'dataToKeysdataToKeys');
   // console.log('allPaths', allPaths);
-  const promiseArray = allPaths.map(path => {
-    const { id, dataIndex } = destructDataPath(path);
+  const promiseArray = allPaths.map((path) => {
+    const { id } = destructDataPath(path);
     if (flatten[id] || flatten[`${id}[]`]) {
       const item = flatten[id] || flatten[`${id}[]`];
       const singleData = get(formData, path);
@@ -149,20 +148,20 @@ export const validateAll = ({
   });
 
   return allPromiseFinish(promiseArray)
-    .then(res => {
+    .then((res) => {
       const errorFields = res
         .filter(
-          item =>
-            Array.isArray(item) && item.length > 0 && item[0].message !== null
+          (item) =>
+            Array.isArray(item) && item.length > 0 && item[0].message !== null,
         ) // NOTICE: different from validateField
-        .map(item => {
+        .map((item) => {
           const name = item[0].field;
-          const error = item.map(m => m.message).filter(m => !!m);
+          const error = item.map((m) => m.message).filter((m) => !!m);
           return { name, error };
         });
       return errorFields;
     })
-    .catch(e => {
+    .catch((e) => {
       console.log(e);
     });
 };
@@ -189,10 +188,10 @@ const validateSingle = (data, schema = {}, path, options = {}) => {
   validator.messages(messageFeed);
   return validator
     .validate({ [path]: data })
-    .then(res => {
+    .then(() => {
       return [{ field: path, message: null }];
     })
-    .catch(({ errors, fields }) => {
+    .catch(({ errors }) => {
       return errors;
     });
 };

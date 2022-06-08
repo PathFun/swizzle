@@ -133,7 +133,10 @@ export default defineComponent({
         children: childData,
       };
 
-      const getFieldsProps = (idx: number, extraProps?: object) => {
+      const getFieldsProps = (
+        idx: number,
+        extraProps?: { [key: string]: any },
+      ) => {
         return {
           formItem: itemFlatten,
           dataIndex: [...dataIndex, idx],

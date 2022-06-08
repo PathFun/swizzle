@@ -2,7 +2,7 @@
   "name": "form-render-vue3",
   "description": "form-render-vue",
   "author": "TQL<360603837@qq.com>",
-  "version": "1.0.3-beta.1",
+  "version": "1.0.4",
   "files": [
     "dist"
   ],
@@ -15,10 +15,15 @@
     },
     "./dist/style.css": "./dist/style.css"
   },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org"
+  },
   "repository": {
     "type": "git",
     "url": "git@github.com:PathFun/swizzle.git"
   },
+  "homepage": "https://pathfun.github.io/swizzle/form-render-vue/start/",
   "scripts": {
     "dev": "vite",
     "build": "vue-tsc --noEmit && vite build",

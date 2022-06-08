@@ -1,26 +1,27 @@
 <template>
   <ColorPicker
-      :value="color"
-      ref="colorPickerRef"
-      :disableAlpha="false"
-      :mode="mode"
-      @change="handleChange"/>
+    :value="color"
+    ref="colorPickerRef"
+    :disableAlpha="false"
+    :mode="mode"
+    @change="handleChange"
+  />
 </template>
 
 <script lang="ts">
 import { defineComponent, ref, onMounted } from 'vue';
-import ColorPicker from './ColorPicker.vue'
+import ColorPicker from './ColorPicker.vue';
 export default defineComponent({
   inheritAttrs: false,
   props: {
     value: {
       type: String,
-      default: '#FF0000'
+      default: '#FF0000',
     },
     mode: {
       type: String,
-      default: 'hex'
-    }
+      default: 'hex',
+    },
   },
   components: { ColorPicker },
   emits: ['update:value', 'change'],
@@ -33,20 +34,18 @@ export default defineComponent({
     });
 
     const handleChange = (colors: any) => {
-      const { mode } = props
+      const { mode } = props;
       emit('update:value', colors[mode] || colors.hex);
       emit('change', colors[mode] || colors.hex);
-    }
+    };
 
     return {
       handleChange,
       colorPickerRef,
-      color
-    }
-  }
-})
+      color,
+    };
+  },
+});
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

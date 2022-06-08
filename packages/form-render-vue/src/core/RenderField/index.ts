@@ -1,5 +1,3 @@
-import RenderField from "./RenderField.vue";
+import RenderField from './RenderField.vue';
 
-export {
-  RenderField
-}
+export { RenderField };

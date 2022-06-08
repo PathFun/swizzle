@@ -1,22 +1,25 @@
-import { getValueByPath } from "../utils";
-import { computed, PropType, watch } from "vue";
+import { getValueByPath } from '../utils';
+import { computed, PropType, watch } from 'vue';
 
-const Watcher = ({
+const Watcher = {
   props: {
     watchKey: String,
-    watchMap: Object as PropType<{ immediate?: boolean, handler: (...arg) => void }>,
+    watchMap: Object as PropType<{
+      immediate?: boolean;
+      handler: (...arg) => void;
+    }>,
     formData: Object,
-    firstMount: Boolean
+    firstMount: Boolean,
   },
   setup(props) {
     const runWatcher = (watchObj, watchKey, watchValue) => {
-      if (typeof watchObj === "function") {
+      if (typeof watchObj === 'function') {
         try {
           watchObj(watchValue);
         } catch (error) {
           console.log(`${watchKey}对应的watch函数执行报错：`, error);
         }
-      } else if (watchObj && typeof watchObj.handler === "function") {
+      } else if (watchObj && typeof watchObj.handler === 'function') {
         try {
           watchObj.handler(watchValue);
         } catch (error) {
@@ -25,7 +28,9 @@ const Watcher = ({
       }
     };
 
-    const value = computed(() => getValueByPath(props.formData, props.watchKey));
+    const value = computed(() =>
+      getValueByPath(props.formData, props.watchKey),
+    );
     const watchObj = props.watchMap[props.watchKey];
 
     watch(value, (newValue) => {
@@ -38,7 +43,7 @@ const Watcher = ({
         runWatcher(watchObj, props.watchKey, newValue);
       }
     });
-  }
-});
+  },
+};
 
 export default Watcher;

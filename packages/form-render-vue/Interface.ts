@@ -1,24 +1,24 @@
-import type { RuleItem } from "async-validator";
+import type { RuleItem } from 'async-validator';
 
 interface SchemaBase {
-  type: "string" | "number" | "boolean" | "array" | "object" | "range" | "html";
+  type: 'string' | 'number' | 'boolean' | 'array' | 'object' | 'range' | 'html';
   title: string;
   description: string;
-  descType: "text" | "icon";
+  descType: 'text' | 'icon';
   format:
-    | "image"
-    | "textarea"
-    | "color"
-    | "email"
-    | "url"
-    | "dateTime"
-    | "date"
-    | "time"
-    | "upload"
-    | "year"
-    | "month"
-    | "quarter"
-    | "week";
+    | 'image'
+    | 'textarea'
+    | 'color'
+    | 'email'
+    | 'url'
+    | 'dateTime'
+    | 'date'
+    | 'time'
+    | 'upload'
+    | 'year'
+    | 'month'
+    | 'quarter'
+    | 'week';
   default: any;
   /** 是否必填，支持 `'{{ formData.xxx === "" }}'` 形式的表达式 */
   required: boolean | string;
@@ -33,7 +33,7 @@ interface SchemaBase {
   readOnly: boolean | string;
   /** 是否隐藏，隐藏的字段不会在 formData 里透出，支持 `'{{ formData.xxx === "" }}'` 形式的表达式 */
   hidden: boolean | string;
-  displayType: "row" | "column" | "inline";
+  displayType: 'row' | 'column' | 'inline';
   width: string;
   labelWidth: number | string;
   className: string;
@@ -71,7 +71,7 @@ export interface FormParams {
   logOnMount?: (stats: any) => void;
   /** 数据分析接口，表单提交成功时触发，获得本次表单填写的总时长 */
   logOnSubmit?: (stats: any) => void;
-};
+}
 
 export interface ResetParams {
   formData?: any;
@@ -85,7 +85,7 @@ export interface ResetParams {
 
 export interface defaultSettings {
   id: string | number;
-  locale: "en" | "cn";
+  locale: 'en' | 'cn';
   validateMessages: { [key: string]: any };
   outErrorFields: Error[];
   beforeFinish: (...arg: any) => void;
@@ -126,14 +126,14 @@ export interface FormInstance {
   setEditing: (status: boolean) => void;
   _setErrors: (args: any) => void;
   setFirstMount: (firstMount: boolean) => void;
-};
+}
 
 export type WatchProperties = {
   [path: string]:
     | {
-    handler: (value: any) => void;
-    immediate?: boolean;
-  }
+        handler: (value: any) => void;
+        immediate?: boolean;
+      }
     | ((value: any) => void);
 };
 
@@ -141,7 +141,7 @@ export interface FRCoreProps {
   /** 表单的全局共享属性 */
   globalProps: any;
   /** 标签元素和输入元素的排列方式，column-分两行展示，row-同行展示，inline-自然顺排，默认`'column'` */
-  displayType: "column" | "row" | "inline" | undefined;
+  displayType: 'column' | 'row' | 'inline' | undefined;
   theme: string | number;
   column: string | number | undefined;
   debounceInput: boolean;
@@ -151,7 +151,7 @@ export interface FRCoreProps {
   labelWidth: string | number;
   /** 覆盖默认的校验信息 */
   validateMessages: any;
-  locale: "cn" | "en";
+  locale: 'cn' | 'en';
   /** 只读模式 */
   readOnly: boolean;
   /** 禁用模式 */
@@ -162,7 +162,7 @@ export interface FRCoreProps {
   widgets: any;
   /** 组件和schema的映射规则 */
   mapping: any;
-  watchMap: WatchProperties,
+  watchMap: WatchProperties;
   /** 时时与外部更新同步的钩子 */
   onValuesChange?: (changedValues: any, formData: any) => void;
-};
+}
