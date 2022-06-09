@@ -3,6 +3,7 @@
   "description": "form-render-vue",
   "author": "TQL<360603837@qq.com>",
   "version": "1.0.4",
+  "private": true,
   "files": [
     "dist"
   ],
