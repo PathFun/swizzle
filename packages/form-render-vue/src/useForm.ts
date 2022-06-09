@@ -357,7 +357,7 @@ const useForm = (props: FormParams) => {
     function (firstMount) {
       const { schema } = settings;
       if (firstMount && !isEmpty(schema)) {
-        flattenRef.value = flattenSchema(schema);
+        flattenRef.value = flattenSchema(schema, '#', null, {});
         Object.assign(state, {
           formData: props.formData
             ? generateDataSkeleton(schema, props.formData)

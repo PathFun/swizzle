@@ -22,8 +22,8 @@ jobs:
         run: yarn lint
       - name: ls-lint
         run: yarn ls-lint
-      - name: Test
-        run: yarn test
+      #      - name: Test
+      #        run: yarn test
       - name: Build
         run: yarn build:lerna
       - name: Build Docs

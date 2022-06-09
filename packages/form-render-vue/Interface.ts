@@ -1,6 +1,6 @@
 import type { RuleItem } from 'async-validator';
 
-interface SchemaBase {
+export interface SchemaBase {
   type: 'string' | 'number' | 'boolean' | 'array' | 'object' | 'range' | 'html';
   title: string;
   description: string;

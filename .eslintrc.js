@@ -19,6 +19,7 @@ module.exports = {
     '@typescript-eslint/explicit-module-boundary-types': 'off',
     'no-multiple-template-root': 'off',
     '@typescript-eslint/no-empty-function': 'off',
+    '@typescript-eslint/ban-ts-comment': 'off',
     'vue/no-multiple-template-root': 'off',
     '@typescript-eslint/no-explicit-any': 'off',
   },

@@ -15,8 +15,15 @@
     "esModuleInterop": true,
     "skipLibCheck": true,
     "allowJs": true,
-    "lib": ["ESNext", "DOM", "DOM.Iterable"],
+    "lib": ["ESNext", "DOM", "DOM.Iterable"]
   },
-  "include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.tsx", "src/**/*.vue", "src/**/*.js", "./**/*.js", "../**/*.js"],
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.vue",
+    "src/**/*.js",
+    "__tests__/**/*.ts",
+    "./**/*.js",
+    "../**/*.js"
+  ],
   "references": [{ "path": "./tsconfig.node.json" }]
 }
