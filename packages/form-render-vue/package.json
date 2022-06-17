@@ -2,13 +2,11 @@
   "name": "form-render-vue3",
   "description": "form-render-vue",
   "author": "TQL<360603837@qq.com>",
-  "version": "1.0.4",
-  "private": true,
+  "version": "1.0.5",
   "files": [
     "dist"
   ],
   "main": "./dist/form-render-vue.es.js",
-  "types": "index.d.ts",
   "module": "./dist/form-render-vue.es.js",
   "exports": {
     ".": {
