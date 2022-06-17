@@ -10,7 +10,7 @@ import {
   isCheckBoxType,
   isObjType,
 } from '../utils';
-import type { Error, PropSchema } from '../../Interface';
+import type { Error, PropSchema } from '../Interface';
 
 const coreRenderProps = {
   id: {

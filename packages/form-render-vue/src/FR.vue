@@ -12,7 +12,12 @@ import { ConfigProvider } from 'ant-design-vue';
 import zhCN from 'ant-design-vue/es/locale/zh_CN';
 import enUS from 'ant-design-vue/es/locale/en_US';
 import { FRCore } from './core';
-import { FormInstance, Schema, WatchProperties } from '../Interface';
+import {
+  FormInstance,
+  Schema,
+  WatchProperties,
+  ISubmitExposed,
+} from './Interface';
 import useForm from './useForm';
 import dayjs from 'dayjs';
 import 'dayjs/locale/zh-cn';
@@ -25,11 +30,8 @@ import { FormCtx } from './hooks';
 
 export { defaultWidgets, defaultMapping, useForm };
 
-export interface ISubmitExposed {
-  handleSubmit: () => Promise<{ data: any; errors: Error[] }>;
-}
-
 export default defineComponent({
+  name: 'FR',
   inheritAttrs: false,
   props: {
     form: {

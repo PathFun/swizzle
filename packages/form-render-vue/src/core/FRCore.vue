@@ -22,7 +22,7 @@ import {
 } from 'vue';
 import Core from './Core.vue';
 import { useFormStore, PropsCtx } from '../hooks';
-import { Schema, WatchProperties } from '../../Interface';
+import { Schema, WatchProperties } from '../Interface';
 import Watcher from './Watcher';
 
 export default defineComponent({

@@ -18,7 +18,7 @@ import {
   parseRootValueInSchema,
   clone,
 } from '../utils';
-import { PropSchema } from '../../Interface';
+import { PropSchema } from '../Interface';
 
 export default defineComponent({
   name: 'Core',

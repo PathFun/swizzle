@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { FR as FormRenderVue, useForm } from 'form-render-vue3';
-import { Button as AButton } from 'ant-design-vue';
+import FR, { useForm } from 'form-render-vue3';
 import type { Schema } from 'form-render-vue3';
+import { Button as AButton } from 'ant-design-vue';
 import { reactive, ref } from 'vue';
 const defaultFormData = reactive({});
 const form = useForm({ formData: defaultFormData, showValidate: true });
@@ -44,7 +44,7 @@ const onFinish = (formData: any, errors: string | any[]) => {
 };
 </script>
 <template>
-  <FormRenderVue
+  <FR
     :schema="schema"
     :form="form"
     displayType="row"

@@ -1,6 +1,10 @@
 <script lang="ts">
 import { defineComponent, CSSProperties, h, PropType, computed } from 'vue';
 import dayjs, { Dayjs } from 'dayjs';
+import weekday from 'dayjs/plugin/weekday';
+import localeData from 'dayjs/plugin/localeData';
+dayjs.extend(weekday);
+dayjs.extend(localeData);
 import { DatePicker } from 'ant-design-vue';
 import { getFormat } from '../../utils';
 

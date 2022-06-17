@@ -2,7 +2,7 @@
 import { defineComponent, PropType, h, ref } from 'vue';
 import Core from '../../Core.vue';
 import { Tabs } from 'ant-design-vue';
-import { PropSchema } from '../../../../Interface';
+import { PropSchema } from '../../../Interface';
 const { TabPane } = Tabs;
 
 const fnDefine = {

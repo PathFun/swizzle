@@ -5,7 +5,7 @@ import { Button, Table, Popconfirm } from 'ant-design-vue';
 import { ArrowUpOutlined, ArrowDownOutlined } from '@ant-design/icons-vue';
 import type { ColumnType } from 'ant-design-vue/es/vc-table/interface';
 
-import { PropSchema } from '../../../../Interface';
+import { PropSchema } from '../../../Interface';
 
 const fnDefine = {
   type: Function as PropType<(...args: any[]) => any>,

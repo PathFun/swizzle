@@ -1,7 +1,7 @@
 <script lang="ts">
 import { defineComponent, PropType, ref, watch } from 'vue';
 import { Collapse } from 'ant-design-vue';
-import { Schema } from '../../../Interface';
+import { Schema } from '../../Interface';
 const { Panel } = Collapse;
 
 declare type Key = string | number;

@@ -2,7 +2,7 @@
 import { defineComponent, h, PropType } from 'vue';
 import { translateMessage } from '../../utils';
 import './ErrorMessage.less';
-import { PropSchema } from '../../../Interface';
+import { PropSchema } from '../../Interface';
 
 export default defineComponent({
   inheritAttrs: false,

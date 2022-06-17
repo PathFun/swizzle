@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { FR as FormRenderVue, useForm } from 'form-render-vue3';
+import FR, { useForm } from 'form-render-vue3';
 import type { Schema } from 'form-render-vue3';
 const form = useForm({
   formData: {},
@@ -35,5 +35,5 @@ const basic: Schema = {
 };
 </script>
 <template>
-  <FormRenderVue :schema="basic" :form="form" />
+  <FR :schema="basic" :form="form" />
 </template>

@@ -4,8 +4,8 @@ import {
   defaultSettings,
   Error,
   ResetParams,
-} from '../Interface';
-import type { defaultPartialSettings } from '../Interface';
+} from './Interface';
+import type { defaultPartialSettings } from './Interface';
 import { reactive, ref, watch } from 'vue';
 import {
   flattenSchema,

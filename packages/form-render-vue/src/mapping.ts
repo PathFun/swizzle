@@ -1,6 +1,6 @@
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-nocheck
-import { Schema } from '../Interface';
+import { Schema } from './Interface';
 
 export const mapping = {
   default: 'input',

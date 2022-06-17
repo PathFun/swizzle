@@ -7,7 +7,7 @@ import Extra from './Extra.vue';
 import FieldTitle from './FieldTitle.vue';
 import { validateField } from '../../validator';
 import ExtendedWidget from './ExtendedWidget.vue';
-import { Error, PropSchema } from '../../../Interface';
+import { Error, PropSchema } from '../../Interface';
 import { debounce } from 'lodash-es';
 
 export default defineComponent({

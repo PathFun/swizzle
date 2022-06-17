@@ -2,6 +2,10 @@
 import { defineComponent, h, CSSProperties, PropType } from 'vue';
 import { DatePicker } from 'ant-design-vue';
 import dayjs, { Dayjs } from 'dayjs';
+import weekday from 'dayjs/plugin/weekday';
+import localeData from 'dayjs/plugin/localeData';
+dayjs.extend(weekday);
+dayjs.extend(localeData);
 import { getFormat } from '../../utils';
 export default defineComponent({
   name: 'DateRange',

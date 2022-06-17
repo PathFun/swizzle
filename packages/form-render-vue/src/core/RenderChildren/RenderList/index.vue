@@ -10,7 +10,7 @@ import './list.less';
 import { getDataPath } from '../../../utils';
 import { useFormStore } from '../../../hooks';
 import { get } from 'lodash-es';
-import { Error, PropSchema } from '../../../../Interface';
+import { Error, PropSchema } from '../../../Interface';
 
 export default defineComponent({
   name: 'RenderList',

@@ -1,6 +1,6 @@
 import { provide, inject, reactive } from 'vue';
 import { PROPS_PROVIDE_KEY, FORM_PROVIDE_KEY } from './symbols';
-import { FormInstance, FRCoreProps } from '../Interface';
+import { FormInstance, FRCoreProps } from './Interface';
 
 export const PropsCtx = function (defaultValue: FRCoreProps) {
   provide(PROPS_PROVIDE_KEY, defaultValue);

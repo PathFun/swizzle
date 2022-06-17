@@ -8,7 +8,7 @@ import {
   ArrowUpOutlined,
   ArrowDownOutlined,
 } from '@ant-design/icons-vue';
-import { PropSchema } from '../../../../Interface';
+import { PropSchema } from '../../../Interface';
 const fnDefine = {
   type: Function as PropType<(...args: any[]) => any>,
   default: () => () => {},

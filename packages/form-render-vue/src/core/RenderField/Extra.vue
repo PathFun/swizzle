@@ -2,7 +2,7 @@
 import { defineComponent, h, PropType } from 'vue';
 import { usePropsStore } from '../../hooks';
 import './Extra.less';
-import { PropSchema } from '../../../Interface';
+import { PropSchema } from '../../Interface';
 export default defineComponent({
   inheritAttrs: false,
   props: {

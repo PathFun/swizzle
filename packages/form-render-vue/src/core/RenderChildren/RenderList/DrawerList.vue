@@ -5,7 +5,7 @@ import { getDataPath, getKeyFromPath, getDisplayValue } from '../../../utils';
 import { Button, Table, Drawer, Popconfirm } from 'ant-design-vue';
 import { ArrowUpOutlined, ArrowDownOutlined } from '@ant-design/icons-vue';
 import ErrorMessage from '../../RenderField/ErrorMessage.vue';
-import { Error, PropSchema } from '../../../../Interface';
+import { Error, PropSchema } from '../../../Interface';
 
 const FIELD_LENGTH = 170;
 const fnDefine = {

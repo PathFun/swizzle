@@ -11,7 +11,7 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "allowSyntheticDefaultImports": true,
-    "baseUrl": ".",
+    "baseUrl": "./",
     "esModuleInterop": true,
     "skipLibCheck": true,
     "allowJs": true,
@@ -23,7 +23,8 @@
     "src/**/*.js",
     "__tests__/**/*.ts",
     "./**/*.js",
-    "../**/*.js"
+    "../**/*.js",
+    "./**.ts"
   ],
   "references": [{ "path": "./tsconfig.node.json" }]
 }

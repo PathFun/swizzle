@@ -166,3 +166,7 @@ export interface FRCoreProps {
   /** 时时与外部更新同步的钩子 */
   onValuesChange?: (changedValues: any, formData: any) => void;
 }
+
+export interface ISubmitExposed {
+  handleSubmit: () => Promise<{ data: any; errors: Error[] }>;
+}

@@ -4,7 +4,7 @@ import { usePropsStore, useFormStore } from '../../hooks';
 import { extraSchemaList, getWidgetName } from '../../mapping';
 import { isListType, isObjType } from '../../utils';
 import { transformProps } from '../../createWidget';
-import { PropSchema } from '../../../interface';
+import { PropSchema } from '../../Interface';
 
 const ErrorSchema = defineComponent({
   inheritAttrs: false,
