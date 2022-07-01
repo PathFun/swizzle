@@ -19,6 +19,7 @@ import {
   PropType,
   onUnmounted,
   computed,
+  watch,
 } from 'vue';
 import Core from './Core.vue';
 import { useFormStore, PropsCtx } from '../hooks';
@@ -32,7 +33,7 @@ export default defineComponent({
     Core,
     Watcher,
   },
-  emits: ['finish', 'beforeFinish', 'valuesChange'],
+  emits: ['finish', 'beforeFinish', 'valuesChange', 'mount'],
   props: {
     schema: {
       type: Object as PropType<Schema>,
@@ -107,14 +108,22 @@ export default defineComponent({
     const form = useFormStore();
     const handleSubmit = async () => await form.submit();
 
-    form.setDefault({
-      beforeFinish: (...args: any[]) => emit('beforeFinish', ...args),
-      onFinish: (...args: any[]) => emit('finish', ...args),
-      validateMessages: props.validateMessages,
-      locale: props.locale,
-      id: props.id,
-      schema: props.schema,
+    watch(props.schema, () => {
+      init();
     });
+
+    const init = () => {
+      form.setDefault({
+        beforeFinish: (...args: any[]) => emit('beforeFinish', ...args),
+        onFinish: (...args: any[]) => emit('finish', ...args),
+        validateMessages: props.validateMessages,
+        locale: props.locale,
+        id: props.id,
+        schema: props.schema,
+      });
+    };
+
+    init();
 
     PropsCtx({
       globalProps: props.globalProps,
@@ -140,6 +149,21 @@ export default defineComponent({
 
     const watchList = computed<string[]>(
       () => Object.keys(props.watchMap) || [],
+    );
+
+    watch(
+      [() => props.schema, () => form.firstMount],
+      ([schema, firstMount]) => {
+        if (
+          !firstMount &&
+          schema &&
+          Object.prototype.hasOwnProperty.call(schema, 'type')
+        ) {
+          setTimeout(() => {
+            emit('mount');
+          }, 0);
+        }
+      },
     );
 
     onUnmounted(function () {

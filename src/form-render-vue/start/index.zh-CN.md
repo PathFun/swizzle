@@ -146,30 +146,36 @@ AABJRU5ErkJggg==" />
 
 > 一站式中后台**表单解决方案**
 
-FormRenderVue 是借鉴React版FormRender实现的Vue版表单解决方案，具体功能介绍可详见react版的[FormRender](https://x-render.gitee.io/form-render)
+FormRenderVue 是借鉴 React 版 FormRender 实现的 Vue 版表单解决方案，具体功能介绍可详见 react 版的[FormRender](https://x-render.gitee.io/form-render)
 
 ### 安装
 
-FormRenderVue 依赖 ant design vue，单独使用不要忘记同时安装 `ant-design-vue`,同时引入ant-design-vue的样式
+FormRenderVue 依赖 ant design vue，单独使用不要忘记同时安装 `ant-design-vue`,同时引入 ant-design-vue 的样式
+
 ##### npm
+
 ```shell
 npm i form-render-vue3 --save
 ```
+
 ##### yarn
+
 ```shell
 yarn add form-render-vue3
 ```
+
 ##### main.ts
+
 ```shell
 import 'form-render-vue3/dist/style.css';
 ```
 
 ### 使用
+
 <demo src="./components/Simple.vue"
 language="vue"
 title="最简使用 demo：">
 </demo>
-
 
 **换一个更复杂一点的 schema，FR 支持数据绑定、antd 的 props 透传、表单联动等一系列功能：**
 
@@ -177,13 +183,13 @@ title="最简使用 demo：">
 language="vue">
 </demo>
 
-**从 demo 中我们不难发现 FormRenderVue 的一些设计是遵循[FormRender](https://x-render.gitee.io/form-render) React的设计的：**
+**从 demo 中我们不难发现 FormRenderVue 的一些设计是遵循[FormRender](https://x-render.gitee.io/form-render) React 的设计的：**
+
 1. 以 schema 来描述表单展示，提交方式与 antd v4 的方式类似
 2. schema 以国际标准的 JSON schema 为基础，同时能够方便使用任何 antd 的 props
 3. 通过 bind 字段，我们允许数据的双向绑定，数据展示和真实提交的数据可以根据开发需求不同（例如从服务端接口拿到不规则数据时，也能直接使用）
 4. 使用`{{ "\{\{...\}\}" }}`书写表达式来完成简单的联动，值得一提的是，这里表达式支持所有 js 语法。FR 还提供自定义组件、dependencies 声明、watch 等工具用于更加复杂的定制
 5. 可以通过`displayType`,`labelWidth`等字段轻易修改展示
-
 
 ### 高级用法
 
@@ -200,47 +206,48 @@ language="vue">
 ### 组件 Props
 
 ```js
-import { FR } from 'form-render-vue';
+import FR, { useForm } from 'form-render-vue';
 ```
 
 #### \<FR \/> props
-| 参数                | 描述                                                | 类型                                                                  | 是否必填  | 默认值    |
-|-------------------|---------------------------------------------------|---------------------------------------------------------------------|-------|--------|
-| id                | 表单的 id，一般用于标识一个表单的语义化名称                           | `string`/`number`                                                   | 否     |        |
-| form              | 表单的form对象`如下`                                     | `object`                                                            | 是     |        |
-| schema            | 描述表单的 schema，[详见](/form-render-vue/agree/schema/) | `object`                                                            | 是     |        |
-| finish            | 提交后的回调，执行 submit() 后触发                            | `(data, errors: Error[]) => void`                                   | 否     | () => {} |
-| beforeFinish      | 在 finish 前触发，一般用于外部校验逻辑的回填，入参是个对象，便于扩展            | `({ data, errors, schema, ...rest }) => Error[] 或 Promise<Error[]>` | 否     | () => {} |
-| configProvider    | ant-design-vue 的 configProvider，配置透传              | `object`                                                            | 否     | {}     |
-| widgets           | 自定义组件，当内置组件无法满足时使用                                | `object`                                                            | 否     | {}     |
-| mapping           | schema 与组件的映射关系表，当内置的表不满足时使用                      | `object`                                                            | 否     | {}     |
-| allCollapsed      | 对象组件是否默认折叠（全局）                                    | `boolean`                                                           | 否     | false  |
-| validateMessages  | 修改默认的校验提示信息。详见下                                   | `object`                                                            | 否     | {}     |
-| style             | 顶层 style                                          | `object`                                                            | 否     | {}     |
-| className         | 顶层 className                                      | `string`                                                            | 否     | ''     |
-| globalProps       | 全局配置                                              | `object`                                                            | 否     | {}     |
-| labelWidth        | 一行展示多少列                                           | `string`/`number`                                                   | 否     | 110    |
-| column            | 一行展示多少列                                           | `number`                                                            | 否     | 1      |
-| debounceInput     | 是否开启输入时使用快照模式。仅建议在表单巨大且表达式非常多时开启                  | `boolean`                                                           | 否     | false  |
-| debug             | 开启 debug 模式，时时显示表单内部状态，开发的时候强烈建议打开                | `boolean`                                                           | 否     | false  |
-| size              | 表单大小                                              | `string('large' / 'small' / 'default')`                             | 否     | 'small' |
-| displayType       | 表单元素与 label 同行 or 分两行展示, inline 则整个展示自然顺排         | `string('column' / 'row' / 'inline')`                               | 否     | 'column' |
-| disabled          | 禁用模式，全部表单元素禁用                                     | `boolean`                                                           | 否     | false  |
-| readOnly          | 只读模式，一般用于预览展示，全文 text 展示                          | `boolean`                                                           | 否     | false  |
-| locale            | 展示语言，目前只支持中文、英文                                   | `string('cn'/'en')`                                                 | 否     | 'cn'    |
-| theme             | 展示主题                                              | `string('1'/'2')`                                                   | 否     |      |
 
-#### form 参数
+| 参数             | 描述                                                                 | 类型                                                                 | 是否必填 | 默认值   |
+| ---------------- | -------------------------------------------------------------------- | -------------------------------------------------------------------- | -------- | -------- |
+| id               | 表单的 id，一般用于标识一个表单的语义化名称                          | `string`/`number`                                                    | 否       |          |
+| form             | 表单的 form 对象`如下`                                               | `object`                                                             | 是       |          |
+| schema           | 描述表单的 schema，[详见](/form-render-vue/agree/schema/)            | `object`                                                             | 是       |          |
+| finish           | 提交后的回调，执行 submit() 后触发                                   | `(data, errors: Error[]) => void`                                    | 否       | () => {} |
+| beforeFinish     | 在 finish 前触发，一般用于外部校验逻辑的回填，入参是个对象，便于扩展 | `({ data, errors, schema, ...rest }) => Error[] 或 Promise<Error[]>` | 否       | () => {} |
+| configProvider   | ant-design-vue 的 configProvider，配置透传                           | `object`                                                             | 否       | {}       |
+| widgets          | 自定义组件，当内置组件无法满足时使用                                 | `object`                                                             | 否       | {}       |
+| mapping          | schema 与组件的映射关系表，当内置的表不满足时使用                    | `object`                                                             | 否       | {}       |
+| allCollapsed     | 对象组件是否默认折叠（全局）                                         | `boolean`                                                            | 否       | false    |
+| validateMessages | 修改默认的校验提示信息。详见下                                       | `object`                                                             | 否       | {}       |
+| style            | 顶层 style                                                           | `object`                                                             | 否       | {}       |
+| className        | 顶层 className                                                       | `string`                                                             | 否       | ''       |
+| globalProps      | 全局配置                                                             | `object`                                                             | 否       | {}       |
+| labelWidth       | 一行展示多少列                                                       | `string`/`number`                                                    | 否       | 110      |
+| column           | 一行展示多少列                                                       | `number`                                                             | 否       | 1        |
+| debounceInput    | 是否开启输入时使用快照模式。仅建议在表单巨大且表达式非常多时开启     | `boolean`                                                            | 否       | false    |
+| debug            | 开启 debug 模式，时时显示表单内部状态，开发的时候强烈建议打开        | `boolean`                                                            | 否       | false    |
+| size             | 表单大小                                                             | `string('large' / 'small' / 'default')`                              | 否       | 'small'  |
+| displayType      | 表单元素与 label 同行 or 分两行展示, inline 则整个展示自然顺排       | `string('column' / 'row' / 'inline')`                                | 否       | 'column' |
+| disabled         | 禁用模式，全部表单元素禁用                                           | `boolean`                                                            | 否       | false    |
+| readOnly         | 只读模式，一般用于预览展示，全文 text 展示                           | `boolean`                                                            | 否       | false    |
+| locale           | 展示语言，目前只支持中文、英文                                       | `string('cn'/'en')`                                                  | 否       | 'cn'     |
+| theme            | 展示主题                                                             | `string('1'/'2')`                                                    | 否       |          |
 
-| 参数             | 描述                              | 类型                                              | 是否必填    | 默认值        |
-| ---------------- |---------------------------------|-------------------------------------------------|---------|------------|
-| formData         | 表单的初始值                          | `object`                                        | 否       |            |
-| onChange         | 表单发生改变时触发的方法                    | `(data: formData) => void`                      | 否       |            |
-| onValidate       | 表单校验不成功后触发                      | `(errors: Error[]) => void`                     | 否       | () => {}   |
-| showValidate     | 是否显示表单校验                        | `boolean`                                       | 否       | false      |
-| logOnMount       | 数据分析接口，表单展示完成渲染时触发              | `logOnMount?: (stats: any) => void`             | 否       | () => {}   |
-| logOnSubmit      | 数据分析接口，表单提交成功时触发，获得本次表单填写的总时长   | `logOnSubmit?: (stats: any) => void`            | 否       | () => {}   |
-| removeHiddenData | 提交数据的时候是否去掉已经被隐藏的元素的数据，默认不隐藏    | `boolean`                                       | 否       | false      |
+#### useForm 参数
+
+| 参数             | 描述                                                       | 类型                                 | 是否必填 | 默认值   |
+| ---------------- | ---------------------------------------------------------- | ------------------------------------ | -------- | -------- |
+| formData         | 表单的初始值                                               | `object`                             | 否       |          |
+| onChange         | 表单发生改变时触发的方法                                   | `(data: formData) => void`           | 否       |          |
+| onValidate       | 表单校验不成功后触发                                       | `(errors: Error[]) => void`          | 否       | () => {} |
+| showValidate     | 是否显示表单校验                                           | `boolean`                            | 否       | false    |
+| logOnMount       | 数据分析接口，表单展示完成渲染时触发                       | `logOnMount?: (stats: any) => void`  | 否       | () => {} |
+| logOnSubmit      | 数据分析接口，表单提交成功时触发，获得本次表单填写的总时长 | `logOnSubmit?: (stats: any) => void` | 否       | () => {} |
+| removeHiddenData | 提交数据的时候是否去掉已经被隐藏的元素的数据，默认不隐藏   | `boolean`                            | 否       | false    |
 
 #### validateMessages
 
@@ -254,33 +261,32 @@ const validateMessages = {
 
 <FormRenderVue validateMessages={validateMessages} />;
 ```
+
 目前可以用的转义字段为 `${title}`/`${min}`/`${max}`/`${len}`/`${pattern}`, 如果有更多需求请提 [issue](https://github.com/PathFun/swizzle/issues/new/choose)
 
 **form 方法**
 
-
 | 参数             | 描述                                                | 类型                                                                                                             |
-| ---------------- | --------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------- |
+| ---------------- | --------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------- | ----------------- |
 | submit           | 触发提交流程，一般在提交按钮上使用                  | `() => void`                                                                                                     |
 | resetFields      | 清空表单（也会清空一些内置状态，例如校验）          | `({formData?: any, submitData?: any, errorFields?: Error[], touchedKeys?: any[], allTouched?: boolean}) => void` |
 | errorFields      | 表单校验错误的数组                                  | `array,[{name, error: []}]`                                                                                      |
-| setErrorFields   | 外部手动修改 errorFields 校验信息，用于外部校验回填 | `(error: Error | Error[]) => void`                                                                               |
+| setErrorFields   | 外部手动修改 errorFields 校验信息，用于外部校验回填 | `(error: Error                                                                                                   | Error[]) => void` |
 | setValues        | 外部手动修改 formData，用于已填写的表单的数据回填   | `(formData: any) => void`                                                                                        |
 | setValueByPath   | 外部修改指定单个 field 的数据(原名 onItemChange)    | `(path: string, value: any) => void`                                                                             |
 | setSchemaByPath  | 指定路径修改 schema                                 | `(path: string, value: any) => void`                                                                             |
 | setSchema        | 指定**多个**路径修改 schema。注 1                   | `({ path1: value1, path2: value2 }) => void`                                                                     |
 | getValues        | 获取表单内部维护的数据 formData                     | `() => void`                                                                                                     |
-| schema           | 表单的 schema                                       | `object`                                                                                                           |
+| schema           | 表单的 schema                                       | `object`                                                                                                         |
 | touchedKeys      | 已经触碰过的 field 的数据路径                       | `string[]`                                                                                                       |
 | removeErrorField | 外部手动删除某一个 path 下所有的校验信息            | `(path: string) => void`                                                                                         |
 | formData         | 表单内部维护的数据，建议使用 getValues/setValues    | `object`                                                                                                         |
-
 
 ### 如何速写 Schema
 
 **对于初学者来说记住 schema 所有的字段和使用方式并非易事。为了让大家能够快速上手，建议以以下的顺序尝试：**
 
-1. 去 react版本 [Playground](https://xrender.fun/playground) 逛逛，那里有从基础玩法、高级功能到完整样例的所有 schema 样例，FormRenderVue基本参照了FormRender的schema设计， 如有不一致请提 [issue](https://github.com/PathFun/swizzle/issues/new/choose)
+1. 去 react 版本 [Playground](https://xrender.fun/playground) 逛逛，那里有从基础玩法、高级功能到完整样例的所有 schema 样例，FormRenderVue 基本参照了 FormRender 的 schema 设计， 如有不一致请提 [issue](https://github.com/PathFun/swizzle/issues/new/choose)
 2. 玩转一下 [表单设计器](https://x-render.gitee.io/tools/generator)，拖拖拽拽导出 schema，丢到代码里生成可用表单。本质上这是一个可视化的 schema 生成器，支持 schema 的导入 & 导出
 
    <div>

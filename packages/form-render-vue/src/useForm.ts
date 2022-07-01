@@ -6,7 +6,7 @@ import {
   ResetParams,
 } from './Interface';
 import type { defaultPartialSettings } from './Interface';
-import { reactive, ref, watch } from 'vue';
+import { reactive, ref, watch, watchEffect } from 'vue';
 import {
   flattenSchema,
   generateDataSkeleton,
@@ -19,6 +19,8 @@ import {
 import { processData, transformDataWithBind2 } from './processData';
 import { validateAll } from './validator';
 import { set, sortedUniqBy, isEmpty } from 'lodash-es';
+
+let renderCount = 0;
 
 const useForm = (props: FormParams) => {
   const {
@@ -190,6 +192,7 @@ const useForm = (props: FormParams) => {
 
   const setDefault = (newSettings: defaultPartialSettings) => {
     Object.assign(settings, { ...newSettings });
+    renderCount++;
     setFirstMount(true);
   };
 
@@ -231,7 +234,6 @@ const useForm = (props: FormParams) => {
             return { data: res, errors: _errors };
           });
         }
-
         return Promise.resolve(
           processData(state.formData, flattenRef.value, removeHiddenData),
         ).then((res) => {
@@ -341,16 +343,13 @@ const useForm = (props: FormParams) => {
 
   const state = reactive(stateObj);
 
-  watch(
-    () => props.formData,
-    function (newValue) {
-      const { schema } = settings;
-      if (isEmpty(schema)) return;
-      Object.assign(state, {
-        formData: newValue ? generateDataSkeleton(schema, newValue) : {},
-      });
-    },
-  );
+  watch(props.formData, function (newValue) {
+    const { schema } = settings;
+    if (isEmpty(schema)) return;
+    Object.assign(state, {
+      formData: newValue ? generateDataSkeleton(schema, newValue) : {},
+    });
+  });
 
   watch(
     () => state.firstMount,
@@ -362,10 +361,10 @@ const useForm = (props: FormParams) => {
           formData: props.formData
             ? generateDataSkeleton(schema, props.formData)
             : {},
-          firstMount: false,
         });
-        expressionFun();
       }
+      setFirstMount(false);
+      expressionFun();
     },
   );
 

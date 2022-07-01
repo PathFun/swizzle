@@ -162,9 +162,9 @@ module.exports = {
       },
     },
     algolia: {
-      appId: 'JQT0TMFRPZ',
-      apiKey: '39339aab045bb6f2ed85d423eaa29966',
-      indexName: 'docs',
+      appId: '5QY7ROJNH7',
+      apiKey: '617406dd57df997e4d24fd3814a08603',
+      indexName: 'swizzle',
     },
     prevLink: true,
     nextLink: true,

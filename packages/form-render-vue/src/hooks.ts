@@ -47,7 +47,7 @@ export const useFormStore = () =>
       setValues: (formData) => {},
       getValues: () => {},
       resetFields: (options) => {},
-      submit: () => new Promise((resolve, reject) => {}),
+      submit: () => new Promise((_resolve, reject) => {}),
       errorFields: [],
       isValidating: false,
       outsideValidating: false,

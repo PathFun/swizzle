@@ -153,7 +153,7 @@ export const validateAll = ({
         .filter(
           (item) =>
             Array.isArray(item) && item.length > 0 && item[0].message !== null,
-        ) // NOTICE: different from validateField
+        )
         .map((item) => {
           const name = item[0].field;
           const error = item.map((m) => m.message).filter((m) => !!m);

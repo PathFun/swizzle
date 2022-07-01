@@ -110,7 +110,7 @@ export default defineComponent({
     FRCore,
     ConfigProvider,
   },
-  emits: ['finish', 'beforeFinish', 'valuesChange'],
+  emits: ['finish', 'beforeFinish', 'valuesChange', 'mount'],
   setup(props, { expose }) {
     FormCtx(props.form);
 
@@ -180,6 +180,7 @@ export default defineComponent({
         @valuesChange="(...arg) => $emit('valuesChange', ...arg)"
         @finish="(...arg) => $emit('finish', ...arg)"
         @beforeFinish="(...arg) => $emit('beforeFinish', ...arg)"
+        @mount="$emit('mount')"
         v-bind="{
           widgets: { ...defaultWidgets, ...widgets },
           locale,

@@ -1,23 +1,16 @@
+/** * @desc: * @author TQL * @date 2022/7/1 * @name Load */
 <script lang="ts" setup>
-import 'ant-design-vue/dist/antd.css';
 import { Button, Space, message } from 'ant-design-vue';
-import FR, { useForm } from './FR.vue';
+import { fakeApi, delay } from '../../../../utils';
+import FR, { useForm } from 'form-render-vue3';
 import { reactive } from 'vue';
-
-const delay = (ms: number) => new Promise((res) => setTimeout(res, ms));
-const fakeApi = (url = '', data = {}) => {
-  console.group('request:', url);
-  console.log('params:', data);
-  console.groupEnd();
-  return delay(500);
-};
 
 const formData = reactive({});
 
 const form = useForm({
   formData,
   showValidate: true,
-  onChange: (newFormData) => {
+  onChange: (newFormData: any) => {
     Object.assign(formData, newFormData);
   },
 });

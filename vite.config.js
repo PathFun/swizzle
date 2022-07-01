@@ -13,6 +13,11 @@ export default {
     exclude: [],
   },
   plugins: [vue(), vueJsx()],
+  resolve: {
+    alias: {
+      '@': resolve(__dirname, './src'),
+    },
+  },
   build: {
     minify: true,
     lib: {

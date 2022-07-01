@@ -1,53 +1,36 @@
+/** * @desc: * @author TQL * @date 2022/7/1 * @name Load */
 <script lang="ts" setup>
-import 'ant-design-vue/dist/antd.css';
 import { Button, Space, message } from 'ant-design-vue';
-import FR, { useForm } from './FR.vue';
+import { fakeApi, delay } from '../../../../utils';
+import FR, { useForm } from 'form-render-vue3';
 import { reactive } from 'vue';
-
-const delay = (ms: number) => new Promise((res) => setTimeout(res, ms));
-const fakeApi = (url = '', data = {}) => {
-  console.group('request:', url);
-  console.log('params:', data);
-  console.groupEnd();
-  return delay(500);
-};
 
 const formData = reactive({});
 
 const form = useForm({
   formData,
   showValidate: true,
-  onChange: (newFormData) => {
+  onChange: (newFormData: any) => {
     Object.assign(formData, newFormData);
   },
 });
-const schema = reactive({});
+const schema = {
+  type: 'object',
+  properties: {
+    dateRange: {
+      bind: ['startDate', 'endDate'],
+      title: '日期范围',
+      type: 'range',
+      format: 'date',
+    },
+  },
+};
 
 const getRemoteData = () => {
   fakeApi('xxx/getForm').then((_) => {
-    form.setValues({ input1: 'hello world', select1: 'c' });
+    form.setValues({ startDate: '2020-04-04', endDate: '2020-04-24' });
   });
 };
-
-// 异步加载表单
-delay(1000).then((_) => {
-  Object.assign(schema, {
-    type: 'object',
-    properties: {
-      input1: {
-        title: '简单输入框',
-        type: 'string',
-        required: true,
-      },
-      select1: {
-        title: '单选',
-        type: 'string',
-        enum: ['a', 'b', 'c'],
-        enumNames: ['早', '中', '晚'],
-      },
-    },
-  });
-});
 
 const onFinish = (data: any, errors: any[]) => {
   if (errors.length > 0) {
