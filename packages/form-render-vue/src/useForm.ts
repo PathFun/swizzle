@@ -6,7 +6,7 @@ import {
   ResetParams,
 } from './Interface';
 import type { defaultPartialSettings } from './Interface';
-import { reactive, ref, watch, watchEffect } from 'vue';
+import { reactive, ref, watch } from 'vue';
 import {
   flattenSchema,
   generateDataSkeleton,
@@ -22,7 +22,7 @@ import { set, sortedUniqBy, isEmpty } from 'lodash-es';
 
 let renderCount = 0;
 
-const useForm = (props: FormParams) => {
+const useForm = (props?: FormParams) => {
   const {
     removeHiddenData = false,
     onChange,
@@ -30,7 +30,7 @@ const useForm = (props: FormParams) => {
     showValidate,
     logOnMount = window.FR_LOGGER && window.FR_LOGGER.logOnMount,
     logOnSubmit = window.FR_LOGGER && window.FR_LOGGER.logOnSubmit,
-  } = props;
+  } = props || {};
 
   const settings: defaultSettings = {
     validateMessages: {},
@@ -343,7 +343,7 @@ const useForm = (props: FormParams) => {
 
   const state = reactive(stateObj);
 
-  watch(props.formData, function (newValue) {
+  watch(props?.formData, function (newValue) {
     const { schema } = settings;
     if (isEmpty(schema)) return;
     Object.assign(state, {
@@ -358,7 +358,7 @@ const useForm = (props: FormParams) => {
       if (firstMount && !isEmpty(schema)) {
         flattenRef.value = flattenSchema(schema, '#', null, {});
         Object.assign(state, {
-          formData: props.formData
+          formData: props?.formData
             ? generateDataSkeleton(schema, props.formData)
             : {},
         });

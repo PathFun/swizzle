@@ -16,7 +16,6 @@ const formData = reactive({});
 
 const form = useForm({
   formData,
-  showValidate: true,
   onChange: (newFormData) => {
     Object.assign(formData, newFormData);
   },
