@@ -363,8 +363,10 @@ const useForm = (props?: FormParams) => {
             : {},
         });
       }
-      setFirstMount(false);
-      expressionFun();
+      setTimeout(function () {
+        setFirstMount(false);
+        expressionFun();
+      }, 0);
     },
   );
 

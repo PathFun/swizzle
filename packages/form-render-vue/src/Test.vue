@@ -59,11 +59,20 @@ const onFinish = (data: any, errors: any[]) => {
     fakeApi('xxx/submit', data).then((_) => message.success('提交成功！'));
   }
 };
+
+const watchMap = {
+  '#': (v) => console.log(v),
+};
 </script>
 
 <template>
   <div style="width: 400px">
-    <FR :form="form" :schema="schema" @finish="onFinish" />
+    <FR
+      :form="form"
+      :schema="schema"
+      @finish="onFinish"
+      :watch-map="watchMap"
+    />
     <Space>
       <Button @click="getRemoteData">加载服务端数据</Button>
       <Button type="primary" @click="() => form.submit()">
