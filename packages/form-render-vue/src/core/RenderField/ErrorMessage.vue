@@ -26,6 +26,8 @@ export default defineComponent({
 
       msg = translateMessage(msg, schema);
 
+      if (!msg) return null;
+
       if (hardHidden) return h('div', { class: `error-message` });
 
       return !msg && softHidden

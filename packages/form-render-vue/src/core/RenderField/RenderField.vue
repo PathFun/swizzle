@@ -72,16 +72,6 @@ export default defineComponent({
       onValuesChange,
     } = useProps;
 
-    const {
-      formData,
-      flatten,
-      showValidate,
-      onItemChange,
-      setEditing,
-      touchKey,
-      _setErrors,
-    } = form;
-
     const removeDupErrors = (arr: Error[]) => {
       if (!Array.isArray(arr)) {
         console.log('in removeDumps: param is not an array');
@@ -109,10 +99,10 @@ export default defineComponent({
       );
     };
 
-    const debouncedSetEditing = debounce(setEditing, 350);
+    const debouncedSetEditing = debounce(form.setEditing, 350);
 
-    // TODO: 优化一下，只有touch还是false的时候，setTouched
     const onChange = (value: any) => {
+      const { onItemChange, setEditing, touchKey, _setErrors } = form;
       const { dataPath } = props;
       // 动过的key，算被touch了, 这里之后要考虑动的来源
       touchKey(dataPath);
@@ -126,13 +116,12 @@ export default defineComponent({
       }
       // 先不暴露给外部，这个api
       if (typeof onValuesChange === 'function') {
-        onValuesChange({ [dataPath]: value }, formData);
+        onValuesChange({ [dataPath]: value }, form.formData);
       }
-
       validateField({
         path: dataPath,
-        formData: formData,
-        flatten,
+        formData: form.formData,
+        flatten: form.flatten,
         options: {
           locale,
           validateMessages,
@@ -146,7 +135,7 @@ export default defineComponent({
     };
 
     const _getValue = (path: any) => {
-      return getValueByPath(formData, path);
+      return getValueByPath(form.formData, path);
     };
 
     const _readOnly =
@@ -155,6 +144,7 @@ export default defineComponent({
       disabled !== undefined ? disabled : props._schema.disabled;
 
     return () => {
+      const { onItemChange, showValidate, formData } = form;
       const _children = slots.default ? slots.default() : false;
       const {
         fieldId,

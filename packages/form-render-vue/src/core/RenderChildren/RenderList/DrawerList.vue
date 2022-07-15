@@ -6,6 +6,7 @@ import { Button, Table, Drawer, Popconfirm } from 'ant-design-vue';
 import { ArrowUpOutlined, ArrowDownOutlined } from '@ant-design/icons-vue';
 import ErrorMessage from '../../RenderField/ErrorMessage.vue';
 import { Error, PropSchema } from '../../../Interface';
+import { usePropsStore } from '../../../hooks';
 
 const FIELD_LENGTH = 170;
 const fnDefine = {
@@ -68,6 +69,7 @@ export default defineComponent({
   },
   setup(aProps) {
     const currentIndex = ref(-1);
+    const { widgets } = usePropsStore();
     const state = reactive({
       showDrawer: false,
     });
@@ -125,15 +127,14 @@ export default defineComponent({
 
       const columns = childData.map((child) => {
         const item = flatten[child];
-        const schema = (item && item.schema) || {};
-        const required = !!schema.required;
+        const $schema = (item && item.schema) || {};
+        const required = !!$schema.required;
         const _dataIndex = getKeyFromPath(child);
         return {
           dataIndex: _dataIndex,
           $child: child,
-          title: `${schema.title}${
-            required ? '-is-required' : '-is-not-required'
-          }`,
+          title: $schema.title,
+          key: _dataIndex,
           isRequired: required,
           width: FIELD_LENGTH,
           ...columnProps,
@@ -234,10 +235,14 @@ export default defineComponent({
               index: number;
               renderIndex: number;
             }) => {
-              const { record, text, column } = cellData;
+              const { record, column, value } = cellData;
               const idx = record.$idx;
-              if (record.key === '$action') {
+              const { $child } = column;
+              const _item = flatten[$child];
+              const schema = (_item && _item.schema) || {};
+              if (column.key === '$action') {
                 return h('div', [
+                  h('a', { onClick: () => openDrawer(idx) }, '编辑'),
                   !props.hideDelete &&
                     h(
                       Popconfirm,
@@ -269,13 +274,16 @@ export default defineComponent({
                     }),
                 ]);
               }
-
-              const childPath = getDataPath(column.$child, [idx]);
+              const childPath = getDataPath($child, [idx]);
               const errorObj: { [key: string]: any } =
-                errorFields.find((item) => item.name == childPath) || {};
-
+                errorFields.find((d) => d.name == childPath) || {};
+              const Widget = schema.readOnlyWidget
+                ? widgets[schema.readOnlyWidget]
+                : null;
               return h('div', [
-                h('div', {}, getDisplayValue(text, schema)),
+                Widget
+                  ? h(Widget, { value, schema })
+                  : h('div', {}, getDisplayValue(value, schema)),
                 errorObj.error &&
                   h(ErrorMessage, { message: errorObj.error, schema }),
               ]);

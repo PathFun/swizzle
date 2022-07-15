@@ -66,7 +66,7 @@ export const validateField = ({ path, formData, flatten, options }) => {
   const paths = getRelatedPaths(path, flatten);
   // console.log('all relevant paths:', paths);
   const promiseArray = paths.map((path) => {
-    const { id } = destructDataPath(path);
+    const { id, dataIndex } = destructDataPath(path);
     if (flatten[id] || flatten[`${id}[]`]) {
       const item = flatten[id] || flatten[`${id}[]`];
       const singleData = get(formData, path);
@@ -132,14 +132,23 @@ export const validateAll = ({
 }) => {
   const paths = dataToKeys(formData);
   const allPaths = getAllPaths(paths, flatten);
-  // console.log(formData, dataToKeys(formData), 'dataToKeysdataToKeys');
-  // console.log('allPaths', allPaths);
   const promiseArray = allPaths.map((path) => {
-    const { id } = destructDataPath(path);
+    const { id, dataIndex } = destructDataPath(path);
     if (flatten[id] || flatten[`${id}[]`]) {
       const item = flatten[id] || flatten[`${id}[]`];
       const singleData = get(formData, path);
       let schema = item.schema || {};
+
+      // 若parent的hidden属性为true，则子项需继承 hidden
+      const relatedPaths = getRelatedPaths(path, flatten);
+      if (relatedPaths.length > 1) {
+        const parentPath = relatedPaths[relatedPaths.length - 1];
+        const parentSchema = flatten[parentPath] || {};
+        if (get(parentSchema, 'schema.hidden', false)) {
+          schema.hidden = true;
+        }
+      }
+
       const finalSchema = parseSchemaExpression(schema, formData, path);
       return validateSingle(singleData, finalSchema, path, options); // is a promise
     } else {
@@ -175,7 +184,6 @@ const validateSingle = (data, schema = {}, path, options = {}) => {
   const cn = defaultValidateMessagesCN;
   const en = defaultValidateMessages;
   const descriptor = getDescriptorSimple(schema, path);
-  // console.log('descriptor, schema, path', descriptor, schema, path, data);
   // TODO: 有些情况会出现没有rules，需要看一下，先兜底
   let validator;
   try {
@@ -188,10 +196,10 @@ const validateSingle = (data, schema = {}, path, options = {}) => {
   validator.messages(messageFeed);
   return validator
     .validate({ [path]: data })
-    .then(() => {
+    .then((res) => {
       return [{ field: path, message: null }];
     })
-    .catch(({ errors }) => {
+    .catch(({ errors, fields }) => {
       return errors;
     });
 };

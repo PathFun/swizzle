@@ -1,13 +1,13 @@
 <script lang="ts">
-import { computed, CSSProperties, defineComponent, PropType, h } from 'vue';
+import { computed, CSSProperties, defineComponent, h, PropType } from 'vue';
 import RenderList from './RenderChildren/RenderList/index.vue';
 import RenderObject from './RenderChildren/RenderObject.vue';
 import { RenderField } from './RenderField';
 import {
-  isLooselyNumber,
+  isCheckBoxType,
   isCssLength,
   isListType,
-  isCheckBoxType,
+  isLooselyNumber,
   isObjType,
 } from '../utils';
 import type { Error, PropSchema } from '../Interface';
@@ -158,26 +158,29 @@ export default defineComponent({
     //   isRow: coreDisplayType === 'row'
     // }
     return () => {
-      const { schema, item } = props;
+      const { schema, item, column } = props;
       if (schema.hidden) {
         return null;
       }
+      const columnStyle: CSSProperties = {};
+      if (!isObj.value) {
+        if (schema.width) {
+          columnStyle.width =
+            typeof schema.width === 'string'
+              ? schema.width
+              : schema.width + 'px';
+          columnStyle.paddingRight = '8px';
+        } else if (column > 1) {
+          columnStyle.width = `calc(100% /${column})`;
+          columnStyle.paddingRight = '8px';
+        }
+      }
+
       return h(
         'div',
         {
           class: `fr-field flex ${fieldClass.value}`,
-          style: !isObj.value
-            ? {
-                paddingRight: '8px',
-                width: schema.width
-                  ? `${
-                      typeof schema.width === 'string'
-                        ? schema.width
-                        : schema.width + 'px'
-                    }`
-                  : `calc(100% /${props.column})`,
-              }
-            : {},
+          style: columnStyle,
         },
         h(
           RenderField,

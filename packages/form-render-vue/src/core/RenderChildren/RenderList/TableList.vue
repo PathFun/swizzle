@@ -83,13 +83,13 @@ export default defineComponent({
         const required = !!schema.required;
         return {
           dataIndex: child,
+          key: child,
           title: schema.title,
           isRequired: required,
           width: FIELD_LENGTH,
           ...columnProps,
         };
       });
-
       if (
         !props.hideDelete ||
         !props.hideAdd ||
@@ -164,18 +164,18 @@ export default defineComponent({
               column: ColumnType<unknown>;
               value: any;
               text: any;
-              record: { $idx: number; [key: string]: any };
+              record: any;
               index: number;
               renderIndex: number;
             }) => {
               const { record, index, column } = cellData;
               const idx = record.$idx;
               const childIndex = [...dataIndex, idx];
-              if (record.key === '$action') {
+              if (column.key === '$action') {
                 return h('div', [
                   !props.hideAdd &&
                     !props.hideCopy &&
-                    h('a', { onClick: () => copyItem(idx) }),
+                    h('a', { onClick: () => copyItem(idx) }, '复制'),
                   !props.hideDelete &&
                     h(
                       Popconfirm,

@@ -57,11 +57,13 @@ export default defineComponent({
       } = AllProps;
       const { props = {}, itemProps = {} } = schema;
       const { scrollY = 600, ...rest } = props;
-
       // const [vt, set_components] = useVT(() => ({ scroll: { y: scrollY } }), []);
 
-      const dataSource = displayList.map((item, idx) => {
-        return { index: idx };
+      const dataSource = displayList.map((item) => {
+        if (typeof item === 'object') {
+          return { ...item };
+        }
+        return {};
       });
 
       const columns: any[] = childData.map((child: string) => {
@@ -76,9 +78,8 @@ export default defineComponent({
                 h('span', schema.title),
               ]
             : schema.title,
-          customRender: (value: any, record: any, index: any) => {
-            // Check: record.index 似乎是antd自己会给的，不错哦
-            const childIndex = [...dataIndex, record.index];
+          customRender: ({ index }) => {
+            const childIndex = [...dataIndex, index];
             return h(Core, {
               hideTitle: true,
               displayType: 'inline',
@@ -96,17 +97,13 @@ export default defineComponent({
           key: '$action',
           fixed: 'right',
           width: 120,
-          customRender: (
-            value: any,
-            record: { [key: string]: any },
-            idx: number,
-          ) => {
+          customRender: ({ index }) => {
             const opList = [
               !props.hideDelete &&
                 h(
                   Popconfirm,
                   {
-                    onConfirm: () => deleteItem && deleteItem(idx),
+                    onConfirm: () => deleteItem && deleteItem(index),
                     okText: '确定',
                     cancelText: '取消',
                   },
@@ -114,13 +111,21 @@ export default defineComponent({
                 ),
               !props.hideMove &&
                 h(ArrowUpOutlined, {
-                  style: { color: '#1890ff', fontSize: 16, marginLeft: 8 },
-                  onClick: () => moveItemUp && moveItemUp(idx),
+                  style: {
+                    color: '#1890ff',
+                    fontSize: '16px',
+                    marginLeft: '8px',
+                  },
+                  onClick: () => moveItemUp && moveItemUp(index),
                 }),
               !props.hideMove &&
                 h(ArrowDownOutlined, {
-                  style: { color: '#1890ff', fontSize: 16, marginLeft: 8 },
-                  onClick: () => moveItemDown && moveItemDown(idx),
+                  style: {
+                    color: '#1890ff',
+                    fontSize: '16px',
+                    marginLeft: '8px',
+                  },
+                  onClick: () => moveItemDown && moveItemDown(index),
                 }),
             ];
             let otherList = [];
@@ -145,7 +150,7 @@ export default defineComponent({
                   'a',
                   {
                     key: index,
-                    style: { marginLeft: 8 },
+                    style: { marginLeft: '8px' },
                     size: 'small',
                     onClick: onClick,
                   },
