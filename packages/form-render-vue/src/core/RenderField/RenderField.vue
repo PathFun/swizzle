@@ -164,6 +164,15 @@ export default defineComponent({
       const errObj = errorFields.find((err: Error) => err.name === dataPath);
       const errorMessage = errObj && errObj.error; // 是一个list
       const hasError = Array.isArray(errorMessage) && errorMessage.length > 0;
+      const displayBlock = () => {
+        if (hasError) {
+          return false;
+        }
+        if (_schema.extra) {
+          return false;
+        }
+        return true;
+      };
       // 补上这个class，会自动让下面所有的展示ui变红！
       const contentClass =
         hasError && showValidate
@@ -221,6 +230,7 @@ export default defineComponent({
             h(ExtendedWidget, { ...widgetProps }, { default: () => _children }),
             h(Extra, { ...widgetProps }),
             h(ErrorMessage, { ...messageProps }),
+            displayBlock() && h('div', { class: 'field-block' }),
           ]),
         ];
       }
@@ -230,6 +240,7 @@ export default defineComponent({
         TitleElement = h('div', { style: { display: 'flex' } }, [
           TitleElement,
           h(ErrorMessage, { ...messageProps }),
+          displayBlock() && h('div', { class: 'field-block' }),
         ]);
         return h('div', { style: contentStyle }, [
           h(
@@ -257,6 +268,7 @@ export default defineComponent({
             h(ExtendedWidget, { ...widgetProps }, { default: () => _children }),
             h(Extra, { ...widgetProps }),
             h(ErrorMessage, { ...messageProps }),
+            displayBlock() && h('div', { class: 'field-block' }),
           ],
         ),
       ];
