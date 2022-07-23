@@ -1,7 +1,7 @@
 /** * @desc: * @author TQL * @date 2022/7/1 * @name Load */
 <script lang="ts" setup>
 import { Button, Space, message } from 'ant-design-vue';
-import { fakeApi, delay } from '../../../../utils';
+import { fakeApi } from '../../../../utils';
 import FR, { useForm } from 'form-render-vue3';
 import { reactive } from 'vue';
 
@@ -27,7 +27,7 @@ const schema = {
 };
 
 const getRemoteData = () => {
-  fakeApi('xxx/getForm').then((_) => {
+  fakeApi('xxx/getForm').then(() => {
     form.setValues({ startDate: '2020-04-04', endDate: '2020-04-24' });
   });
 };
@@ -40,7 +40,7 @@ const onFinish = (data: any, errors: any[]) => {
       );
     });
   } else {
-    fakeApi('xxx/submit', data).then((_) => message.success('提交成功！'));
+    fakeApi('xxx/submit', data).then(() => message.success('提交成功！'));
   }
 };
 </script>

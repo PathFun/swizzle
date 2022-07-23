@@ -20,6 +20,6 @@ describe('Test FormRender Utils', () => {
       },
     };
     const _schema = flattenSchema(schema, '#', null, {});
-    expect(Object.keys(_schema)).toEqual(['select1', 'input1', '#']);
+    expect(Object.keys(_schema)).toEqual(['input1', 'select1', '#']);
   });
 });

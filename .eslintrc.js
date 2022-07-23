@@ -23,12 +23,4 @@ module.exports = {
     'vue/no-multiple-template-root': 'off',
     '@typescript-eslint/no-explicit-any': 'off',
   },
-  overrides: [
-    {
-      files: ['**/__tests__/*.{j,t}s?(x)', '**/dist/**', 'docs/*'],
-      env: {
-        jest: true,
-      },
-    },
-  ],
 };

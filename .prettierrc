@@ -1,6 +1,7 @@
 {
   "singleQuote": true,
   "trailingComma": "all",
+  "endOfLine": "crlf",
   "printWidth": 80,
   "overrides": [
     {

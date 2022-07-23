@@ -37,13 +37,14 @@ const onFinish = (data: any, errors: any[]) => {
       );
     });
   } else {
-    fakeApi('xxx/submit', data).then((_) => message.success('提交成功！'));
+    fakeApi('xxx/submit', data).then(() => message.success('提交成功！'));
   }
 };
 
 // 服务端校验在这里做
 const beforeFinish = ({ data, errors, schema, ...rest }: any) => {
-  return fakeApi('xxx/validation').then((_) => {
+  console.log(data, errors, schema, rest);
+  return fakeApi('xxx/validation').then(() => {
     return { name: 'select1', error: ['外部校验错误'] };
   });
 };

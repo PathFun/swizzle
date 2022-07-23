@@ -17,13 +17,13 @@ const form = useForm({
 const schema = reactive({});
 
 const getRemoteData = () => {
-  fakeApi('xxx/getForm').then((_) => {
+  fakeApi('xxx/getForm').then(() => {
     form.setValues({ input1: 'hello world', select1: 'c' });
   });
 };
 
 // 异步加载表单
-delay(1000).then((_) => {
+delay(1000).then(() => {
   Object.assign(schema, {
     type: 'object',
     properties: {
@@ -50,7 +50,7 @@ const onFinish = (data: any, errors: any[]) => {
       );
     });
   } else {
-    fakeApi('xxx/submit', data).then((_) => message.success('提交成功！'));
+    fakeApi('xxx/submit', data).then(() => message.success('提交成功！'));
   }
 };
 </script>

@@ -1,5 +1,6 @@
-// yarn build 用到的vite配置
+/// <reference types="vitest" />
 
+import { defineConfig } from 'vite';
 import vue from '@vitejs/plugin-vue';
 import vueJsx from '@vitejs/plugin-vue-jsx';
 import { resolve } from 'path';
@@ -7,7 +8,7 @@ import { resolve } from 'path';
 /**
  * @type {import('vite').UserConfig}
  */
-export default {
+export default defineConfig({
   optimizeDeps: {
     include: [],
     exclude: [],
@@ -37,4 +38,9 @@ export default {
       },
     },
   },
-};
+  test: {
+    globals: true,
+    environment: 'jsdom',
+    include: ['**/*/__tests__/*.{test,spec}.{js,mjs,cjs,ts,mts,cts,jsx,tsx}'],
+  },
+});

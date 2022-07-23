@@ -5,7 +5,7 @@ const form = useForm({
   formData: {},
   showValidate: true,
   onChange: (formData: { [key: string]: any }) => {
-    // console.log(formData)
+    console.log(formData);
   },
 });
 
