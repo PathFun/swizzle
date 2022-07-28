@@ -1,19 +1,42 @@
-table.ant-picker-content td, table.ant-picker-content th {
-    padding: 0;
-    border: none;
+table.ant-picker-content td,
+table.ant-picker-content th {
+  padding: 0;
+  border: none;
 }
-table.ant-picker-content tr{
-    border: none;
+table.ant-picker-content tr {
+  border: none;
 }
-table.ant-picker-content .ant-picker-cell{
-    padding: 3px 0;
-    cursor: pointer;
+table.ant-picker-content .ant-picker-cell {
+  padding: 3px 0;
+  cursor: pointer;
 }
 
-table.ant-picker-content th{
-    background-color: transparent;
+table.ant-picker-content th {
+  background-color: transparent;
 }
 
 table.ant-picker-content tr:nth-child(2n) {
-    background-color: transparent;
+  background-color: transparent;
+}
+
+.ant-table table {
+  display: table;
+  width: 100%;
+  border-collapse: collapse;
+  color: transparent;
+}
+
+.ant-table table th {
+  font-weight: normal;
+  background: transparent;
+}
+
+.ant-table table td:first-child {
+  font-weight: normal;
+}
+
+.ant-table table td,
+.ant-table table th {
+  padding: 8px;
+  border: transparent;
 }

@@ -149,6 +149,7 @@ export default defineComponent({
         labelWidth,
         readOnly,
         errorFields: form.errorFields,
+        hideTitle: props.hideTitle,
         effectiveLabelWidth,
         allTouched: allTouched.value,
       });
