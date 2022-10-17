@@ -77,15 +77,17 @@ export default defineComponent({
       },
     );
 
-    const dataPath: string = getDataPath(props.id, props.dataIndex);
+    const dataPath = computed<string>(() =>
+      getDataPath(props.id, props.dataIndex),
+    );
 
-    const parentPath = getParentPath(dataPath);
+    const parentPath = computed<string>(() => getParentPath(dataPath.value));
 
     const effectiveLabelWidth: string | number =
       getParentProps('labelWidth', props.id, form.flatten) || labelWidth;
 
     const coreValue: any = computed(() =>
-      getValueByPath(form.formData, dataPath),
+      getValueByPath(form.formData, dataPath.value),
     );
 
     const dependValues = ref<any[]>([]);
@@ -110,7 +112,7 @@ export default defineComponent({
       }
 
       try {
-        rootValue = getValueByPath(form.formData, parentPath);
+        rootValue = getValueByPath(form.formData, parentPath.value);
       } catch (error) {
         console.error(`rootValue 计算报错`);
       }
@@ -138,7 +140,7 @@ export default defineComponent({
         item: item.value,
         id: props.id,
         dataIndex: props.dataIndex,
-        dataPath,
+        dataPath: dataPath.value,
         coreValue: coreValue.value,
         dependValues: dependValues.value,
         hideValidation: props.hideValidation,

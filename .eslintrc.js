@@ -22,5 +22,6 @@ module.exports = {
     '@typescript-eslint/ban-ts-comment': 'off',
     'vue/no-multiple-template-root': 'off',
     '@typescript-eslint/no-explicit-any': 'off',
+    'prettier/prettier': ['error', { endOfLine: 'lf' }],
   },
 };

@@ -44,6 +44,19 @@ delay(1000).then((_) => {
         enum: ['a', 'b', 'c'],
         enumNames: ['早', '中', '晚'],
       },
+      child: {
+        title: '对象',
+        description: '这是一个对象类型',
+        type: 'object',
+        properties: {
+          select2: {
+            title: '单选',
+            type: 'string',
+            enum: ['a', 'b', 'c'],
+            enumNames: ['早上', '中午', '晚上'],
+          },
+        },
+      },
     },
   });
 });
@@ -58,6 +71,25 @@ const onFinish = (data: any, errors: any[]) => {
   } else {
     fakeApi('xxx/submit', data).then((_) => message.success('提交成功！'));
   }
+};
+
+const changeSchema = () => {
+  Object.assign(schema, {
+    type: 'object',
+    properties: {
+      inp1: {
+        title: '输入框121',
+        type: 'string',
+        required: true,
+      },
+      sel1: {
+        title: '单选121',
+        type: 'string',
+        enum: ['a', 'b', 'c'],
+        enumNames: ['早', '中', '晚'],
+      },
+    },
+  });
 };
 
 const watchMap = {
@@ -75,6 +107,7 @@ const watchMap = {
     />
     <Space>
       <Button @click="getRemoteData">加载服务端数据</Button>
+      <Button @click="changeSchema">点击修改Schema</Button>
       <Button type="primary" @click="() => form.submit()">
         提交（见console）
       </Button>
