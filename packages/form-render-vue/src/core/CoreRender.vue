@@ -261,7 +261,9 @@ export default defineComponent({
                 isTable.value &&
                 h(RenderTableObject, {
                   parentId: props.id,
-                  otherProps: schema.props || {},
+                  customClass: schema.props?.customClass,
+                  border: schema.props?.border || true,
+                  rows: schema.props?.rows || [],
                   dataIndex: props.dataIndex,
                   displayType: coreDisplayType,
                   hideTitle: props.hideTitle,
