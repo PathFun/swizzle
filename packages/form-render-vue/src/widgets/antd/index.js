@@ -56,6 +56,7 @@ export const widgets = {
   url: urlInput,
   list,
   map,
+  table: list,
   multiSelect, // 下拉多选
   number: FrNumber,
   radio,

@@ -2,6 +2,7 @@
 import { computed, CSSProperties, defineComponent, h, PropType } from 'vue';
 import RenderList from './RenderChildren/RenderList/index.vue';
 import RenderObject from './RenderChildren/RenderObject.vue';
+import RenderTableObject from './RenderChildren/RenderTableObject/index.vue';
 import { RenderField } from './RenderField';
 import {
   isCheckBoxType,
@@ -9,6 +10,7 @@ import {
   isListType,
   isLooselyNumber,
   isObjType,
+  isTableType,
 } from '../utils';
 import type { Error, PropSchema } from '../Interface';
 
@@ -89,6 +91,7 @@ export default defineComponent({
     RenderList,
     RenderObject,
     RenderField,
+    RenderTableObject,
   },
   setup(props) {
     const { displayType, effectiveLabelWidth } = props;
@@ -98,6 +101,7 @@ export default defineComponent({
 
     const isList = computed<boolean>(() => isListType(props.schema));
     const isObj = computed<boolean>(() => isObjType(props.schema));
+    const isTable = computed<boolean>(() => isTableType(props.schema));
     const isCheckBox = computed<boolean | undefined>(() =>
       isCheckBoxType(props.schema, props.readOnly),
     );
@@ -252,6 +256,17 @@ export default defineComponent({
                     childData: item.children,
                   }),
                 ),
+              item.children &&
+                item.children.length > 0 &&
+                isTable.value &&
+                h(RenderTableObject, {
+                  parentId: props.id,
+                  otherProps: schema.props || {},
+                  dataIndex: props.dataIndex,
+                  displayType: coreDisplayType,
+                  hideTitle: props.hideTitle,
+                  childData: item.children,
+                }),
               item.children &&
                 item.children.length > 0 &&
                 isList.value &&

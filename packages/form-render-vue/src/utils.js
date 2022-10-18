@@ -106,6 +106,15 @@ export function isObjType(schema) {
   );
 }
 
+export function isTableType(schema) {
+  return (
+    schema &&
+    schema.type === 'object:table' &&
+    schema.properties &&
+    !schema.widget
+  );
+}
+
 // TODO: to support case that item is not an object
 export function isListType(schema) {
   return (
@@ -124,7 +133,7 @@ export function flattenSchema(_schema = {}, name = '#', parent, result = {}) {
     schema._id = _name; // path as $id, for easy access to path in schema
   }
   const children = [];
-  if (isObjType(schema)) {
+  if (isObjType(schema) || isTableType(schema)) {
     Object.entries(schema.properties).forEach(([key, value]) => {
       const _key = isListType(value) ? key + '[]' : key;
       const uniqueName = _name === '#' ? _key : _name + '.' + _key;
@@ -158,7 +167,7 @@ export function getSchemaFromFlatten(flatten, path = '#') {
       item.children.forEach((child) => {
         if (!flatten[child]) return;
         const key = getKeyFromPath(child);
-        if (isObjType(schema)) {
+        if (isObjType(schema) || isTableType(schema)) {
           schema.properties[key] = getSchemaFromFlatten(flatten, child);
         }
         if (isListType(schema)) {
@@ -633,6 +642,9 @@ export const getDescriptorSimple = (schema = {}, path) => {
           break;
         case 'html':
           result.type = 'string';
+          break;
+        case 'object:table':
+          result.type = 'object';
           break;
         default:
           result.type = schema.type;

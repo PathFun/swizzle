@@ -71,7 +71,7 @@ export default defineComponent({
   <div v-if="!title" class="w-100">
     <slot />
   </div>
-  <div v-else-if="theme === '1'" class="w-100">
+  <div v-else-if="theme + '' === '1'" class="w-100">
     <div
       style="
          {
@@ -94,7 +94,7 @@ export default defineComponent({
     </div>
   </div>
   <!-- 新增卡片视图-->
-  <div v-else-if="theme === '2'" class="fr-theme-card-wrap">
+  <div v-else-if="theme + '' === '2'" class="fr-theme-card-wrap">
     <div>
       <div :id="title" class="fr-theme-card-title">{{ title }}</div>
       <div

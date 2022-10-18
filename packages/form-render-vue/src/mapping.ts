@@ -11,6 +11,7 @@ export const mapping = {
   number: 'number',
   object: 'map',
   html: 'html',
+  'object:table': 'table',
   'string:upload': 'upload',
   'string:url': 'url',
   'string:dateTime': 'date',

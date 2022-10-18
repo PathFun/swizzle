@@ -64,9 +64,8 @@ const getRelatedPaths = (path, flatten) => {
 
 export const validateField = ({ path, formData, flatten, options }) => {
   const paths = getRelatedPaths(path, flatten);
-  // console.log('all relevant paths:', paths);
   const promiseArray = paths.map((path) => {
-    const { id, dataIndex } = destructDataPath(path);
+    const { id } = destructDataPath(path);
     if (flatten[id] || flatten[`${id}[]`]) {
       const item = flatten[id] || flatten[`${id}[]`];
       const singleData = get(formData, path);
@@ -133,7 +132,7 @@ export const validateAll = ({
   const paths = dataToKeys(formData);
   const allPaths = getAllPaths(paths, flatten);
   const promiseArray = allPaths.map((path) => {
-    const { id, dataIndex } = destructDataPath(path);
+    const { id } = destructDataPath(path);
     if (flatten[id] || flatten[`${id}[]`]) {
       const item = flatten[id] || flatten[`${id}[]`];
       const singleData = get(formData, path);
@@ -184,7 +183,6 @@ const validateSingle = (data, schema = {}, path, options = {}) => {
   const cn = defaultValidateMessagesCN;
   const en = defaultValidateMessages;
   const descriptor = getDescriptorSimple(schema, path);
-  // TODO: 有些情况会出现没有rules，需要看一下，先兜底
   let validator;
   try {
     validator = new Validator(descriptor);
@@ -196,10 +194,11 @@ const validateSingle = (data, schema = {}, path, options = {}) => {
   validator.messages(messageFeed);
   return validator
     .validate({ [path]: data })
-    .then((res) => {
+    .then(() => {
       return [{ field: path, message: null }];
     })
     .catch(({ errors, fields }) => {
+      console.log(fields);
       return errors;
     });
 };

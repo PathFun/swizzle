@@ -35,7 +35,8 @@ delay(1000).then((_) => {
     properties: {
       input1: {
         title: '简单输入框',
-        type: 'string',
+        type: 'string:url',
+        format: 'url',
         required: true,
       },
       select1: {
@@ -45,15 +46,81 @@ delay(1000).then((_) => {
         enumNames: ['早', '中', '晚'],
       },
       child: {
-        title: '对象',
-        description: '这是一个对象类型',
-        type: 'object',
+        title: '表格类型',
+        description: '表格类型',
+        type: 'object:table',
+        props: {
+          border: true,
+          hideTitle: false,
+          rows: [
+            [
+              {
+                merged: false,
+                colspan: 1,
+                rowspan: 1,
+              },
+              {
+                merged: false,
+                colspan: 2,
+                rowspan: 1,
+                widget: 'input3',
+              },
+            ],
+            [
+              {
+                merged: false,
+                colspan: 1,
+                rowspan: 1,
+                widget: 'input4',
+              },
+              {
+                merged: false,
+                colspan: 1,
+                rowspan: 1,
+              },
+              {
+                merged: false,
+                colspan: 1,
+                rowspan: 2,
+                widget: 'select2',
+              },
+            ],
+            [
+              {
+                merged: false,
+                colspan: 2,
+                rowspan: 1,
+                widget: 'input2',
+              },
+              {
+                merged: true,
+                colspan: 1,
+                rowspan: 1,
+              },
+            ],
+          ],
+        },
         properties: {
           select2: {
             title: '单选',
             type: 'string',
             enum: ['a', 'b', 'c'],
             enumNames: ['早上', '中午', '晚上'],
+          },
+          input2: {
+            title: '输入框1',
+            type: 'string',
+            required: true,
+          },
+          input3: {
+            title: '输入框3',
+            type: 'string',
+            required: true,
+          },
+          input4: {
+            title: '输入框4',
+            type: 'string',
+            required: true,
           },
         },
       },
@@ -98,10 +165,11 @@ const watchMap = {
 </script>
 
 <template>
-  <div style="width: 400px">
+  <div style="width: 100%; padding: 30px">
     <FR
       :form="form"
       :schema="schema"
+      theme="1"
       @finish="onFinish"
       :watch-map="watchMap"
     />

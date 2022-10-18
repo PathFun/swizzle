@@ -1,5 +1,5 @@
 <script lang="ts">
-import { defineComponent, h, PropType } from 'vue';
+import { defineComponent, h, PropType, Suspense } from 'vue';
 import { usePropsStore, useFormStore } from '../../hooks';
 import { extraSchemaList, getWidgetName } from '../../mapping';
 import { isListType, isObjType } from '../../utils';
@@ -184,15 +184,27 @@ export default defineComponent({
 
       const finalProps = transformProps(widgetProps);
 
-      // return h(Suspense,{}, {
-      //   fallback: h('div'),
-      //   default: h('div', { class: 'fr-item-wrapper' }, h(Widget, { ...finalProps }, _children || false))
-      // })
       return h(
-        'div',
-        { class: 'fr-item-wrapper' },
-        h(Widget, { ...finalProps }, () => slots.default && slots.default()),
+        Suspense,
+        {},
+        {
+          fallback: h('div'),
+          default: h(
+            'div',
+            { class: 'fr-item-wrapper' },
+            h(
+              Widget,
+              { ...finalProps },
+              () => slots.default && slots.default(),
+            ),
+          ),
+        },
       );
+      // return h(
+      //   'div',
+      //   { class: 'fr-item-wrapper' },
+      //   h(Widget, { ...finalProps }, () => slots.default && slots.default()),
+      // );
     };
   },
 });
