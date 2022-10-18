@@ -262,11 +262,18 @@ export default defineComponent({
                 h(RenderTableObject, {
                   parentId: props.id,
                   customClass: schema.props?.customClass,
-                  border: schema.props?.border || true,
+                  border: !!schema.props?.border,
                   rows: schema.props?.rows || [],
                   dataIndex: props.dataIndex,
                   displayType: coreDisplayType,
-                  hideTitle: props.hideTitle,
+                  hideTitle:
+                    schema.props &&
+                    Object.prototype.hasOwnProperty.call(
+                      schema.props,
+                      'hideTitle',
+                    )
+                      ? schema.props.hideTitle
+                      : props.hideTitle,
                   childData: item.children,
                 }),
               item.children &&
