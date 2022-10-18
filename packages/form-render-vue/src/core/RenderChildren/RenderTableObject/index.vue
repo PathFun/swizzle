@@ -11,10 +11,11 @@
             :rowspan="col.rowspan || 1"
           >
             <Core
-              v-if="col.widget"
+              v-for="(item, idx) in col.widgets || []"
+              :key="idx"
               :data-index="dataIndex"
               :display-type="displayType"
-              :id="`${parentId}.${col.widget}`"
+              :id="`${parentId}.${item}`"
               :hide-title="!!hideTitle"
             />
           </td>
@@ -32,7 +33,7 @@ interface Row {
   merged: boolean;
   colspan?: number;
   rowspan?: number;
-  widget: string;
+  widgets: string[];
 }
 
 defineProps<{

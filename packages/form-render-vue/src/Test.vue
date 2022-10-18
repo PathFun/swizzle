@@ -63,7 +63,7 @@ delay(1000).then((_) => {
                 merged: false,
                 colspan: 2,
                 rowspan: 1,
-                widget: 'input3',
+                widgets: ['input3'],
               },
             ],
             [
@@ -71,7 +71,7 @@ delay(1000).then((_) => {
                 merged: false,
                 colspan: 1,
                 rowspan: 1,
-                widget: 'input4',
+                widgets: ['input4'],
               },
               {
                 merged: false,
@@ -82,7 +82,7 @@ delay(1000).then((_) => {
                 merged: false,
                 colspan: 1,
                 rowspan: 2,
-                widget: 'select2',
+                widgets: ['select2'],
               },
             ],
             [
@@ -90,7 +90,7 @@ delay(1000).then((_) => {
                 merged: false,
                 colspan: 2,
                 rowspan: 1,
-                widget: 'input2',
+                widgets: ['input2', 'input5'],
               },
               {
                 merged: true,
@@ -108,7 +108,7 @@ delay(1000).then((_) => {
             enumNames: ['早上', '中午', '晚上'],
           },
           input2: {
-            title: '输入框1',
+            title: '输入框2',
             type: 'string',
             required: true,
           },
@@ -119,6 +119,11 @@ delay(1000).then((_) => {
           },
           input4: {
             title: '输入框4',
+            type: 'string',
+            required: true,
+          },
+          input5: {
+            title: '输入框5',
             type: 'string',
             required: true,
           },
