@@ -46,88 +46,86 @@ delay(1000).then((_) => {
         enumNames: ['早', '中', '晚'],
       },
       child: {
-        title: '表格类型',
-        description: '表格类型',
-        type: 'object:table',
-        props: {
-          border: true,
-          hideTitle: false,
-          rows: [
-            [
-              {
-                merged: false,
-                colspan: 1,
-                rowspan: 1,
-              },
-              {
-                merged: false,
-                colspan: 2,
-                rowspan: 1,
-                widgets: ['input3'],
-              },
-            ],
-            [
-              {
-                merged: false,
-                colspan: 1,
-                rowspan: 1,
-                widgets: ['input4'],
-              },
-              {
-                merged: false,
-                colspan: 1,
-                rowspan: 1,
-              },
-              {
-                merged: false,
-                colspan: 1,
-                rowspan: 2,
-                widgets: ['select2'],
-              },
-            ],
-            [
-              {
-                merged: false,
-                colspan: 2,
-                rowspan: 1,
-                widgets: ['input2', 'input5'],
-              },
-              {
-                merged: true,
-                colspan: 1,
-                rowspan: 1,
-              },
-            ],
-          ],
-        },
-        properties: {
-          select2: {
-            title: '单选',
-            type: 'string',
-            enum: ['a', 'b', 'c'],
-            enumNames: ['早上', '中午', '晚上'],
+    title: '表格类型',
+    description: '表格类型',
+    type: 'object:table',
+    props: {
+      border: 1,
+      hideTitle: false,
+      rows: [
+        [
+          {
+            merged: false,
+            colspan: 1,
+            rowspan: 1,
           },
-          input2: {
-            title: '输入框2',
-            type: 'string',
-            required: true,
+          {
+            merged: false,
+            colspan: 2,
+            rowspan: 1,
+            widgets: ['input3'],
           },
-          input3: {
-            title: '输入框3',
-            type: 'string',
-            required: true,
+        ],
+        [
+          {
+            merged: false,
+            colspan: 1,
+            rowspan: 1,
+            widgets: ['input4'],
           },
-          input4: {
-            title: '输入框4',
-            type: 'string',
-            required: true,
+          {
+            merged: false,
+            colspan: 1,
+            rowspan: 1,
           },
-          input5: {
-            title: '输入框5',
-            type: 'string',
-            required: true,
+          {
+            merged: false,
+            colspan: 1,
+            rowspan: 2,
+            widgets: ['select2'],
           },
-        },
+        ],
+        [
+          {
+            merged: false,
+            colspan: 2,
+            rowspan: 1,
+            widgets: ['input2', 'input5'],
+          },
+          {
+            merged: true,
+            colspan: 1,
+            rowspan: 1,
+          },
+        ],
+      ],
+    },
+    properties: {
+      select2: {
+        title: '单选',
+        type: 'string',
+        enum: ['a', 'b', 'c'],
+        enumNames: ['早上', '中午', '晚上'],
+      },
+      input2: {
+        title: '输入框2',
+        type: 'string',
+        required: true,
+      },
+      input3: {
+        title: '输入框3',
+        type: 'string',
+        required: true,
+      },
+      input4: {
+        title: '输入框4',
+        type: 'string',
+        required: true,
+      },
+      input5: {
+        title: '输入框5',
+        type: 'string',
+        required: true,
       },
     },
   });
@@ -174,6 +172,7 @@ const watchMap = {
     <FR
       :form="form"
       :schema="schema"
+      display-type="row"
       theme="1"
       @finish="onFinish"
       :watch-map="watchMap"

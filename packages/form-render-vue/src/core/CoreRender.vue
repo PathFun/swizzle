@@ -262,7 +262,7 @@ export default defineComponent({
                 h(RenderTableObject, {
                   parentId: props.id,
                   customClass: schema.props?.customClass,
-                  border: !!schema.props?.border,
+                  border: schema.props?.border,
                   rows: schema.props?.rows || [],
                   dataIndex: props.dataIndex,
                   displayType: coreDisplayType,

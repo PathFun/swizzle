@@ -1,5 +1,5 @@
 <template>
-  <table class="table-layout" :class="customClass" :border="!!border">
+  <table class="table-layout" :class="customClass" :border="border">
     <tbody>
       <tr v-for="(cols, rowIdx) in rows || []" :key="rowIdx">
         <template v-for="(col, colIdx) in cols">
@@ -15,7 +15,7 @@
               :key="idx"
               :data-index="dataIndex"
               :display-type="displayType"
-              :id="`${parentId}.${item}`"
+              :id="parentId === '#' ? item : `${parentId}.${item}`"
               :hide-title="!!hideTitle"
             />
           </td>
@@ -36,16 +36,17 @@ interface Row {
   widgets: string[];
 }
 
-defineProps<{
+const props = defineProps<{
   parentId: string;
   childData: any[];
   dataIndex: number[];
   displayType: 'column' | 'row' | 'inline';
   hideTitle?: boolean;
   customClass?: string;
-  border?: boolean;
+  border?: number;
   rows?: Array<Row[]>;
 }>();
+console.log(props);
 </script>
 <style lang="less" scoped>
 table.table-layout {
@@ -53,7 +54,7 @@ table.table-layout {
   border-collapse: collapse;
   table-layout: fixed;
   :deep(td) {
-    border: 1px solid #d9d9d9;
+    border-color: #d9d9d9;
     display: table-cell;
     padding: 4px 11px;
   }
