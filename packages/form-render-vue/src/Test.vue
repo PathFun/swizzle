@@ -31,21 +31,6 @@ const getRemoteData = () => {
 // 异步加载表单
 delay(1000).then((_) => {
   Object.assign(schema, {
-    type: 'object',
-    properties: {
-      input1: {
-        title: '简单输入框',
-        type: 'string:url',
-        format: 'url',
-        required: true,
-      },
-      select1: {
-        title: '单选',
-        type: 'string',
-        enum: ['a', 'b', 'c'],
-        enumNames: ['早', '中', '晚'],
-      },
-      child: {
     title: '表格类型',
     description: '表格类型',
     type: 'object:table',
