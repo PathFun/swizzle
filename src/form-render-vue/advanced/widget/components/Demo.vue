@@ -3,19 +3,18 @@
 <script setup lang="tsx">
 import { Input, Button } from 'ant-design-vue';
 import FR, { useForm } from 'form-render-vue3';
-import type { Schema } from 'form-render-vue3';
 import { ref } from 'vue';
 
 const FRRef = ref<HTMLElement | null>(null);
 const form = useForm({
-  formData: {},
+  initialValue: {},
   showValidate: true,
   onChange: (formData: { [key: string]: any }) => {
     console.log(formData);
   },
 });
 
-const schema: Schema = {
+const schema: any = {
   type: 'object',
   properties: {
     string: {
@@ -49,6 +48,6 @@ const onFinish = (formData: any) => {
       :widgets="{ site: SiteInput }"
       @finish="onFinish"
     />
-    <Button type="primary" @click="() => FRRef.submit()"> 提交 </Button>
+    <Button type="primary" @click="() => form?.submit()"> 提交 </Button>
   </div>
 </template>

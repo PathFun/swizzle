@@ -1,9 +1,8 @@
 <script setup lang="ts">
 import FR, { useForm } from 'form-render-vue3';
-import type { Schema } from 'form-render-vue3';
 const form = useForm();
 
-const title: Schema = {
+const title: any = {
   type: 'object',
   properties: {
     checkbox1: {

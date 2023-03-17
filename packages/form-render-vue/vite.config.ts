@@ -1,34 +1,67 @@
+/// <reference types="vitest" />
+
 import { defineConfig } from 'vite';
 import vue from '@vitejs/plugin-vue';
+import eslint from 'vite-plugin-eslint';
 import { resolve } from 'path';
-// import dts from 'vite-plugin-dts';
+import vueJsx from '@vitejs/plugin-vue-jsx';
+import lessCopy from './plugins/less-copy.js';
+import copy from 'rollup-plugin-copy';
+import dts from 'vite-plugin-dts';
+const { name } = require('./package.json');
 
 export default defineConfig({
-  plugins: [vue()],
+  plugins: [
+    vue(),
+    vueJsx(),
+    eslint(),
+    lessCopy(),
+    copy({
+      hook: 'writeBundle',
+      targets: [{ src: 'src/form-render/widgets/antd/index.d.ts', dest: 'dist/form-render/widgets/antd/' }],
+    }),
+    dts({
+      outputDir: 'dist',
+      tsConfigFilePath: './tsconfig.json',
+    }),
+  ],
   build: {
+    target: 'modules',
+    minify: false,
     lib: {
-      entry: resolve(__dirname, 'src/index.ts'),
-      name: 'FormRender',
-      fileName: (format) => `form-render-vue.${format}.js`,
+      entry: resolve(__dirname, 'src/form-render/index.ts'),
+      formats: ['es', 'cjs', 'umd'],
+      name,
+      fileName: format => `${name}.${format}.js`,
     },
     rollupOptions: {
-      // 确保外部化处理那些你不想打包进库的依赖
-      external: ['vue', 'ant-design-vue'],
+      external: ['vue', 'ant-design-vue', 'vue-types', '@ant-design/icons-vue'],
       output: {
-        // 在 UMD 构建模式下为这些外部化的依赖提供一个全局变量
         globals: {
           vue: 'Vue',
-          'ant-design-vue': 'antDesignVue',
+          'ant-design-vue': 'antd',
+          'vue-types': 'vueTypes',
+          '@ant-design/icons-vue': 'iconsVue',
         },
       },
     },
   },
   css: {
+    postcss: {},
     preprocessorOptions: {
       less: {
         javascriptEnabled: true,
       },
     },
+  },
+  define: {
+    'import.meta.vitest': 'undefined',
+  },
+  test: {
+    globals: true,
+    clearMocks: true,
+    environment: 'happy-dom',
+    include: ['**/*/__tests__/*.{test,spec}.{js,mjs,cjs,ts,mts,cts,jsx,tsx}'],
   },
   server: {
     port: 8017,

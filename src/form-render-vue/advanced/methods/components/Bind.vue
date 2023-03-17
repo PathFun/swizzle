@@ -3,15 +3,12 @@
 import { Button, Space, message } from 'ant-design-vue';
 import { fakeApi } from '../../../../utils';
 import FR, { useForm } from 'form-render-vue3';
-import { reactive } from 'vue';
-
-const formData = reactive({});
 
 const form = useForm({
-  formData,
+  initialValue: {},
   showValidate: true,
   onChange: (newFormData: any) => {
-    Object.assign(formData, newFormData);
+    console.log(newFormData);
   },
 });
 const schema = {

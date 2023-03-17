@@ -1,12 +1,10 @@
 <script setup lang="ts">
 import FR, { useForm } from 'form-render-vue3';
-import type { Schema } from 'form-render-vue3';
 import { Button as AButton } from 'ant-design-vue';
-import { reactive, ref } from 'vue';
-const defaultFormData = reactive({});
-const form = useForm({ formData: defaultFormData, showValidate: true });
+import { ref } from 'vue';
+const form = useForm({ initialValue: {}, showValidate: true });
 const FRRef = ref<HTMLElement | null>(null);
-const schema: Schema = {
+const schema: any = {
   displayType: 'row',
   labelWidth: 60,
   type: 'object',
@@ -51,5 +49,5 @@ const onFinish = (formData: any, errors: string | any[]) => {
     ref="FRRef"
     @finish="onFinish"
   />
-  <a-button type="primary" @click="() => FRRef.submit()">提交</a-button>
+  <a-button type="primary" @click="() => form.submit()">提交</a-button>
 </template>

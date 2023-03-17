@@ -1,15 +1,15 @@
 <script setup lang="ts">
 import FR, { useForm } from 'form-render-vue3';
-import type { Schema } from 'form-render-vue3';
+
 const form = useForm({
-  formData: {},
+  initialValue: {},
   showValidate: true,
   onChange: (formData: { [key: string]: any }) => {
     console.log(formData);
   },
 });
 
-const schema: Schema = {
+const schema: any = {
   type: 'object',
   properties: {
     input: {
