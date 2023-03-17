@@ -40,3 +40,7 @@ table.ant-picker-content tr:nth-child(2n) {
   padding: 8px;
   border: transparent;
 }
+
+table.table-layout {
+  display: table;
+}
